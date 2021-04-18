@@ -4,29 +4,31 @@ import { Modal } from '@redq/reuse-modal';
 import { SEO } from 'components/seo';
 import Footer from 'layouts/footer';
 import Accordion from 'components/accordion/accordion';
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
 
 const accordionData = [
-  {
-    id: 1,
-    intlTitleId: 'faqNo1Title',
-    intlDetailsId: 'faqNo1Desc',
-    values: { number1: 7, number2: 2 },
-  },
-  {
-    id: 2,
-    intlTitleId: 'faqNo2Title',
-    intlDetailsId: 'faqNo2Desc',
-  },
-  {
-    id: 3,
-    intlTitleId: 'faqNo3Title',
-    intlDetailsId: 'faqNo3Desc',
-  },
-  {
-    id: 4,
-    intlTitleId: 'faqNo4Title',
-    intlDetailsId: 'faqNo4Desc',
-  },
+    {
+        id: 1,
+        intlTitleId: 'faqNo1Title',
+        intlDetailsId: 'faqNo1Desc',
+        values: { number1: 7, number2: 2 },
+    },
+    {
+        id: 2,
+        intlTitleId: 'faqNo2Title',
+        intlDetailsId: 'faqNo2Desc',
+    },
+    {
+        id: 3,
+        intlTitleId: 'faqNo3Title',
+        intlDetailsId: 'faqNo3Desc',
+    },
+    {
+        id: 4,
+        intlTitleId: 'faqNo4Title',
+        intlDetailsId: 'faqNo4Desc',
+    },
 ];
 
 const Heading = styled.h3`
@@ -71,17 +73,41 @@ export const HelpPageContainer = styled.div`
 `;
 
 export default function () {
-  return (
-    <Modal>
-      <SEO title="F.A.Q - Papaoptom" description="F.A.Q Details" />
-      <HelpPageWrapper>
-        <HelpPageContainer>
-          <Heading>F.A.Q</Heading>
-          <Accordion items={accordionData} />
-        </HelpPageContainer>
+    const animatedComponents = makeAnimated();
 
-        <Footer />
-      </HelpPageWrapper>
-    </Modal>
-  );
+    const colourOptions = [
+        { value: "ocean", label: "Ocean", color: "#00B8D9", isFixed: true },
+        { value: "blue", label: "Blue", color: "#0052CC", isDisabled: true },
+        { value: "purple", label: "Purple", color: "#5243AA" },
+        { value: "red", label: "Red", color: "#FF5630", isFixed: true },
+        { value: "orange", label: "Orange", color: "#FF8B00" },
+        { value: "yellow", label: "Yellow", color: "#FFC400" },
+        { value: "green", label: "Green", color: "#36B37E" },
+        { value: "forest", label: "Forest", color: "#00875A" },
+        { value: "slate", label: "Slate", color: "#253858" },
+        { value: "silver", label: "Silver", color: "#666666" },
+    ];
+
+    return (
+        <Modal>
+            <SEO title="F.A.Q - Papaoptom" description="F.A.Q Details" />
+            <HelpPageWrapper>
+                <HelpPageContainer>
+                    <Heading>F.A.Q</Heading>
+                    <Accordion items={accordionData} />
+                </HelpPageContainer>
+
+                <Footer />
+            </HelpPageWrapper>
+
+
+            <Select
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                defaultValue={[colourOptions[4], colourOptions[5]]}
+                isMulti
+                options={colourOptions}
+            />
+        </Modal>
+    );
 }

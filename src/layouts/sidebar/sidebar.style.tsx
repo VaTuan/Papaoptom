@@ -33,7 +33,7 @@ export const PopoverWrapper = styled.div`
       display: none;
     }
     .category-dropdown {
-      animation: ${Fade} 0.6s;
+      animation: ${Fade} 0.2s;
     }
     @media (max-width: 990px) {
       padding: 25px;
@@ -62,14 +62,13 @@ export const RequestMedicine = styled.span`
 `;
 
 export const SidebarWrapper = styled.div`
-  padding: 45px 0px;
-  padding-top: 35px;
-  padding-right: 0;
+  padding: 0px;
+  
 
-  @media (max-width: 1199px) {
+  /* @media (max-width: 1199px) {
     padding: 40px 0px;
     padding-right: 0;
-  }
+  } */
 
   @media (max-width: 990px) {
     display: none;
@@ -88,8 +87,10 @@ export const CategoryWrapper = styled.div`
 `;
 
 export const TreeWrapper = styled.div`
-  padding-left: 50px;
-  padding-right: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  background-color : #ffffff;
 `;
 
 export const PopoverHandler = styled.div`
