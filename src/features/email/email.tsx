@@ -3,81 +3,82 @@ import { FormattedMessage } from 'react-intl';
 import RadioGroup from 'components/radio-group/radio-group';
 import RadioCard from 'components/radio-card/radio-card';
 import { Button } from 'components/button/button';
-import UpdateAddress from 'components/address-card/address-card';
 import { handleModal } from 'features/checkouts/checkout-modal';
 import { ProfileContext } from 'contexts/profile/profile.context';
+import CreateOrUpdateContact from 'components/contact-card/contact-card';
 import { useMutation } from '@apollo/client';
-import { DELETE_ADDRESS } from 'graphql/mutation/address';
+import { DELETE_CONTACT } from 'graphql/mutation/contact';
 import { CardHeader } from 'components/card-header/card-header';
 import { ButtonGroup } from 'components/button-group/button-group';
 import { Box } from 'components/box';
 import { Plus } from 'assets/icons/PlusMinus';
-
 interface Props {
   increment?: boolean;
+  flexStart?: boolean;
   icon?: boolean;
   buttonProps?: any;
-  flexStart?: boolean;
 }
 
-const Address = ({
+const Email = ({
   increment = false,
   flexStart = false,
+  icon = false,
   buttonProps = {
     size: 'big',
     variant: 'outlined',
     type: 'button',
     className: 'add-button',
   },
-  icon = false,
 }: Props) => {
-  const [deleteAddressMutation] = useMutation(DELETE_ADDRESS);
+  const [deleteContactMutation] = useMutation(DELETE_CONTACT);
 
   const {
-    state: { address },
+    state: { contact },
     dispatch,
   } = useContext(ProfileContext);
+  console.log("Contact::", JSON.stringify(contact));
 
   const handleOnDelete = async (item) => {
-    dispatch({ type: 'DELETE_ADDRESS', payload: item.id });
-    return await deleteAddressMutation({
-      // variables: { addressId: JSON.stringify(item.id) },
-      variables: { addressId: item.id },
+    dispatch({ type: 'DELETE_CONTACT', payload: item.id });
+    return await deleteContactMutation({
+      variables: { contactId: JSON.stringify(item.id) },
     });
   };
   return (
     <>
       <CardHeader increment={increment}>
         <FormattedMessage
-          id='checkoutDeliveryAddress'
-          defaultMessage='Select Your Delivery Address'
+          id='emailText'
+          defaultMessage='Select Your Contact Number'
         />
       </CardHeader>
       <ButtonGroup flexStart={flexStart}>
         <RadioGroup
-          items={address}
+          items={contact}
           component={(item: any) => (
             <RadioCard
               id={item.id}
               key={item.id}
-              title={item.name}
-              content={item.info}
-              name='address'
+              title={item.type}
+              content={item.number}
               checked={item.type === 'primary'}
               onChange={() =>
                 dispatch({
-                  type: 'SET_PRIMARY_ADDRESS',
+                  type: 'SET_PRIMARY_CONTACT',
                   payload: item.id.toString(),
                 })
               }
-              onEdit={() => handleModal(UpdateAddress, item)}
+              name='contact'
+              onEdit={() => handleModal(CreateOrUpdateContact, item)}
               onDelete={() => handleOnDelete(item)}
             />
           )}
           secondaryComponent={
             <Button
               {...buttonProps}
-              onClick={() => handleModal(UpdateAddress, 'add-address-modal')}
+              onClick={() =>
+                handleModal(CreateOrUpdateContact, 'add-contact-modal')
+              }
             >
               {icon && (
                 <Box mr={2}>
@@ -85,8 +86,8 @@ const Address = ({
                 </Box>
               )}
               <FormattedMessage
-                id='addAddressBtn'
-                defaultMessage='Add Addressssss'
+                id='addEmailBtn'
+                defaultMessage='Add Email'
               />
             </Button>
           }
@@ -95,4 +96,5 @@ const Address = ({
     </>
   );
 };
-export default Address;
+
+export default Email;

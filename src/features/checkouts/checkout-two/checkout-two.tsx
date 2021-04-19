@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Router from 'next/router';
 import Link from 'next/link';
-import {Button} from 'components/button/button';
-import {CURRENCY_UAH} from 'utils/constant';
-import {Scrollbar} from 'components/scrollbar/scrollbar';
+import { Button } from 'components/button/button';
+import { CURRENCY_UAH } from 'utils/constant';
+import { Scrollbar } from 'components/scrollbar/scrollbar';
 import CheckoutWrapper, {
   Bold,
   CalculationWrapper,
@@ -16,12 +16,14 @@ import CheckoutWrapper, {
   CouponInputBox,
   HaveCoupon,
   InformationBox,
+  InputContainer,
   ItemInfo,
   Items,
   ItemsWrapper,
   Multiplier,
   NoProductImg,
   NoProductMsg,
+  NumberButton,
   OrderInfo,
   Price,
   Quantity,
@@ -34,18 +36,21 @@ import CheckoutWrapper, {
   Title,
 } from './checkout-two.style';
 
-import {NoCartBag} from 'assets/icons/NoCartBag';
+import { NoCartBag } from 'assets/icons/NoCartBag';
 
 import Sticky from 'react-stickynode';
-import {ProfileContext} from 'contexts/profile/profile.context';
-import {FormattedMessage} from 'react-intl';
-import {useCart} from 'contexts/cart/use-cart';
-import {useLocale} from 'contexts/language/language.provider';
-import {useWindowSize} from 'utils/useWindowSize';
+import { ProfileContext } from 'contexts/profile/profile.context';
+import { FormattedMessage } from 'react-intl';
+import { useCart } from 'contexts/cart/use-cart';
+import { useLocale } from 'contexts/language/language.provider';
+import { useWindowSize } from 'utils/useWindowSize';
 import Coupon from 'features/coupon/coupon';
 import Contact from 'features/contact/contact';
 import { useMutation } from '@apollo/client';
-import {ADD_ORDER_PAPA} from "../../../graphql/mutation/order";
+import { ADD_ORDER_PAPA } from "../../../graphql/mutation/order";
+import Address from 'features/address/address';
+import Email from 'features/email/email';
+import { styles } from 'styled-system';
 
 // The type of props Checkout Form receives
 interface MyFormProps {
@@ -58,7 +63,6 @@ type CartItemProps = {
 };
 
 const OrderItem: React.FC<CartItemProps> = ({ product }) => {
-  console.log("Product::", JSON.stringify(product));
   const { id, quantity, name } = product;
   const title = `${product?.name ?? ""} ${product?.characteristics?.type ?? ""} ${product?.characteristics?.brand?.name ?? ""} ${product?.vcode ?? ""} ${product?.characteristics?.color ?? ""}` ?? null;
   const unit = Number(product?.characteristics?.steamInBox) ?? 1;
@@ -67,6 +71,10 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
   const displayPrice = salePrice ? salePrice : price;
   return (
     <Items key={id}>
+      <div style={{display:'flex', flexDirection: 'column'}}>
+        <NumberButton>+</NumberButton>
+        <NumberButton>-</NumberButton>
+      </div>
       <Quantity>{quantity}</Quantity>
       <Multiplier>x</Multiplier>
       <ItemInfo>
@@ -97,7 +105,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     toggleRestaurant,
   } = useCart();
   const [loading, setLoading] = useState(false);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(true);
   // const { address, contact, card, schedules } = state;
   const { contact } = state;
   const size = useWindowSize();
@@ -146,42 +154,31 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
       <CheckoutWrapper>
         <CheckoutContainer>
           <CheckoutInformation>
-            {/* DeliveryAddress*/}
-            {/*<InformationBox>*/}
-            {/*  <Address*/}
-            {/*    increment={true}*/}
-            {/*    flexStart={true}*/}
-            {/*    buttonProps={{*/}
-            {/*      variant: 'text',*/}
-            {/*      type: 'button',*/}
-            {/*      className: 'addButton',*/}
-            {/*    }}*/}
-            {/*    icon={true}*/}
-            {/*  />*/}
-            {/*</InformationBox>*/}
-
-            {/* DeliverySchedule */}
-            {/*<InformationBox>*/}
-            {/*  <DeliverySchedule>*/}
-            {/*    <Schedules increment={true} />*/}
-            {/*  </DeliverySchedule>*/}
-            {/*</InformationBox>*/}
-
-             Contact number
             <InformationBox>
-              <Contact
-                increment={true}
-                flexStart={true}
-                buttonProps={{
-                  variant: 'text',
-                  type: 'button',
-                  className: 'addButton',
-                }}
-                icon={true}
-              />
-            </InformationBox>
-            {/* PaymentOption */}
 
+              {/* PaymentOption */}
+              <InputContainer>
+                <p>Name</p>
+                <input placeholder="Enter your Name"></input>
+              </InputContainer>
+              <InputContainer>
+                <p>Email</p>
+                <input placeholder="Enter your email"></input>
+              </InputContainer>
+              <InputContainer>
+                <p>Phone number</p>
+                <input placeholder="Enter your phone"></input>
+              </InputContainer>
+              <InputContainer>
+                <p>Address</p>
+                <input placeholder="Enter your address"></input>
+              </InputContainer>
+
+              <InputContainer>
+                <p>Message</p>
+                <input className="msg" placeholder="Leave a message"></input>
+              </InputContainer>
+            </InformationBox>
             <InformationBox
               className='paymentBox'
               style={{ paddingBottom: 30 }}
@@ -189,40 +186,6 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
               {/*<Payment increment={true} deviceType={deviceType} />*/}
 
               {/* Coupon start */}
-              {coupon ? (
-                <CouponBoxWrapper>
-                  <CouponCode>
-                    <FormattedMessage id='couponApplied' />
-                    <span>{coupon.code}</span>
-
-                    <RemoveCoupon
-                      onClick={(e) => {
-                        e.preventDefault();
-                        removeCoupon();
-                        setHasCoupon(false);
-                      }}
-                    >
-                      <FormattedMessage id='removeCoupon' />
-                    </RemoveCoupon>
-                  </CouponCode>
-                </CouponBoxWrapper>
-              ) : (
-                <CouponBoxWrapper>
-                  {!hasCoupon ? (
-                    <HaveCoupon onClick={() => setHasCoupon((prev) => !prev)}>
-                      <FormattedMessage
-                        id='specialCode'
-                        defaultMessage='Have a special code?'
-                      />
-                    </HaveCoupon>
-                  ) : (
-                    <CouponInputBox>
-                      <Coupon errorMsgFixed={true} className='normalCoupon' />
-                    </CouponInputBox>
-                  )}
-                </CouponBoxWrapper>
-              )}
-
               <TermConditionText>
                 <FormattedMessage
                   id='termAndConditionHelper'
