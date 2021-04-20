@@ -137,7 +137,7 @@ const responsive = {
     items: 1,
   },
 };
-export default function CustomCarousel({
+export default function deviceTypedeviceType({
   data,
   deviceType: { mobile, tablet, desktop },
   component,
