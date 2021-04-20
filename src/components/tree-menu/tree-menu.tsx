@@ -47,7 +47,7 @@ const Tree = React.memo(
 
 
         return (
-            <Frame depth={depth} title='1 --CATE' onClick={() => setOpen(!isOpen)} >
+            <Frame depth={depth} title='1 --CATE' >
                 <Header title='TITLE FILTER' open={isOpen} depth={depth} className={depth} >
                     {icon && (
                         <IconWrapper depth={depth}>
