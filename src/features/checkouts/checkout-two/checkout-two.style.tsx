@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
+import { marginBottom } from 'styled-system';
 
 const CheckoutWrapper = styled.div`
   width: 100%;
@@ -76,9 +77,36 @@ export const InformationBox = styled.div`
   position: relative;
   margin-bottom: 20px;
   box-shadow: 0 2px 16px 0 rgba(0, 0, 0, 0.08);
+  margin-top: 16px;
+
 
   @media (max-width: 767px) {
     padding: 20px;
+  }
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  p{
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-family: Lato,sans-serif;
+    font-size: 17px;
+    color: #0D1136;
+  }
+  input{
+    height: 48px;
+    border-radius: 4px;
+    padding-left: 16px;
+    border: 2px solid #009E7F;
+    &:focus {
+    outline: #009E7F
+    }
+  }
+  .msg{
+    height: 140px;
   }
 `;
 
@@ -219,6 +247,15 @@ export const ErrorMsg = styled('span')`
   margin-left: 20px;
 `;
 
+export const ErrorText =styled('span')`
+font-family: ${themeGet('fonts.body', 'Lato')};
+font-size: ${themeGet('fontSizes.xs', '12')}px;
+font-weight: ${themeGet('fontWeights.regular', '400')};
+color: ${themeGet('colors.secondary.hover', '#FF282F')};
+padding-top: 10px;
+display: flex;
+`;
+
 export const TermConditionText = styled.span`
   font-family: ${themeGet('fonts.body', 'Lato')};
   font-size: ${themeGet('fontSizes.smm', '13')}px;
@@ -240,7 +277,7 @@ export const TermConditionLink = styled.span`
 `;
 
 export const CartWrapper = styled.div`
-  width: 270px;
+  width: 340px;
   flex-shrink: 0;
   padding-top: 20px;
 
@@ -290,6 +327,7 @@ export const ItemsWrapper = styled.div`
   padding-left: 15px;
 `;
 
+
 export const CalculationWrapper = styled.div`
   border-top: 1px solid ${themeGet('colors.gray.700', '#e6e6e6')};
   padding: 20px 15px 0;
@@ -299,13 +337,29 @@ export const CalculationWrapper = styled.div`
 export const Items = styled.div`
   display: flex;
   width: 100%;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   margin-bottom: 25px;
+  border: 1px solid #dbd7d7;
+  border-radius: 8px;
+  padding: 4px 12px;
 
   &:last-child {
     margin-bottom: 0;
   }
+`;
+
+export const NumberButton = styled.button`
+  width: 18px;
+  height: 18px;
+  background-color:#009E7F;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  margin: 4px 16px 4px 0px;
+  color: white;
 `;
 
 export const Quantity = styled.span`
