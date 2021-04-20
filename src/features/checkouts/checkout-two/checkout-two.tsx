@@ -34,6 +34,8 @@ import CheckoutWrapper, {
   Text,
   TextWrapper,
   Title,
+  ErrorText,
+  ErrorMsg
 } from './checkout-two.style';
 
 import { NoCartBag } from 'assets/icons/NoCartBag';
@@ -48,9 +50,11 @@ import Coupon from 'features/coupon/coupon';
 import Contact from 'features/contact/contact';
 import { useMutation } from '@apollo/client';
 import { ADD_ORDER_PAPA } from "../../../graphql/mutation/order";
-import Address from 'features/address/address';
-import Email from 'features/email/email';
-import { styles } from 'styled-system';
+import { useFormik } from "formik";
+import * as yup from "yup";
+
+
+
 
 // The type of props Checkout Form receives
 interface MyFormProps {
@@ -63,7 +67,8 @@ type CartItemProps = {
 };
 
 const OrderItem: React.FC<CartItemProps> = ({ product }) => {
-  const { id, quantity, name } = product;
+
+  const { id, quantity, name,brand, vcode,characteristics } = product;
   const title = `${product?.name ?? ""} ${product?.characteristics?.type ?? ""} ${product?.characteristics?.brand?.name ?? ""} ${product?.vcode ?? ""} ${product?.characteristics?.color ?? ""}` ?? null;
   const unit = Number(product?.characteristics?.steamInBox) ?? 1;
   const price = Number(product?.characteristics?.totalOldPurchasePrice) ?? 0;
@@ -71,14 +76,14 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
   const displayPrice = salePrice ? salePrice : price;
   return (
     <Items key={id}>
-      <div style={{display:'flex', flexDirection: 'column'}}>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <NumberButton>+</NumberButton>
         <NumberButton>-</NumberButton>
       </div>
       <Quantity>{quantity}</Quantity>
       <Multiplier>x</Multiplier>
       <ItemInfo>
-        {name ? name : title} {unit ? `| ${unit}` : ''}
+        {name ? name +' '+ brand.name+' '+vcode : title} {unit ? `| ${unit}` : ''}
       </ItemInfo>
       <Price>
         {(displayPrice * quantity).toFixed(2)}
@@ -89,6 +94,33 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
 };
 
 const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [phone, setPhone] = useState("")
+  const [address, setADdress] = useState("")
+  const [message, setMessage] = useState("")
+
+
+  const validationSchema = yup.object({
+    name: yup.string().required("Please enter your name"),
+    email: yup.string(),
+    phone: yup.string().matches(/^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/, "Wrong format").required("Please enter your phone"),
+    address: yup.string(),
+    message: yup.string(),
+  });
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: email,
+      phone: phone,
+      address: address,
+      message: message,
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+    validationSchema,
+  });
   const [hasCoupon, setHasCoupon] = useState(false);
   const { state } = useContext(ProfileContext);
   const { isRtl } = useLocale();
@@ -109,7 +141,9 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   // const { address, contact, card, schedules } = state;
   const { contact } = state;
   const size = useWindowSize();
-
+  console.log(items);
+  
+  
   const [addOrderMutation] = useMutation(ADD_ORDER_PAPA);
   const handleSubmit = async () => {
     setLoading(true);
@@ -149,35 +183,74 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     };
   }, []);
 
+
+
   return (
     <form>
       <CheckoutWrapper>
         <CheckoutContainer>
           <CheckoutInformation>
             <InformationBox>
-
               {/* PaymentOption */}
-              <InputContainer>
-                <p>Name</p>
-                <input placeholder="Enter your Name"></input>
-              </InputContainer>
-              <InputContainer>
-                <p>Email</p>
-                <input placeholder="Enter your email"></input>
-              </InputContainer>
-              <InputContainer>
-                <p>Phone number</p>
-                <input placeholder="Enter your phone"></input>
-              </InputContainer>
-              <InputContainer>
-                <p>Address</p>
-                <input placeholder="Enter your address"></input>
-              </InputContainer>
+              <form>
+                <InputContainer>
+                  <p>*Name</p>
+                  <input
+                    id="name"
+                    name="name"
+                    value={formik.values.name}
+                    onChange={(e) => formik.handleChange(e)}
+                    onBlur={formik.handleBlur}
+                    placeholder="Enter your Name"></input>
+                  {formik.touched.name && formik.errors.name && (
+                    <ErrorText>
+                      {formik.errors.name}
+                    </ErrorText>
+                  )}
+                </InputContainer>
+                <InputContainer>
+                  <p>*Phone number</p>
+                  <input id="phone"
+                    name="phone"
+                    value={formik.values.phone}
+                    onChange={(e) => formik.handleChange(e)}
+                    onBlur={formik.handleBlur}
+                    placeholder="Enter your phone"></input>
+                  {formik.touched.phone && formik.errors.phone && (
+                    <ErrorText>
+                      {formik.errors.phone}
+                    </ErrorText>
+                  )}
+                </InputContainer>
+                <InputContainer>
+                  <p>Email</p>
+                  <input id="email"
+                    name="email"
+                    value={formik.values.email}
+                    onChange={(e) => formik.handleChange(e)}
+                    placeholder="Enter your email"></input>
+                </InputContainer>
 
-              <InputContainer>
-                <p>Message</p>
-                <input className="msg" placeholder="Leave a message"></input>
-              </InputContainer>
+                <InputContainer>
+                  <p>Address</p>
+                  <input id="address"
+                    name="address"
+                    value={formik.values.address}
+                    onChange={(e) => formik.handleChange(e)}
+                    placeholder="Enter your address"></input>
+                </InputContainer>
+
+                <InputContainer>
+                  <p>Message</p>
+                  <input id="message"
+                    name="message"
+                    value={formik.values.message}
+                    onChange={(e) => formik.handleChange(e)}
+                    className="msg"
+                    placeholder="Leave a message"></input>
+                </InputContainer>
+              </form>
+
             </InformationBox>
             <InformationBox
               className='paymentBox'

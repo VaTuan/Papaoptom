@@ -43,7 +43,7 @@ type CartProps = {
 const CartPopUp: React.FC<CartProps> = ({
   deviceType: { mobile, tablet, desktop },
 }) => {
-  const { isOpen, cartItemsCount, toggleCart, calculatePrice } = useCart();
+  const { isOpen, cartItemsCount, toggleCart, calculatePrice, items } = useCart();
   const handleModal = () => {
     openModal({
       show: true,
@@ -66,7 +66,7 @@ const CartPopUp: React.FC<CartProps> = ({
   };
 
   let cartSliderClass = isOpen === true ? 'cartPopupFixed' : '';
-
+  
   return (
     <>
       {mobile ? (

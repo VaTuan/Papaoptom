@@ -247,6 +247,15 @@ export const ErrorMsg = styled('span')`
   margin-left: 20px;
 `;
 
+export const ErrorText =styled('span')`
+font-family: ${themeGet('fonts.body', 'Lato')};
+font-size: ${themeGet('fontSizes.xs', '12')}px;
+font-weight: ${themeGet('fontWeights.regular', '400')};
+color: ${themeGet('colors.secondary.hover', '#FF282F')};
+padding-top: 10px;
+display: flex;
+`;
+
 export const TermConditionText = styled.span`
   font-family: ${themeGet('fonts.body', 'Lato')};
   font-size: ${themeGet('fontSizes.smm', '13')}px;
@@ -268,7 +277,7 @@ export const TermConditionLink = styled.span`
 `;
 
 export const CartWrapper = styled.div`
-  width: 270px;
+  width: 340px;
   flex-shrink: 0;
   padding-top: 20px;
 
@@ -317,6 +326,7 @@ export const ItemsWrapper = styled.div`
   flex-direction: column;
   padding-left: 15px;
 `;
+
 
 export const CalculationWrapper = styled.div`
   border-top: 1px solid ${themeGet('colors.gray.700', '#e6e6e6')};
