@@ -41,7 +41,6 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
         offsetPX: -110,
     });
 
-    console.log('scroll : ', scroll);
 
     React.useEffect(() => {
         if (query.text || query.category) {
@@ -54,7 +53,6 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
     const page = sitePages[PAGE_TYPE];
 
 
-    console.log({ deviceType });
 
     return (
         <>

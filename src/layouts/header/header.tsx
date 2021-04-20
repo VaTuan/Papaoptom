@@ -1,87 +1,24 @@
-// import React from 'react';
-// import Router, { useRouter } from 'next/router';
-// import { openModal } from '@redq/reuse-modal';
-// import { AuthContext } from 'contexts/auth/auth.context';
-// import AuthenticationForm from 'features/authentication-form';
-// import { RightMenu } from './menu/right-menu/right-menu';
-// import { LeftMenu } from './menu/left-menu/left-menu';
-// import HeaderWrapper from './header.style';
-// // import LogoImage from 'assets/images/logo.svg';
-// import LogoImage from 'assets/images/logo.png';
-// import UserImage from 'assets/images/user.jpg';
-// import { isCategoryPage } from '../is-home-page';
-// import Search from 'features/search/search';
-// type Props = {
-//     className?: string;
-// };
-
-// const Header: React.FC<Props> = ({ className }) => {
-//     const {
-//         authState: { isAuthenticated },
-//         authDispatch,
-//     } = React.useContext<any>(AuthContext);
-//     const { pathname, query } = useRouter();
-//     const handleLogout = () => {
-//         if (typeof window !== 'undefined') {
-//             localStorage.removeItem('access_token');
-//             authDispatch({ type: 'SIGN_OUT' });
-//             Router.push('/');
-//         }
-//     };
-
-//     const handleJoin = () => {
-//         authDispatch({
-//             type: 'SIGNIN',
-//         });
-
-//         openModal({
-//             show: true,
-//             overlayClassName: 'quick-view-overlay',
-//             closeOnClickOutside: true,
-//             component: AuthenticationForm,
-//             closeComponent: '',
-//             config: {
-//                 enableResizing: false,
-//                 disableDragging: true,
-//                 className: 'quick-view-modal',
-//                 width: 458,
-//                 height: 'auto',
-//             },
-//         });
-//     };
-//     const showSearch = isCategoryPage(query.type);
-
-
-//     return (
-//         <HeaderWrapper className={className} id="layout-header">
-//             <LeftMenu logo={LogoImage} />
-//             {showSearch && <Search minimal={true} className="headerSearch" />}
-//             <RightMenu
-//                 isAuthenticated={isAuthenticated}
-//                 onJoin={handleJoin}
-//                 onLogout={handleLogout}
-//                 avatar={UserImage}
-//             />
-//         </HeaderWrapper>
-//     );
-// };
-
-// export default Header;
-
-
-import React from 'react';
-import Router, { useRouter } from 'next/router';
-import { openModal } from '@redq/reuse-modal';
-import { AuthContext } from 'contexts/auth/auth.context';
-import AuthenticationForm from 'features/authentication-form';
-import { RightMenu } from './menu/right-menu/right-menu';
-import { LeftMenu } from './menu/left-menu/left-menu';
-import HeaderWrapper from './header.style';
+import React from "react";
+import Router, { useRouter } from "next/router";
+import { openModal } from "@redq/reuse-modal";
+import { AuthContext } from "contexts/auth/auth.context";
+import AuthenticationForm from "features/authentication-form";
+import { RightMenu } from "./menu/right-menu/right-menu";
+import { LeftMenu } from "./menu/left-menu/left-menu";
+import {
+    HeaderTopWrapper,
+    WrapperSetionHeader,
+    HeaderBottomWrapper,
+    ListCatesRoot,
+    CategoryItemRoot,
+    ListCateLevel01,
+    CategoryItemLevel01
+} from "./header.style";
 // import LogoImage from 'assets/images/logo.svg';
-import LogoImage from 'assets/images/logo.png';
-import UserImage from 'assets/images/user.jpg';
-import { isCategoryPage } from '../is-home-page';
-import Search from 'features/search/search';
+import LogoImage from "assets/images/logo.png";
+import UserImage from "assets/images/user.jpg";
+import { isCategoryPage } from "../is-home-page";
+import Search from "features/search/search";
 // import navmenu from './nav-menu';
 
 type Props = {
@@ -95,63 +32,105 @@ const Header: React.FC<Props> = ({ className }) => {
     } = React.useContext<any>(AuthContext);
     const { pathname, query } = useRouter();
     const handleLogout = () => {
-        if (typeof window !== 'undefined') {
-            localStorage.removeItem('access_token');
-            authDispatch({ type: 'SIGN_OUT' });
-            Router.push('/');
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("access_token");
+            authDispatch({ type: "SIGN_OUT" });
+            Router.push("/");
         }
     };
 
     const handleJoin = () => {
         authDispatch({
-            type: 'SIGNIN',
+            type: "SIGNIN",
         });
 
         openModal({
             show: true,
-            overlayClassName: 'quick-view-overlay',
+            overlayClassName: "quick-view-overlay",
             closeOnClickOutside: true,
             component: AuthenticationForm,
-            closeComponent: '',
+            closeComponent: "",
             config: {
                 enableResizing: false,
                 disableDragging: true,
-                className: 'quick-view-modal',
+                className: "quick-view-modal",
                 width: 458,
-                height: 'auto',
+                height: "auto",
             },
         });
     };
 
-    const catalogs = ['НОВИНКИ',
-        'ДЕТСКАЯ ОБУВЬ',
-        'МУЖСКАЯ ОБУВЬ',
-        'ЖЕНСКАЯ ОБУВЬ',
-        'АКСЕССУАРЫ',
-        'РАСПРОДАЖА'
+    // const fake data for cate
+    const listCategories = [
+        {
+            id: 1,
+            title: "НОВИНКИ",
+            children: [
+                { childrenId: 5345345, title: "Ботинки" },
+                { childrenId: 12312312314234, title: "Туфли" },
+                { childrenId: 34554345435345, title: "Сандалии" },
+            ],
+        },
+        {
+            id: 2,
+            title: "ДЕТСКАЯ ОБУВЬ",
+            children: [],
+        },
+        {
+            id: 3,
+            title: "МУЖСКАЯ ОБУВЬ",
+            children: [
+                { childrenId: 133323, title: "Ботинки" },
+                { childrenId: 12567314234, title: "Туфли" },
+                { childrenId: 34549999835345, title: "Сандалии" },
+            ],
+        },
+        {
+            id: 4,
+            title: "ЖЕНСКАЯ ОБУВЬ",
+            children: [
+                { childrenId: 123123445, title: "Ботинки" },
+                { childrenId: 123102344234, title: "Туфли" },
+                { childrenId: 3454353472235, title: "Сандалии" },
+            ],
+        },
+        {
+            id: 5,
+            title: "АКСЕССУАРЫ",
+            children: [
+                { childrenId: 1235423, title: "Ботинки" },
+                { childrenId: 123111454234, title: "Туфли" },
+                { childrenId: 3455988435345, title: "Сандалии" },
+            ],
+        },
+        {
+            id: 6,
+            title: "РАСПРОДАЖА",
+            children: [
+                { childrenId: 123, title: "Ботинки" },
+                { childrenId: 12314234, title: "Туфли" },
+                { childrenId: 345435345, title: "Сандалии" },
+            ],
+        },
     ];
-    const listItems = catalogs.map((catalog) =>
-        <li className="listyle">
-            <a href='#'>{catalog}</a>
-            <ul className="listelement">
-                <li><a href='#'>Ботинки</a></li>
-                <li><a href='#'>Туфли</a></li>
-                <li><a href='#'>Сандалии</a></li>
-            </ul>
-        </li>
-    );
+
+
     const showSearch = isCategoryPage(query.type);
-    function show() {
-        document.getElementById("menuuu").style.display = 'block';
-        document.getElementById("btn2").style.display = 'block';
-    };
-    function hidd() {
-        document.getElementById("menuuu").style.display = 'none';
-        document.getElementById("btn2").style.display = 'none';
-    };
+    // function show() {
+    //     document.getElementById("menuuu").style.display = "block";
+    //     document.getElementById("btn2").style.display = "block";
+    // }
+    // function hidd() {
+    //     document.getElementById("menuuu").style.display = "none";
+    //     document.getElementById("btn2").style.display = "none";
+    // }
     return (
-        <div>
-            <HeaderWrapper className={className} id="layout-header">
+        <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
+            <HeaderTopWrapper
+                className={className}
+                id="layout-header"
+                title="HEADER - TOP"
+            >
                 <LeftMenu logo={LogoImage} />
                 {showSearch && <Search minimal={true} className="headerSearch" />}
                 <RightMenu
@@ -160,17 +139,28 @@ const Header: React.FC<Props> = ({ className }) => {
                     onLogout={handleLogout}
                     avatar={UserImage}
                 />
-                <div id="hidden">
-                    <input type="button" id="btn1" onClick={show} value="Show Menu" />
-                    <input type="button" id="btn2" onClick={hidd} value="Hidden Menu" />
-                </div>
-                <ul id="menuuu">
-                    {listItems}
-                </ul>
-            </HeaderWrapper>
 
-        </div>
+            </HeaderTopWrapper>
 
+
+            <HeaderBottomWrapper title="PHẦN CATE TỔNG">
+                <ListCatesRoot>
+                    {listCategories.map((item, index) => (
+                        <CategoryItemRoot key={index} >
+                            {item.title}
+
+                            {item.children.length > 0 && (
+                                <ListCateLevel01 className='list_cate__level01'>
+                                    {item.children.map((children, index) => (
+                                        <CategoryItemLevel01 className='cate_item__level01' key={index}>{children.title}</CategoryItemLevel01>
+                                    ))}
+                                </ListCateLevel01>
+                            )}
+                        </CategoryItemRoot>
+                    ))}
+                </ListCatesRoot>
+            </HeaderBottomWrapper>
+        </WrapperSetionHeader>
     );
 };
 

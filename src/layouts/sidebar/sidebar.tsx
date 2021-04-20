@@ -71,14 +71,14 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ deviceType: { mobile,
 
     return (
         <CategoryWrapper>
-            {/* <PopoverWrapper title='PopoverWrapper nè'>
+            <PopoverWrapper title='PopoverWrapper nè'>
                 <CategoryWalker>
                     <TreeMenu data={data.categories} onClick={onCategoryClick} active={selectedQueries} />
                 </CategoryWalker>
-            </PopoverWrapper> */}
+            </PopoverWrapper>
 
             <SidebarWrapper title='SIDEBAR WRAPPER'>
-                <Sticky enabled={isSidebarSticky} top={110}>
+                <Sticky enabled={isSidebarSticky} top={156}>
                     <Scrollbar className="sidebar-scrollbar">
                         <TreeWrapper>
                             <TreeMenu data={data.categories} onClick={onCategoryClick} active={selectedQueries} />
@@ -86,29 +86,9 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({ deviceType: { mobile,
                     </Scrollbar>
                 </Sticky>
             </SidebarWrapper>
-        </CategoryWrapper>
+        </CategoryWrapper >
     );
 };
 
 export default SidebarCategory;
 
-
-// function sidebar(props) {
-
-//     const { type } = props
-//     const { loading, data } = useQuery(GET_CATEGORIES, {
-//         variables: { type },
-//     });
-
-//     console.log('data : ', data);
-
-//     return (
-//         <div>
-//             <h1>Side bar</h1>
-
-
-//         </div>
-//     )
-// }
-
-// export default sidebar

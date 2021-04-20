@@ -86,10 +86,10 @@ const ContentSection = styled.div`
 `;
 
 const OfferSection = styled.div`
-  margin-top: 5rem;
+  margin-top: 156px;
   width: 100%;
   display: block;
-  padding: 60px;
+  padding: 40px 60px;
   background-color: ${themeGet('colors.white', '#ffffff')};
   position: relative;
   border-bottom: 1px solid ${themeGet('colors.gray.500', '#f1f1f1')};
@@ -181,12 +181,12 @@ const ProductsCol = styled.div`
 `;
 
 export {
-  OfferPageWrapper,
-  HeaderSection,
-  MainContentArea,
-  SidebarSection,
-  ContentSection,
-  OfferSection,
-  Heading,
-  ProductsCol,
+    OfferPageWrapper,
+    HeaderSection,
+    MainContentArea,
+    SidebarSection,
+    ContentSection,
+    OfferSection,
+    Heading,
+    ProductsCol,
 };
