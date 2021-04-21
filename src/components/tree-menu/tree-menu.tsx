@@ -97,7 +97,7 @@ export const TreeMenu: React.FC<Props> = ({
 }) => {
 
 
-    console.log('data cate : ', data.map(x => x.title));
+    // console.log('data cate : ', data.map(x => x.title));
 
     // function thực hiện render cate
     // created by tuanva 

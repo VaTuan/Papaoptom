@@ -61,6 +61,9 @@ export const CategoryItemRoot = styled.li`
   font-size: 16px;
   position: relative;
 
+  & > a {
+    color: #ffffff;
+  }
   &:last-child {
     margin-right: 0px;
   }
@@ -87,7 +90,7 @@ export const CategoryItemRoot = styled.li`
         transition: all 0.3s ease-in;
         &:hover {
           background-color: #17bd7a;
-          color : rgb(241, 241, 241)
+          color: rgb(241, 241, 241);
         }
       }
     }
@@ -109,6 +112,9 @@ export const CategoryItemLevel01 = styled.li`
   display: flex;
   align-items: center;
   padding: 8px;
+  & > a {
+    color: #ffffff;
+  }
 `;
 
 export const HeaderTopWrapper = styled.header`

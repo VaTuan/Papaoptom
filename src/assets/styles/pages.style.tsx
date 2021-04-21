@@ -38,6 +38,7 @@ const HeaderSection = styled.div`
 const MainContentArea = styled.main`
   width: 100%;
   display: flex;
+  justify-content : center;
   flex-wrap: wrap;
   background-color: ${themeGet('colors.gray.200', '#f7f7f7')};
   padding-right: 0;

@@ -25,9 +25,10 @@ import { GET_CATEGORIES } from "graphql/query/category.query";
 import { ModalProvider } from "contexts/modal/modal.provider";
 import { GET_SHOES, SEARCH_SHOES } from "graphql/query/shoes.query";
 
-
 const Sidebar = dynamic(() => import("layouts/sidebar/sidebar"));
-const Products = dynamic(() => import("components/product-grid/product-list/product-list"));
+const Products = dynamic(
+    () => import("components/product-grid/product-list/product-list")
+);
 const CartPopUp = dynamic(() => import("features/carts/cart-popup"), {
     ssr: false,
 });
@@ -41,25 +42,22 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
         offsetPX: -110,
     });
 
-
     React.useEffect(() => {
         if (query.text || query.category) {
             scroll();
         }
     }, [query.text, query.category]);
 
-
     const PAGE_TYPE: any = query.type;
     const page = sitePages[PAGE_TYPE];
 
-
+    // console.log('PAGE TYPE : ', PAGE_TYPE);
 
     return (
         <>
             <SEO title={page?.page_title} description={page?.page_description} />
             <ModalProvider>
                 <Modal>
-
                     <OfferSection>
                         <div style={{ margin: "0 -10px" }}>
                             <Carousel deviceType={deviceType} data={siteOffers} />
@@ -69,17 +67,19 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
                         <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
                     </MobileCarouselDropdown>
 
-                    <MainContentArea>
-                        <SidebarSection>
-                            <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
-                        </SidebarSection>
-                        <ContentSection>
+                    <MainContentArea title="PHẦN NỘI DUNG CHÍNH">
+                        {PAGE_TYPE !== "shoes" && (
+                            <SidebarSection title="PHẦN SIDE BAR BÊN TRÁI">
+                                <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
+                            </SidebarSection>
+                        )}
+
+                        <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PH">
                             <div ref={targetRef}>
                                 <Products type={PAGE_TYPE} deviceType={deviceType} fetchLimit={20} />
                             </div>
                         </ContentSection>
                     </MainContentArea>
-
 
                     <CartPopUp deviceType={deviceType} />
                 </Modal>

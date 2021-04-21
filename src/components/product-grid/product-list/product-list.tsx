@@ -174,6 +174,9 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
         });
     };
 
+
+    // function thực hiện render card product
+    //  created by tuanva 21/04/2020
     const renderCard = (productType, props) => {
         // console.log(props);
         const { name, characteristics, category, brand, vcode, type, supplier } = props;
@@ -206,6 +209,9 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
             />
         );
     };
+
+
+
     return (
         <>
             <ProductsRow>
@@ -213,6 +219,8 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                     <ProductsCol key={index}>
                         <ProductCardWrapper>
                             <Fade duration={800} delay={index * 10} style={{ height: "100%" }}>
+
+                                {/* <h5>Tuấn</h5> */}
                                 {renderCard(type, item)}
                             </Fade>
                         </ProductCardWrapper>

@@ -2,7 +2,7 @@
 import dynamic from 'next/dynamic';
 import React from 'react';
 import Image from 'components/image/image';
-import {Button} from 'components/button/button';
+import { Button } from 'components/button/button';
 import {
     ProductCardWrapper,
     ProductImageWrapper,
@@ -10,13 +10,13 @@ import {
     DiscountPercent,
     ButtonText,
 } from '../product-card.style';
-import {useCart} from 'contexts/cart/use-cart';
-import {Counter} from 'components/counter/counter';
-import {cartAnimation} from 'utils/cart-animation';
-import {FormattedMessage} from 'react-intl';
-import {CartIcon} from 'assets/icons/CartIcon';
-import {useModal} from 'contexts/modal/use-modal';
-import {useRouter} from 'next/router';
+import { useCart } from 'contexts/cart/use-cart';
+import { Counter } from 'components/counter/counter';
+import { cartAnimation } from 'utils/cart-animation';
+import { FormattedMessage } from 'react-intl';
+import { CartIcon } from 'assets/icons/CartIcon';
+import { useModal } from 'contexts/modal/use-modal';
+import { useRouter } from 'next/router';
 
 const QuickViewMobile = dynamic(
     () => import('features/quick-view/quick-view-mobile')
@@ -64,6 +64,10 @@ const ProductCard: React.FC<ProductCardProps> = (
     }
 ) => {
     const router = useRouter();
+
+
+    // console.log('route : ', router);
+
     const [showModal, hideModal] = useModal(
         () => (
             <QuickViewMobile
@@ -74,7 +78,7 @@ const ProductCard: React.FC<ProductCardProps> = (
         ),
         {
             onClose: () => {
-                const {pathname, query, asPath} = router;
+                const { pathname, query, asPath } = router;
                 const as = asPath;
                 router.push(
                     {
@@ -89,7 +93,9 @@ const ProductCard: React.FC<ProductCardProps> = (
             },
         }
     );
-    const {addItem, removeItem, getItem, isInCart} = useCart();
+
+    const { addItem, removeItem, getItem, isInCart } = useCart();
+
     const handleAddClick = (e) => {
         e.stopPropagation();
         addItem(data);
@@ -101,16 +107,25 @@ const ProductCard: React.FC<ProductCardProps> = (
         e.stopPropagation();
         removeItem(data);
     };
+
+    // funtion thực hiện mở modal thông tin sản phẩm
+    // created by tuanva 21/04/2021
     const handleQuickViewModal = () => {
-        const {pathname, query} = router;
+        const { pathname, query } = router;
+
         const as = `/shoes/${data.slug}`;
+
         if (pathname === '/shoes/[slug]') {
+            // console.log('bằng rồi');
             router.push(pathname, as);
             if (typeof window !== 'undefined') {
                 window.scrollTo(0, 0);
             }
             return;
         }
+
+        // console.log('Show modal');
+
         showModal();
         router.push(
             {
@@ -132,7 +147,7 @@ const ProductCard: React.FC<ProductCardProps> = (
                 <Image
                     url={image}
                     className="product-image"
-                    style={{position: 'relative'}}
+                    style={{ position: 'relative' }}
                     alt={title}
                 />
                 {discountInPercent ? (
@@ -158,9 +173,9 @@ const ProductCard: React.FC<ProductCardProps> = (
                             borderRadius={100}
                             onClick={handleAddClick}
                         >
-                            <CartIcon mr={2}/>
+                            <CartIcon mr={2} />
                             <ButtonText>
-                                <FormattedMessage id="addCartButton" defaultMessage="Cart"/>
+                                <FormattedMessage id="addCartButton" defaultMessage="Cart" />
                             </ButtonText>
                         </Button>
                     ) : (
