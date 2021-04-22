@@ -134,7 +134,6 @@ const Header: React.FC<Props> = ({ className }) => {
     //     document.getElementById("btn2").style.display = "none";
     // }
 
-
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
             <HeaderTopWrapper
@@ -156,7 +155,15 @@ const Header: React.FC<Props> = ({ className }) => {
                 <ListCatesRoot>
                     {listCategories.map((item, index) => (
                         <CategoryItemRoot key={index}>
-                            <Link href={`/shoes/${item.slug}`}>
+                            {/* <Link href={`/shoes/${item.slug}`} scroll={true}  > */}
+                            <Link
+                                as={`/shoes/${item.slug}`}
+                                href={{
+                                    pathname: "/shoes/[level01]",
+                                    query: { level01: item.slug, title: item.title },
+                                }}
+                                scroll={true}
+                            >
                                 <a>{item.title}</a>
                             </Link>
 
@@ -169,7 +176,10 @@ const Header: React.FC<Props> = ({ className }) => {
                                             className="cate_item__level01"
                                             key={index}
                                         >
-                                            <Link href={`/shoes/${item.slug}/${children.slug}`}>
+                                            <Link
+                                                href={`/shoes/${item.slug}/${children.slug}`}
+                                                scroll={true}
+                                            >
                                                 <a>{children.title}</a>
                                             </Link>
                                         </CategoryItemLevel01>

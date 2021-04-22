@@ -4,10 +4,13 @@
 /node_modules
 /.pnp
 .pnp.js
-
+/.firebase
+/out
+.firebaserc
+firebase.json
 # testing
 /coverage
-
+.gitignore
 # next.js
 /.next/
 /out/
