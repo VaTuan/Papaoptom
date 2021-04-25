@@ -29,31 +29,51 @@ import 'typeface-poppins';
 
 const AppLayout = dynamic(() => import('layouts/app-layout'));
 
-export default function ExtendedApp({ Component, pageProps }) {
-  const mobile = useMedia('(max-width: 580px)');
-  const tablet = useMedia('(max-width: 991px)');
-  const desktop = useMedia('(min-width: 992px)');
-  const apolloClient = useApollo(pageProps.initialApolloState);
+export default function ExtendedApp({ Component, pageProps }, props) {
+    const mobile = useMedia('(max-width: 580px)');
+    const tablet = useMedia('(max-width: 991px)');
+    const desktop = useMedia('(min-width: 992px)');
+    const apolloClient = useApollo(pageProps.initialApolloState);
 
-  return (
-    <ApolloProvider client={apolloClient}>
-      <ThemeProvider theme={defaultTheme}>
-        <GlobalStyle />
-        <LanguageProvider messages={messages}>
-          <CartProvider>
-            <AppProvider>
-              <AuthProvider>
-                <AppLayout>
-                  <Component
-                    {...pageProps}
-                    deviceType={{ mobile, tablet, desktop }}
-                  />
-                </AppLayout>
-              </AuthProvider>
-            </AppProvider>
-          </CartProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </ApolloProvider>
-  );
+    console.log('page props : ', props);
+
+    return (
+        <ApolloProvider client={apolloClient}>
+            <ThemeProvider theme={defaultTheme}>
+                <GlobalStyle />
+                <LanguageProvider messages={messages}>
+                    <CartProvider>
+                        <AppProvider>
+                            <AuthProvider>
+                                <AppLayout>
+                                    <Component
+                                        {...pageProps}
+                                        deviceType={{ mobile, tablet, desktop }}
+                                    />
+                                </AppLayout>
+                            </AuthProvider>
+                        </AppProvider>
+                    </CartProvider>
+                </LanguageProvider>
+            </ThemeProvider>
+        </ApolloProvider>
+    );
 }
+
+// export async function getServerSideProps(context) {
+
+//     console.log('run');
+
+//     const res = await fetch(`https://jsonplaceholder.typicode.com/todos/1`)
+//     const data = await res.json()
+
+//     if (!data) {
+//         return {
+//             notFound: true,
+//         }
+//     }
+
+//     return {
+//         props: { data }, // will be passed to the page component as props
+//     }
+// }

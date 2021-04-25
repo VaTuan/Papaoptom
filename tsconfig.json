@@ -36,6 +36,7 @@
     "next-env.d.ts",
     "custom-types.d.ts",
     "src/**/*.ts",
+    "src/**/*.js",
     "src/**/*.tsx"
   ],
   "exclude": ["node_modules"]
