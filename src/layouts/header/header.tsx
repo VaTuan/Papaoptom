@@ -283,7 +283,8 @@ const Header: React.FC<Props> = ({ className }) => {
                                                         query: {
                                                             level01: item.slug,
                                                             level02: children.slug,
-                                                            cate01: children.title,
+                                                            cate01: item.title,
+                                                            cate02: children.title,
                                                         },
                                                     }}
 
