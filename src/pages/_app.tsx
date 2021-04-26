@@ -8,7 +8,7 @@ import { LanguageProvider } from 'contexts/language/language.provider';
 import { CartProvider } from 'contexts/cart/use-cart';
 import { useApollo } from 'utils/apollo';
 import { useMedia } from 'utils/use-media';
-
+import '../../styles/globals.css';
 // External CSS import here
 import 'rc-drawer/assets/index.css';
 import 'rc-table/assets/index.css';

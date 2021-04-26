@@ -113,29 +113,6 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                 if (!fetchMoreResult) {
                     return previousResult;
                 }
-
-                // const newData = [
-                //   ...(previousResult?.filterProduct?.data ?? []),
-                //   ...(fetchMoreResult?.filterProduct?.data ?? []),
-                // ];
-
-                // return {
-                //   ...previousResult,
-                //   filterProduct: {
-                //     data: newData ?? [],
-                //     pageNumber: fetchMoreResult?.filterProduct?.pageNumber ?? 1,
-                //     pageSize: fetchMoreResult?.filterProduct?.pageSize ?? 10,
-                //     message: fetchMoreResult?.filterProduct?.message ?? null,
-                //     code: fetchMoreResult?.filterProduct?.code ?? 400,
-                //     totalDocs: fetchMoreResult?.filterProduct?.totalDocs ?? 0,
-                //     totalPages: fetchMoreResult?.filterProduct?.totalPages ?? 0,
-                //     hasPrevPage: fetchMoreResult?.filterProduct?.hasPrevPage ?? false,
-                //     hasNextPage: fetchMoreResult?.filterProduct?.hasNextPage ?? false,
-                //     prevPage: fetchMoreResult?.filterProduct?.prevPage ?? 0,
-                //     nextPage: fetchMoreResult?.filterProduct?.nextPage ?? 0,
-                //   },
-                // };
-
                 const data = [
                     ...(previousResult?.[searchTerm ? "searchShoes" : "filterProduct"]?.data ?? []),
                     ...(fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"].data ?? []),
@@ -183,10 +160,7 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
         const {
             description,
             photo1,
-            saleCurrency,
             sizeChart,
-            sellingPrice,
-            oldSellingPrice,
             totalSellingPrice,
             totalOldSellingPrice,
             discountInPercent,
@@ -220,7 +194,6 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                         <ProductCardWrapper>
                             <Fade duration={800} delay={index * 10} style={{ height: "100%" }}>
 
-                                {/* <h5>Tuấn</h5> */}
                                 {renderCard(type, item)}
                             </Fade>
                         </ProductCardWrapper>

@@ -62,7 +62,7 @@ const ContentSection = styled.div`
   width: calc(100% - 280px);
   height: auto;
   min-height: 100vh;
-  padding: 30px 30px 50px;
+  padding: 40px 60px;
 
   @media (max-width: 1199px) and (min-width: 991px) {
     padding: 15px 30px 50px;

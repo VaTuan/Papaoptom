@@ -144,6 +144,7 @@ type Props = {
   [key: string]: unknown;
 };
 export type Ref = HTMLButtonElement;
+
 export const Button = React.forwardRef<Ref, Props>(
   ({ children, disabled, loading = false, ...props }, ref) => (
     <StyledButton ref={ref} {...props} disabled={disabled}>
