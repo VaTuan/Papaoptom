@@ -15,6 +15,7 @@ import {
 import { siteOffers } from "site-settings/site-offers";
 
 import Carousel from "components/carousel/carousel";
+import Link from "next/link";
 
 const CartPopUp = dynamic(() => import("features/carts/cart-popup"), {
   ssr: false,
@@ -53,11 +54,27 @@ function ShoesFilterPage(props) {
 
             <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PHẢI">
               <SectionTopRight>
-                <TotalProduct>
-                  Количество товаров: <strong>123123</strong>
-                </TotalProduct>
+                <ContentTop title="Hàng 1">
+                  <BreadCrumb>
+                    <Link href="/shoes">
+                      <a>
+                        <span className="icon_home">
+                          <i class="fas fa-home-lg-alt"></i>
+                        </span>
+                      </a>
+                    </Link>
 
-                <SectionSortSideCateName>
+                    <span className="icon_right">
+                      <i className="fal fa-chevron-right"></i>
+                    </span>
+                    <span className="cate_name">{router.query.cate}</span>
+                  </BreadCrumb>
+                  <TotalProduct>
+                    Количество товаров: <strong>123123</strong>
+                  </TotalProduct>
+                </ContentTop>
+
+                <SectionSortSideCateName title="Hàng 2">
                   <h1>{router.query.cate}</h1>
                   <SelectOption>
                     <Select>
@@ -96,11 +113,6 @@ const SectionTopRight = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-`;
-
-const TotalProduct = styled.div`
-  font-size: 14px;
-  margin-bottom: 20px;
 `;
 
 const SectionSortSideCateName = styled.div`
@@ -143,3 +155,41 @@ const Select = styled.select`
   }
 `;
 const Option = styled.option``;
+
+const ContentTop = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+`;
+const TotalProduct = styled.div`
+  font-size: 14px;
+  strong {
+    color: #213779;
+  }
+`;
+
+const BreadCrumb = styled.div`
+  display: flex;
+  align-items: center;
+  span.icon_home {
+    cursor: pointer;
+    color: #213779;
+    font-size: 13px;
+    margin-right: 8px;
+    transition: 0.4s all ease-in-out;
+    &:hover {
+      color: #009e7f;
+    }
+  }
+  span.icon_right {
+    font-size: 13px;
+    color: #e4e4e4;
+    margin-right: 8px;
+  }
+  span.cate_name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #213779;
+  }
+`;

@@ -26,6 +26,7 @@ import { GlobalStyle } from 'assets/styles/global.style';
 import { messages } from 'site-settings/site-translation/messages';
 import 'typeface-lato';
 import 'typeface-poppins';
+import '../assets/lib/all.min.css'
 
 const AppLayout = dynamic(() => import('layouts/app-layout'));
 
