@@ -29,12 +29,19 @@ function ShoesFilterPage(props) {
   const { deviceType } = props;
   const router = useRouter();
 
-  console.log("====================================");
-  console.log("router level 02 : ", router);
-  console.log("====================================");
+  //? PAGE FILTER LEVEL 03
+  //? CLICK VÀO THẰNg KHI HOVER VÀO THẰNG LEVEL 02
+
+  /**
+   ** Important
+   *! Lỗi cmnr
+   *? Nên làm như thế này
+   * TODO : làm như thế này nhé
+   */
+
   return (
     <>
-      <SEO title="Page root cate" description="description for seo" />
+      <SEO title="PAGE LEVEL 03" description="description for seo" />
       <ModalProvider>
         <Modal>
           <OfferSection>
@@ -58,7 +65,7 @@ function ShoesFilterPage(props) {
             <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PHẢI">
               <SectionTopRight>
                 <ContentTop title="Hàng 1">
-                  <BreadCrumb>
+                  <BreadCrumb title="Breacrumb level 03">
                     <Link href="/shoes">
                       <a>
                         <span className="icon_home">

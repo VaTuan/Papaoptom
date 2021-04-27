@@ -30,10 +30,10 @@ function ShoesFilterPage(props) {
   const router = useRouter();
 
   return (
-    //? PAGE FILTER LEVEL 01
-    //? CLICK VÀO HÀNG ĐẦU TIÊN
+    //? PAGE FILTER LEVEL 02
+    //? CLICK VÀO THẰNG XUẤT HIỆN ĐẦU TIÊN KHI HOVER
     <>
-      <SEO title="PAGE LEVEL 01" description="description for seo" />
+      <SEO title="PAGE LEVEL 02" description="description for seo" />
       <ModalProvider>
         <Modal>
           <OfferSection>
@@ -57,7 +57,7 @@ function ShoesFilterPage(props) {
             <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PHẢI">
               <SectionTopRight>
                 <ContentTop title="Hàng 1">
-                  <BreadCrumb title="BreadCrumb Level 01">
+                  <BreadCrumb title="BreaCrumb level 02">
                     <Link href="/shoes">
                       <a>
                         <span className="icon_home">
@@ -65,11 +65,26 @@ function ShoesFilterPage(props) {
                         </span>
                       </a>
                     </Link>
+                    <span className="icon_right">
+                      <i className="fal fa-chevron-right"></i>
+                    </span>
+
+                    <Link
+                      href={`/shoes/${router.query.level01}?cate=${router.query.cate01}`}
+                    >
+                      <a>
+                        <span className="cate_name cate_name_01">
+                          {router.query.cate01}
+                        </span>
+                      </a>
+                    </Link>
 
                     <span className="icon_right">
                       <i className="fal fa-chevron-right"></i>
                     </span>
-                    <span className="cate_name">{router.query.cate}</span>
+                    <span className="cate_name cate_name_02">
+                      {router.query.cate02}
+                    </span>
                   </BreadCrumb>
                   <TotalProduct>
                     Количество товаров: <strong>123123</strong>
@@ -77,7 +92,7 @@ function ShoesFilterPage(props) {
                 </ContentTop>
 
                 <SectionSortSideCateName title="Hàng 2">
-                  <h1>{router.query.cate}</h1>
+                  <h1>{router.query.cate02}</h1>
                   <SelectOption>
                     <Select>
                       <Option>Theo hàng mới</Option>
@@ -193,5 +208,8 @@ const BreadCrumb = styled.div`
     font-size: 13px;
     font-weight: 600;
     color: #213779;
+  }
+  span.cate_name_01 {
+    margin-right: 8px;
   }
 `;
