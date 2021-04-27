@@ -112,7 +112,7 @@ export const ListCateLevel01 = styled.ul`
   display: none;
   width: 120%;
   position: absolute;
-  top: 64px;
+  top: 100%;
   left: 50%;
   transform: translateX(-50%);
   background-color: #009e7f;

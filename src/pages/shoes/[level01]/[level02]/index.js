@@ -86,6 +86,7 @@ function ShoesFilterPage(props) {
                       {router.query.cate02}
                     </span>
                   </BreadCrumb>
+
                   <TotalProduct>
                     Количество товаров: <strong>123123</strong>
                   </TotalProduct>
@@ -192,7 +193,7 @@ const BreadCrumb = styled.div`
   span.icon_home {
     cursor: pointer;
     color: #213779;
-    font-size: 13px;
+    font-size: 16px;
     margin-right: 8px;
     transition: 0.4s all ease-in-out;
     &:hover {
@@ -200,12 +201,12 @@ const BreadCrumb = styled.div`
     }
   }
   span.icon_right {
-    font-size: 13px;
+    font-size: 16px;
     color: #e4e4e4;
     margin-right: 8px;
   }
   span.cate_name {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     color: #213779;
   }

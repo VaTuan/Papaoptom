@@ -146,7 +146,20 @@ const Header: React.FC<Props> = ({ className }) => {
                                                                         className="cate_item__level02"
                                                                         key={index}
                                                                     >
-                                                                        <Link href={`/shoes`} scroll={true}>
+                                                                        <Link
+
+                                                                            href={{
+                                                                                pathname: "/shoes/[level01]/[level02]/[level03]",
+                                                                                query: {
+                                                                                    level01: item.slug,
+                                                                                    level02: children.slug,
+                                                                                    level03: childrenLevel02.slug,
+                                                                                    cate01: item.title,
+                                                                                    cate02: children.title,
+                                                                                    cate03: childrenLevel02.title
+                                                                                },
+                                                                            }}
+                                                                            scroll={true}>
                                                                             <a>{childrenLevel02.title}</a>
                                                                         </Link>
                                                                     </CategoryItemLevel02>

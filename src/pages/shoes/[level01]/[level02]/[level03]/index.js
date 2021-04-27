@@ -73,6 +73,7 @@ function ShoesFilterPage(props) {
                         </span>
                       </a>
                     </Link>
+
                     <span className="icon_right">
                       <i className="fal fa-chevron-right"></i>
                     </span>
@@ -90,17 +91,33 @@ function ShoesFilterPage(props) {
                     <span className="icon_right">
                       <i className="fal fa-chevron-right"></i>
                     </span>
-                    <span className="cate_name cate_name_02">
-                      {router.query.cate02}
+
+                    <Link
+                      href={`/shoes/${router.query.level01}/${router.query.level02}?cate01=${router.query.cate01}&cate02=${router.query.cate02}`}
+                    >
+                      <a>
+                        <span className="cate_name cate_name_02">
+                          {router.query.cate02}
+                        </span>
+                      </a>
+                    </Link>
+
+                    <span className="icon_right">
+                      <i className="fal fa-chevron-right"></i>
+                    </span>
+
+                    <span className="cate_name cate_name_03">
+                      {router.query.cate03}
                     </span>
                   </BreadCrumb>
+
                   <TotalProduct>
                     Количество товаров: <strong>123123</strong>
                   </TotalProduct>
                 </ContentTop>
 
                 <SectionSortSideCateName title="Hàng 2">
-                  <h1>{router.query.cate02}</h1>
+                  <h1>{router.query.cate03}</h1>
                   <SelectOption>
                     <Select>
                       <Option>Theo hàng mới</Option>
@@ -200,7 +217,7 @@ const BreadCrumb = styled.div`
   span.icon_home {
     cursor: pointer;
     color: #213779;
-    font-size: 13px;
+    font-size: 16px;
     margin-right: 8px;
     transition: 0.4s all ease-in-out;
     &:hover {
@@ -208,16 +225,20 @@ const BreadCrumb = styled.div`
     }
   }
   span.icon_right {
-    font-size: 13px;
-    color: #e4e4e4;
+    font-size: 16px;
+    color: #d9d9d9;
     margin-right: 8px;
+    font-weight: 600;
   }
   span.cate_name {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 600;
     color: #213779;
   }
   span.cate_name_01 {
+    margin-right: 8px;
+  }
+  span.cate_name_02 {
     margin-right: 8px;
   }
 `;
