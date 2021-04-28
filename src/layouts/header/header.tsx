@@ -26,6 +26,10 @@ import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 // import navmenu from './nav-menu';
 import { listCategories } from 'utils/fakeDataHeader'
+import { groupBy } from "utils/groupBy";
+import { useQuery } from "@apollo/client";
+import { GET_CATEGORIES } from "graphql/query/category.query";
+import { GET_HEADER } from "graphql/query/header.query";
 type Props = {
     className?: string;
 };
@@ -67,6 +71,15 @@ const Header: React.FC<Props> = ({ className }) => {
 
     const showSearch = isCategoryPage(query.type);
 
+    const test = groupBy(listCategories, "slug")
+    console.log('test cái : ', test);
+
+    const { data, loading, error } = useQuery(GET_HEADER);
+
+    console.log('data moiws : ', data);
+
+
+
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
             <HeaderTopWrapper
@@ -86,7 +99,7 @@ const Header: React.FC<Props> = ({ className }) => {
 
             <HeaderBottomWrapper title="PHẦN CATE TỔNG">
                 <ListCatesRoot>
-                    {listCategories.map((item, index) => (
+                    {data?.categories?.map((item, index) => (
                         <CategoryItemRoot key={index}>
                             <Link
                                 scroll={true}

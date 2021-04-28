@@ -105,6 +105,10 @@ export const CategoryItemRoot = styled.li`
       }
     }
   }
+
+  @media only screen and (max-width: 1240px){
+      font-size : 14px;
+  }
 `;
 
 // for cate level 01
