@@ -50,7 +50,7 @@ function ShoesFilterPage(props) {
               <Sidebar
                 deviceType={deviceType}
                 type="shoes"
-                cate={router.query.cate}
+                categoryId={parseInt(router.query.cateid)}
               />
             </SidebarSection>
 

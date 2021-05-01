@@ -91,62 +91,39 @@ type Props = {
     data: any;
     onClick: (slug: string) => void;
     active: string | string[];
-
+    dataAttributes: any;
 };
 
-export const TreeMenu: React.FC<Props> = ({ data, onClick, active }) => {
-    // console.log('data cate : ', data.map(x => x.title));
+export const TreeMenu: React.FC<Props> = ({
+    data,
+    onClick,
+    active,
+    dataAttributes,
+}) => {
+    console.log("data attributes : ", dataAttributes?.attributes);
 
     // function thực hiện render cate
     // created by tuanva
     const handlerRenderCate = (children) => {
-        return children.map((subOption) => {
-            // nếu không có children thì gọi vào bên dưới
-            if (!subOption.children) {
-                return (
-                    <Tree
-                        key={subOption.title}
-                        name={subOption.title}
-                        icon={subOption.icon}
-                        depth="child"
-                        onClick={() => onClick(subOption.slug)}
-                        defaultOpen={active === subOption.slug}
-                    />
-                );
-            }
-            return (
-                <>
-                    <Tree
-                        key={subOption.title}
-                        name={subOption.title}
-                        icon={subOption.icon}
-                        dropdown={!subOption.children.length ? false : true}
-                        depth="parent"
-                        onClick={() => onClick(subOption.slug)}
-                        defaultOpen={
-                            active === subOption.slug ||
-                            subOption.children.some((item) => item.slug === active)
-                        }
-                    >
-                        {subOption.title === "Размер (на фото)" ? (
-                            <FilterSliderRange />
-                        ) : (
-                            <>
-                                {subOption.children.map((item, index) => {
-                                    return <FilterCheckBox key={index} value={item.title} />;
-                                })}
-                            </>
-                        )}
-                    </Tree>
-                </>
-            );
-        });
+        return children?.map((item, index) => (
+            <Tree
+                key={index}
+                name={item?.name}
+                dropdown={!item.values.length ? false : true}
+                depth="parent"
+            >
+                {item.name === "Размер (на фото)" ? (
+                    <FilterSliderRange />
+                ) : (
+                    <>
+                        {item.values.map((item, index) => {
+                            return <FilterCheckBox key={index} value={item.value} />;
+                        })}
+                    </>
+                )}
+            </Tree>
+        ));
     };
 
-    return (
-        <>
-            {/* <h6>{cate}</h6> */}
-            {handlerRenderCate(data)}
-        </>
-    );
+    return <>{handlerRenderCate(dataAttributes?.attributes)}</>;
 };

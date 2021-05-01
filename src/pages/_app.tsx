@@ -30,13 +30,11 @@ import '../assets/lib/all.min.css'
 
 const AppLayout = dynamic(() => import('layouts/app-layout'));
 
-export default function ExtendedApp({ Component, pageProps }, props) {
+export default function ExtendedApp({ Component, pageProps }) {
     const mobile = useMedia('(max-width: 580px)');
     const tablet = useMedia('(max-width: 991px)');
     const desktop = useMedia('(min-width: 992px)');
     const apolloClient = useApollo(pageProps.initialApolloState);
-
-    console.log('page props : ', props);
 
     return (
         <ApolloProvider client={apolloClient}>
@@ -61,20 +59,3 @@ export default function ExtendedApp({ Component, pageProps }, props) {
     );
 }
 
-// export async function getServerSideProps(context) {
-
-//     console.log('run');
-
-//     const res = await fetch(`https://jsonplaceholder.typicode.com/todos/1`)
-//     const data = await res.json()
-
-//     if (!data) {
-//         return {
-//             notFound: true,
-//         }
-//     }
-
-//     return {
-//         props: { data }, // will be passed to the page component as props
-//     }
-// }

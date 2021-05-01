@@ -1,5 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { themeGet } from "@styled-system/theme-get";
+import { Tops } from "./../../assets/icons/Tops";
 
 const positionAnim = keyframes`
   from {
@@ -104,10 +105,14 @@ export const CategoryItemRoot = styled.li`
         }
       }
     }
+
+    .mega_menu {
+      display: block;
+    }
   }
 
-  @media only screen and (max-width: 1240px){
-      font-size : 14px;
+  @media only screen and (max-width: 1240px) {
+    font-size: 14px;
   }
 `;
 
@@ -162,26 +167,57 @@ export const ListCateLevel02 = styled.ul`
 `;
 export const CategoryItemLevel02 = styled.li`
   padding: 8px;
-  border-bottom : 1px solid #c4c4c4;
+  border-bottom: 1px solid #c4c4c4;
   transition: all 0.3s ease-in;
   &:last-child {
-      border-bottom : unset;
+    border-bottom: unset;
   }
 
-  & > a{
-      display : block;
-      color : #f0f0f0;
-     
+  & > a {
+    display: block;
+    color: #f0f0f0;
   }
   &:hover {
-      background-color : #11d9b1;
-    > a{
-      color : #f1f1f1;
-  } 
+    background-color: #11d9b1;
+    > a {
+      color: #f1f1f1;
+    }
   }
 `;
 // end
 
+//mega menu
+export const MegaMenu = styled.div`
+  display: flex;
+  position: absolute;
+  flex-wrap: wrap;
+  width: 350px;
+  background-color: #08b895;
+  padding: 20px;
+  top: 100%;
+  height: auto;
+  display: none;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  border-radius: 0px 0px 5px 5px;
+
+  left : 50%;
+  transform : translateX(-50%)
+`;
+export const MegaMenuItem = styled.span`
+  color: #fff;
+  font-size: 16px;
+  padding: 8px;
+  display: inline-block;
+  text-align: left;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  &:hover {
+    color: #c58c21;
+  }
+`;
+//end
 export const HeaderTopWrapper = styled.header`
   padding: 20px 30px;
   display: flex;

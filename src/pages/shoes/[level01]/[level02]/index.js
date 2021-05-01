@@ -51,6 +51,7 @@ function ShoesFilterPage(props) {
                 deviceType={deviceType}
                 type="shoes"
                 cate={router.query.cate}
+                categoryId={parseInt(router.query.cateid)}
               />
             </SidebarSection>
 
@@ -61,7 +62,7 @@ function ShoesFilterPage(props) {
                     <Link href="/shoes">
                       <a>
                         <span className="icon_home">
-                          <i class="fas fa-home-lg-alt"></i>
+                          <i className="fas fa-home-lg-alt"></i>
                         </span>
                       </a>
                     </Link>

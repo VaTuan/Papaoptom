@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
-import { GET_CATEGORIES } from "graphql/query/category.query";
 import CategoryWalker from "components/category-walker/category-walker";
 import {
     SidebarLoader,
@@ -19,6 +18,7 @@ import {
 } from "./sidebar.style";
 import { Button } from "components/button/button";
 import styled from "styled-components";
+import { GET_ATTRIBUTES_BY_CATE_ID } from "graphql/query/attributes.query";
 
 type SidebarCategoryProps = {
     deviceType: {
@@ -27,45 +27,19 @@ type SidebarCategoryProps = {
         desktop: boolean;
     };
     type: string;
+    categoryId: number;
 };
 
 const SidebarCategory: React.FC<SidebarCategoryProps> = ({
     deviceType: { mobile, tablet, desktop },
     type,
-
+    categoryId,
 }) => {
     const router = useRouter();
-    // const { data, loading } = useQuery(GET_CATEGORIES, {
 
-    console.log("type : ", type);
-
-    //  api caller get cate
-    const { loading, data } = useQuery(GET_CATEGORIES, {
-        variables: { type },
+    const { loading, data } = useQuery(GET_ATTRIBUTES_BY_CATE_ID, {
+        variables: { categoryId },
     });
-
-    // const [getCategories, {data, loading}] = useLazyQuery(GET_CATEGORIES, {
-    //     onCompleted: (res) => {
-    //         console.log({res});
-
-    //     },
-    //     onError: (err) => {
-    //         console.log({err});
-
-    //     }
-    // });
-
-    // useEffect(() => {
-    //     console.log({type});
-    //     if(type) {
-
-    //         getCategories({
-    //             variables: { type}
-    //         })
-    //     }
-    // }, [type])
-
-    // console.log('side bar : ', data);
 
     const { pathname, query } = router;
     const selectedQueries = query.category;
@@ -114,6 +88,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
                         data={data.categories}
                         onClick={onCategoryClick}
                         active={selectedQueries}
+                        dataAttributes={data}
                     />
                 </CategoryWalker>
             </PopoverWrapper>
@@ -126,6 +101,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
                                 data={data.categories}
                                 onClick={onCategoryClick}
                                 active={selectedQueries}
+                                dataAttributes={data}
                             />
                         </TreeWrapper>
 
@@ -150,7 +126,7 @@ const WrapperButton = styled.div`
   padding: 0px 30px;
   margin: 30px 0px;
   box-sizing: border-box;
-  background-color : #fff;
+  background-color: #fff;
 `;
 const ButtonSubmit = styled.button`
   background-color: #255eed;
@@ -204,6 +180,7 @@ const ButtonCancle = styled.button`
     span {
       color: #fff !important;
     }
+
     &:before {
       width: 100%;
     }

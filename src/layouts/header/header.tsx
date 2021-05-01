@@ -15,7 +15,9 @@ import {
     CategoryItemLevel01,
     ListCateLevel02,
     CategoryItemLevel02,
-    TitleWithIcon
+    TitleWithIcon,
+    MegaMenu,
+    MegaMenuItem,
 } from "./header.style";
 // import LogoImage from 'assets/images/logo.svg';
 import LogoImage from "assets/images/logo.png";
@@ -25,11 +27,12 @@ import Search from "features/search/search";
 import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 // import navmenu from './nav-menu';
-import { listCategories } from 'utils/fakeDataHeader'
+import { listCategories } from "utils/fakeDataHeader";
 import { groupBy } from "utils/groupBy";
 import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "graphql/query/category.query";
 import { GET_HEADER } from "graphql/query/header.query";
+
 type Props = {
     className?: string;
 };
@@ -71,14 +74,11 @@ const Header: React.FC<Props> = ({ className }) => {
 
     const showSearch = isCategoryPage(query.type);
 
-    const test = groupBy(listCategories, "slug")
-    console.log('test cái : ', test);
+    const test = groupBy(listCategories, "slug");
 
     const { data, loading, error } = useQuery(GET_HEADER);
 
-    console.log('data moiws : ', data);
-
-
+    console.log("data moiws : ", data);
 
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
@@ -107,7 +107,7 @@ const Header: React.FC<Props> = ({ className }) => {
                                 shallow={true}
                                 href={{
                                     pathname: "/shoes/[level01]",
-                                    query: { level01: item.slug, cate: item.title },
+                                    query: { level01: item.slug, cate: item.title, cateid: item.id },
                                 }}
                             >
                                 <a>{item.title}</a>
@@ -116,75 +116,62 @@ const Header: React.FC<Props> = ({ className }) => {
                             {/* 
                             Phần cate con */}
                             {item.children.length > 0 && (
-                                <ListCateLevel01 className="list_cate__level01">
-                                    {item.children.map((children, index) => {
-                                        console.log(
-                                            "children : ",
-                                            children?.childrenLevel02?.length
-                                        );
-
-                                        return (
-                                            <CategoryItemLevel01
-                                                className="cate_item__level01"
-                                                key={index}
-                                            >
-                                                <Link
-                                                    href={{
-                                                        pathname: "/shoes/[level01]/[level02]",
-                                                        query: {
-                                                            level01: item.slug,
-                                                            level02: children.slug,
-                                                            cate01: item.title,
-                                                            cate02: children.title,
-                                                        },
-                                                    }}
-
-                                                    scroll={true}
-                                                >
-                                                    <TitleWithIcon>
-                                                        <a>{children.title}</a>
-                                                        {children.childrenLevel02?.length > 0 && (
-                                                            <ArrowNext width='13' />
-                                                        )}
-                                                    </TitleWithIcon>
-                                                </Link>
-
-                                                {/* check nếu length > 0 thì mới có cate 2  */}
-                                                {children?.childrenLevel02?.length > 0 && (
-                                                    <ListCateLevel02 className="list_cate__level02">
-                                                        {children?.childrenLevel02?.map(
-                                                            (childrenLevel02, index) => {
-                                                                return (
-                                                                    <CategoryItemLevel02
-                                                                        className="cate_item__level02"
-                                                                        key={index}
-                                                                    >
-                                                                        <Link
-
-                                                                            href={{
-                                                                                pathname: "/shoes/[level01]/[level02]/[level03]",
-                                                                                query: {
-                                                                                    level01: item.slug,
-                                                                                    level02: children.slug,
-                                                                                    level03: childrenLevel02.slug,
-                                                                                    cate01: item.title,
-                                                                                    cate02: children.title,
-                                                                                    cate03: childrenLevel02.title
-                                                                                },
-                                                                            }}
-                                                                            scroll={true}>
-                                                                            <a>{childrenLevel02.title}</a>
-                                                                        </Link>
-                                                                    </CategoryItemLevel02>
-                                                                );
-                                                            }
-                                                        )}
-                                                    </ListCateLevel02>
-                                                )}
-                                            </CategoryItemLevel01>
-                                        );
-                                    })}
-                                </ListCateLevel01>
+                                <>
+                                    {item.children.length > 7 ? (
+                                        <>
+                                            <MegaMenu className="mega_menu">
+                                                {item.children.map((children, index) => (
+                                                    <Link
+                                                        href={{
+                                                            pathname: "/shoes/[level01]/[level02]",
+                                                            query: {
+                                                                level01: item.slug,
+                                                                level02: children.slug,
+                                                                cate01: item.title,
+                                                                cate02: children.title,
+                                                                cateid: children.id
+                                                            },
+                                                        }}
+                                                        scroll={true}
+                                                    >
+                                                        <a>
+                                                            <MegaMenuItem key={index}>
+                                                                {children.title}
+                                                            </MegaMenuItem>
+                                                        </a>
+                                                    </Link>
+                                                ))}
+                                            </MegaMenu>
+                                        </>
+                                    ) : (
+                                        <ListCateLevel01 className="list_cate__level01">
+                                            {item.children.map((children, index) => {
+                                                return (
+                                                    <CategoryItemLevel01
+                                                        className="cate_item__level01"
+                                                        key={index}
+                                                    >
+                                                        <Link
+                                                            href={{
+                                                                pathname: "/shoes/[level01]/[level02]",
+                                                                query: {
+                                                                    level01: item.slug,
+                                                                    level02: children.slug,
+                                                                    cate01: item.title,
+                                                                    cate02: children.title,
+                                                                    cateid: children.id
+                                                                },
+                                                            }}
+                                                            scroll={true}
+                                                        >
+                                                            {children.title}
+                                                        </Link>
+                                                    </CategoryItemLevel01>
+                                                );
+                                            })}
+                                        </ListCateLevel01>
+                                    )}
+                                </>
                             )}
                         </CategoryItemRoot>
                     ))}
