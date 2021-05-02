@@ -191,7 +191,7 @@ export const MegaMenu = styled.div`
   display: flex;
   position: absolute;
   flex-wrap: wrap;
-  width: 350px;
+  width: 450px;
   background-color: #08b895;
   padding: 20px;
   top: 100%;

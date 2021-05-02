@@ -5,7 +5,7 @@ import { Frame, Title, Content, Header, IconWrapper } from "./tree-menu.style";
 import { Button } from "components/button/button";
 import { ArrowNext } from "assets/icons/ArrowNext";
 import * as icons from "assets/icons/category-icons";
-import { FilterCheckBox, FilterSliderRange } from "../FilterCategory";
+import { Attributes, FilterCheckBox, FilterSliderRange } from "../FilterCategory";
 // Tree component
 const Tree = React.memo(
     ({
@@ -100,7 +100,7 @@ export const TreeMenu: React.FC<Props> = ({
     active,
     dataAttributes,
 }) => {
-    console.log("data attributes : ", dataAttributes?.attributes);
+    // console.log("data attributes : ", dataAttributes?.attributes);
 
     // function thực hiện render cate
     // created by tuanva
@@ -119,6 +119,8 @@ export const TreeMenu: React.FC<Props> = ({
                         {item.values.map((item, index) => {
                             return <FilterCheckBox key={index} value={item.value} />;
                         })}
+                        <Attributes attributes={item.values} />
+
                     </>
                 )}
             </Tree>

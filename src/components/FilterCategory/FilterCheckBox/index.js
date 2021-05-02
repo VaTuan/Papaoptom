@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-
-// FilterSelect.prototype = {
-//     title :
-// }
 
 function FilterCheckBox(props) {
   const { value } = props;
+
+  const [valueSeleted, setValueSelected] = useState("");
+
+  //   const handleInputChange = (e) => {
+  //     setValueSelected(e.target.value);
+  //   };
+
+  //   console.log("value selected : ", valueSeleted);
   return (
     <WrapperFilterCheckboxItem title="Checkbox item">
-      <input type="checkbox" />
+      <input
+        type="checkbox"
+        value={value}
+        // checked={}
+        name="valueSeleted"
+        // onChange={handleInputChange}
+      />
       <span>{value}</span>
     </WrapperFilterCheckboxItem>
   );
