@@ -11,5 +11,5 @@ COPY . /usr/src/app
 # Building app
 RUN npm run build
 ENV NODE_ENV production
-# ENV NEXT_PUBLIC_GRAPHQL_API_ENDPOINT http://backend.shang.com.ua/graphql
+ENV NEXT_PUBLIC_GRAPHQL_API_ENDPOINT http://backend.shang.com.ua/graphql
 CMD ["npm", "run","start"]
