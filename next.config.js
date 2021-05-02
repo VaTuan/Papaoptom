@@ -4,18 +4,8 @@ const withOptimizedImages = require("next-optimized-images");
 // next.js configuration
 
 const nextConfig = (phase, { defaultConfig }) => {
-  let publicEnv = {};
-  for (let key in process.env) {
-    if (key.includes("NEXT_PUBLIC")) {
-      publicEnv = {
-        ...publicEnv,
-        key: process.env[key],
-      };
-    }
-  }
   return {
     ...defaultConfig,
-    env: publicEnv,
     async redirects() {
       return [
         {
@@ -24,6 +14,14 @@ const nextConfig = (phase, { defaultConfig }) => {
           permanent: true,
         },
       ];
+    },
+    webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+      let env = Object.keys(process.env).reduce((acc, curr) => {
+        acc[`process.env.${curr}`] = JSON.stringify(process.env[curr]);
+        return acc;
+      }, {});
+      config.plugins.push(new webpack.DefinePlugin(env));
+      return config;
     },
   };
 };
