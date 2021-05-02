@@ -10,7 +10,7 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
 function createIsomorphLink() {
     return new HttpLink({
-        uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT, // Server URL (must be absolute)
+        uri: process.env.NEXT_PUBLIC_GRAPHQL_API_ENDPOINT,
         credentials: 'same-origin', // Additional fetch()    like `credentials` or `headers`
     });
 }
