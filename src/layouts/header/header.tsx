@@ -78,7 +78,7 @@ const Header: React.FC<Props> = ({ className }) => {
 
     const { data, loading, error } = useQuery(GET_HEADER);
 
-    console.log("data moiws : ", data);
+    // console.log("data moiws : ", data);
 
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">

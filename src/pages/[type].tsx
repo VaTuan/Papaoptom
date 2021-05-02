@@ -63,22 +63,9 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
                             <Carousel deviceType={deviceType} data={siteOffers} />
                         </div>
                     </OfferSection>
-                    <MobileCarouselDropdown>
-                        <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
-                    </MobileCarouselDropdown>
-
                     <MainContentArea title="PHẦN NỘI DUNG CHÍNH">
-                        {/* {PAGE_TYPE !== "shoes" && (
-                            <SidebarSection title="PHẦN SIDE BAR BÊN TRÁI">
-                                <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
-                            </SidebarSection>
-                        )} */}
 
-                        {/* <SidebarSection title="PHẦN SIDE BAR BÊN TRÁI">
-              <Sidebar type={PAGE_TYPE} deviceType={deviceType} />
-            </SidebarSection> */}
-
-                        <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PH">
+                        <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PHẢI">
                             <div ref={targetRef}>
                                 <Products
                                     type={PAGE_TYPE}

@@ -42,7 +42,10 @@ function ShoesFilterPage(props) {
             </div>
           </OfferSection>
           <MobileCarouselDropdown>
-            <Sidebar deviceType={deviceType} />
+            <Sidebar
+              deviceType={deviceType}
+              categoryId={parseInt(router.query.cateid)}
+            />
           </MobileCarouselDropdown>
 
           <MainContentArea title="PHẦN NỘI DUNG CHÍNH">
