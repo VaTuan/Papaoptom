@@ -117,6 +117,7 @@ const Header: React.FC<Props> = ({ className }) => {
                             Phần cate con */}
                             {item.children.length > 0 && (
                                 <>
+                                    {/* Nếu mà cate con lớn hơn 7 thì sẽ hiển thị ra mega menu */}
                                     {item.children.length > 7 ? (
                                         <>
                                             <MegaMenu className="mega_menu">
@@ -133,9 +134,10 @@ const Header: React.FC<Props> = ({ className }) => {
                                                             },
                                                         }}
                                                         scroll={true}
+                                                        key={index}
                                                     >
                                                         <a>
-                                                            <MegaMenuItem key={index}>
+                                                            <MegaMenuItem>
                                                                 {children.title}
                                                             </MegaMenuItem>
                                                         </a>

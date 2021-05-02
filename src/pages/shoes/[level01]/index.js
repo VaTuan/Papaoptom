@@ -61,7 +61,7 @@ function ShoesFilterPage(props) {
                     <Link href="/shoes">
                       <a>
                         <span className="icon_home">
-                          <i class="fas fa-home-lg-alt"></i>
+                          <i className="fas fa-home-lg-alt"></i>
                         </span>
                       </a>
                     </Link>
