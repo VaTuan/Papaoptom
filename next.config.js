@@ -15,7 +15,7 @@ const nextConfig = (phase, { defaultConfig }) => {
   }
   return {
     ...defaultConfig,
-    env: publicEnv,
+    publicRuntimeConfig: publicEnv,
     async redirects() {
       return [
         {
