@@ -117,7 +117,36 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
       message: message,
     },
     onSubmit: (values) => {
-      console.log(values);
+      console.log("=====",);
+      setLoading(true);
+        addOrder({
+          variables: {
+            products: items.map(item =>({
+              id: item.id,
+              slug: item.slug,
+              vcode: item.vcode,
+              productName: item.name,
+              quantity: item.quantity,
+              categoryId: item.category.id,
+              subTotal: parseFloat(item.subTotal),
+              price: parseFloat(item.subTotal),
+            })),
+            isActivated: true,
+            disCount: 0,
+            deliveryFee: 0,
+            subTotal: parseFloat(calculateSubTotalPrice()),
+            customer: {
+              fullName: values.name,
+              email: values.email,
+              phone: values.phone,
+              address: values.address,
+            },
+            message : values.message
+          }
+        });
+        clearCart();
+        Router.push('/order-received');
+      setLoading(false);
     },
     validationSchema,
   });
@@ -141,23 +170,14 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   // const { address, contact, card, schedules } = state;
   const { contact } = state;
   const size = useWindowSize();
-  console.log(items);
   
   
-  const [addOrderMutation] = useMutation(ADD_ORDER_PAPA);
-  const handleSubmit = async () => {
-    setLoading(true);
-    if (isValid && contact.length) {
-      await addOrderMutation({
-        variables: {
-          phoneNumber: contact[0]?.number ?? "",
-          product: JSON.stringify(items)
-        }
-      });
-      clearCart();
-      Router.push('/order-received');
-    }
-    setLoading(false);
+  const [addOrder,code] = useMutation(ADD_ORDER_PAPA);
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    formik.handleSubmit()
+    console.log("Vao day");
   };
 
   useEffect(() => {
@@ -192,7 +212,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
           <CheckoutInformation>
             <InformationBox>
               {/* PaymentOption */}
-              <form>
+              <form onSubmit={formik.handleSubmit}>
                 <InputContainer>
                   <p>*Name</p>
                   <input
@@ -277,8 +297,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
               {/* CheckoutSubmit */}
               <CheckoutSubmit>
                 <Button
-                  type='button'
-                  onClick={handleSubmit}
+                  type='submit'
+                  onClick={e =>handleSubmit(e)}
                   disabled={!isValid}
                   size='big'
                   loading={loading}
