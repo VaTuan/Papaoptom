@@ -42,10 +42,7 @@ function ShoesFilterPage(props) {
             </div>
           </OfferSection>
           <MobileCarouselDropdown>
-            <Sidebar
-              deviceType={deviceType}
-              categoryId={parseInt(router.query.cateid)}
-            />
+            <Sidebar deviceType={deviceType} categoryId={router.query.cateid} />
           </MobileCarouselDropdown>
 
           <MainContentArea title="PHẦN NỘI DUNG CHÍNH">
@@ -53,7 +50,7 @@ function ShoesFilterPage(props) {
               <Sidebar
                 deviceType={deviceType}
                 type="shoes"
-                categoryId={parseInt(router.query.cateid)}
+                categoryId={router.query.cateid}
               />
             </SidebarSection>
 

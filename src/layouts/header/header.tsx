@@ -74,11 +74,11 @@ const Header: React.FC<Props> = ({ className }) => {
 
     const showSearch = isCategoryPage(query.type);
 
-    const test = groupBy(listCategories, "slug");
+    // const test = groupBy(listCategories, "slug");
 
     const { data, loading, error } = useQuery(GET_HEADER);
 
-    // console.log("data moiws : ", data);
+    console.log("data moiws : ", data);
 
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
@@ -103,7 +103,7 @@ const Header: React.FC<Props> = ({ className }) => {
                         <CategoryItemRoot key={index}>
                             <Link
                                 scroll={true}
-                                // as={`/shoes/${item.slug}`}
+                                as={`/shoes/${item.slug}`}
                                 shallow={true}
                                 href={{
                                     pathname: "/shoes/[level01]",
