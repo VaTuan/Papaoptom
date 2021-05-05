@@ -14,9 +14,12 @@ export const ADD_ORDER = gql`
   }
 `;
 
+
+
+
 export const ADD_ORDER_PAPA = gql`
-  mutation($phoneNumber: String!, $product: String!) {
-    addOrder(phoneNumber: $phoneNumber, product: $product) {
+  mutation($message: String!,$isActivated: Boolean!, $deliveryFee: Float!,  $disCount: Float!,  $subTotal: Float!,  $products: [ProductReq!]!,$customer:CustomerReq! ) {
+    addOrder(message: $message, isActivated: $isActivated, disCount: $disCount, deliveryFee: $deliveryFee, subTotal: $subTotal, products: $products, customer: $customer) {
       code,
       message,
       success
