@@ -27,17 +27,14 @@ import Search from "features/search/search";
 import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 // import navmenu from './nav-menu';
-import { listCategories } from "utils/fakeDataHeader";
-import { groupBy } from "utils/groupBy";
-import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "graphql/query/category.query";
-import { GET_HEADER } from "graphql/query/header.query";
 
 type Props = {
     className?: string;
+    listCategories?: any
 };
 
-const Header: React.FC<Props> = ({ className }) => {
+const Header: React.FC<Props> = ({ className, listCategories }) => {
     // const {
     //     authState: { isAuthenticated },
     //     authDispatch,
@@ -74,11 +71,9 @@ const Header: React.FC<Props> = ({ className }) => {
 
     const showSearch = isCategoryPage(query.type);
 
-    // const test = groupBy(listCategories, "slug");
 
-    const { data, loading, error } = useQuery(GET_HEADER);
 
-    console.log("data moiws : ", data);
+
 
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
@@ -99,7 +94,7 @@ const Header: React.FC<Props> = ({ className }) => {
 
             <HeaderBottomWrapper title="PHẦN CATE TỔNG">
                 <ListCatesRoot>
-                    {data?.categories?.map((item, index) => (
+                    {listCategories?.map((item, index) => (
                         <CategoryItemRoot key={index}>
                             <Link
                                 scroll={true}
