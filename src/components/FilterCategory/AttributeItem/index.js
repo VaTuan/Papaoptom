@@ -3,8 +3,6 @@ import React, { memo } from "react";
 function AttributeItem(props) {
   const { attribute, handleChange } = props;
 
-  //   console.log("tao là tuấn : ", attribute);s
-
   return (
     <div className="custom-control custom-checkbox">
       <input

@@ -101,7 +101,7 @@ export const TreeMenu: React.FC<Props> = ({
     dataAttributes,
 }) => {
     // console.log("data attributes : ", dataAttributes?.attributes);
-
+    
     // function thực hiện render cate
     // created by tuanva
     const handlerRenderCate = (children) => {

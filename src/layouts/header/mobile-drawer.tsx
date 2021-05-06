@@ -33,10 +33,10 @@ import { useAppState, useAppDispatch } from 'contexts/app/app.provider';
 const MobileDrawer: React.FunctionComponent = () => {
     const isDrawerOpen = useAppState('isDrawerOpen');
     const dispatch = useAppDispatch();
-    const {
-        authState: { isAuthenticated },
-        authDispatch,
-    } = useContext<any>(AuthContext);
+    // const {
+    //     authState: { isAuthenticated },
+    //     authDispatch,
+    // } = useContext<any>(AuthContext);
     // Toggle drawer
     const toggleHandler = React.useCallback(() => {
         dispatch({
@@ -44,38 +44,38 @@ const MobileDrawer: React.FunctionComponent = () => {
         });
     }, [dispatch]);
 
-    const handleLogout = () => {
-        if (typeof window !== 'undefined') {
-            localStorage.removeItem('access_token');
-            authDispatch({ type: 'SIGN_OUT' });
-            Router.push('/');
-        }
-    };
+    // const handleLogout = () => {
+    //     if (typeof window !== 'undefined') {
+    //         localStorage.removeItem('access_token');
+    //         authDispatch({ type: 'SIGN_OUT' });
+    //         Router.push('/');
+    //     }
+    // };
 
-    const signInOutForm = () => {
-        dispatch({
-            type: 'TOGGLE_DRAWER',
-        });
+    // const signInOutForm = () => {
+    //     dispatch({
+    //         type: 'TOGGLE_DRAWER',
+    //     });
 
-        authDispatch({
-            type: 'SIGNIN',
-        });
+    //     authDispatch({
+    //         type: 'SIGNIN',
+    //     });
 
-        openModal({
-            show: true,
-            overlayClassName: 'quick-view-overlay',
-            closeOnClickOutside: true,
-            component: AuthenticationForm,
-            closeComponent: '',
-            config: {
-                enableResizing: false,
-                disableDragging: true,
-                className: 'quick-view-modal',
-                width: 458,
-                height: 'auto',
-            },
-        });
-    };
+    //     openModal({
+    //         show: true,
+    //         overlayClassName: 'quick-view-overlay',
+    //         closeOnClickOutside: true,
+    //         component: AuthenticationForm,
+    //         closeComponent: '',
+    //         config: {
+    //             enableResizing: false,
+    //             disableDragging: true,
+    //             className: 'quick-view-modal',
+    //             width: 458,
+    //             height: 'auto',
+    //         },
+    //     });
+    // };
 
     return (
         <Drawer
@@ -97,7 +97,9 @@ const MobileDrawer: React.FunctionComponent = () => {
         >
             <DrawerBody>
                 <Scrollbar className='drawer-scrollbar'>
-                    <DrawerContentWrapper>
+
+                     <h6>Not authentica</h6>
+                    {/* <DrawerContentWrapper>
                         <DrawerProfile>
                             {isAuthenticated ? (
                                 <LoginView>
@@ -157,7 +159,7 @@ const MobileDrawer: React.FunctionComponent = () => {
                                 </DrawerMenuItem>
                             </UserOptionMenu>
                         )}
-                    </DrawerContentWrapper>
+                    </DrawerContentWrapper> */}
                 </Scrollbar>
             </DrawerBody>
         </Drawer>

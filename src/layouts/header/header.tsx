@@ -38,39 +38,39 @@ type Props = {
 };
 
 const Header: React.FC<Props> = ({ className }) => {
-    const {
-        authState: { isAuthenticated },
-        authDispatch,
-    } = React.useContext<any>(AuthContext);
+    // const {
+    //     authState: { isAuthenticated },
+    //     authDispatch,
+    // } = React.useContext<any>(AuthContext);
     const { pathname, query } = useRouter();
-    const handleLogout = () => {
-        if (typeof window !== "undefined") {
-            localStorage.removeItem("access_token");
-            authDispatch({ type: "SIGN_OUT" });
-            Router.push("/");
-        }
-    };
+    // const handleLogout = () => {
+    //     if (typeof window !== "undefined") {
+    //         localStorage.removeItem("access_token");
+    //         authDispatch({ type: "SIGN_OUT" });
+    //         Router.push("/");
+    //     }
+    // };
 
-    const handleJoin = () => {
-        authDispatch({
-            type: "SIGNIN",
-        });
+    // const handleJoin = () => {
+    //     authDispatch({
+    //         type: "SIGNIN",
+    //     });
 
-        openModal({
-            show: true,
-            overlayClassName: "quick-view-overlay",
-            closeOnClickOutside: true,
-            component: AuthenticationForm,
-            closeComponent: "",
-            config: {
-                enableResizing: false,
-                disableDragging: true,
-                className: "quick-view-modal",
-                width: 458,
-                height: "auto",
-            },
-        });
-    };
+    //     openModal({
+    //         show: true,
+    //         overlayClassName: "quick-view-overlay",
+    //         closeOnClickOutside: true,
+    //         component: AuthenticationForm,
+    //         closeComponent: "",
+    //         config: {
+    //             enableResizing: false,
+    //             disableDragging: true,
+    //             className: "quick-view-modal",
+    //             width: 458,
+    //             height: "auto",
+    //         },
+    //     });
+    // };
 
     const showSearch = isCategoryPage(query.type);
 
@@ -90,9 +90,9 @@ const Header: React.FC<Props> = ({ className }) => {
                 <LeftMenu logo={LogoImage} />
                 <Search minimal={true} className="headerSearch" />
                 <RightMenu
-                    isAuthenticated={isAuthenticated}
-                    onJoin={handleJoin}
-                    onLogout={handleLogout}
+                    // isAuthenticated={isAuthenticated}
+                    // onJoin={handleJoin}
+                    // onLogout={handleLogout}
                     avatar={UserImage}
                 />
             </HeaderTopWrapper>

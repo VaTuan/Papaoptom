@@ -13,8 +13,10 @@ function Attributes(props) {
   const [attributeSelected, setAttributeSelected] = useState(listAttributes);
 
   const handleChange = (value) => {
-    const copyProducts = [...attributeSelected];
-    const modifiedProducts = copyProducts.map((attribute) => {
+    console.log("value : ", value);
+
+    const copyAttributes = [...attributeSelected];
+    const modifiedAttributes = copyAttributes.map((attribute) => {
       if (value === attribute.value) {
         attribute.checked = !attribute.checked;
       }
@@ -22,7 +24,7 @@ function Attributes(props) {
       return attribute;
     });
 
-    setAttributeSelected(modifiedProducts);
+    setAttributeSelected(modifiedAttributes);
   };
 
   //   console.log("list adsadsasd: ", attributeSelected);
@@ -31,9 +33,9 @@ function Attributes(props) {
     .filter((x) => x.checked)
     .map((y) => y.value);
 
-  console.log("====================================");
-  console.log("checked : ", test);
-  console.log("====================================");
+  // console.log("====================================");
+  // console.log("checked : ", test);
+  // console.log("====================================");
 
   return (
     <WrapperAttributes>
