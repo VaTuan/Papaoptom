@@ -58,6 +58,9 @@ export const HeaderBottomWrapper = styled.div`
   margin-top: 92px;
   position: fixed;
   width: 100%;
+  @media (max-width: 990px) {
+    display: none;
+  }
 `;
 export const ListCatesRoot = styled.ul`
   display: flex;
@@ -610,8 +613,8 @@ export const DrawerContentWrapper = styled.div`
 export const DrawerClose = styled.div`
   display: block;
   position: absolute;
-  left: 35px;
-  top: 14px;
+  right: 30px;
+  top: 15px;
   color: ${themeGet("colors.text.regular", "#77798c")};
   cursor: pointer;
   padding: 10px;

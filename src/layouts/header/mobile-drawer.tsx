@@ -29,6 +29,7 @@ import {
     PROFILE_PAGE,
 } from 'site-settings/site-navigation';
 import { useAppState, useAppDispatch } from 'contexts/app/app.provider';
+import MenuMobile from './menu/menu-mobile';
 
 const MobileDrawer: React.FunctionComponent = () => {
     const isDrawerOpen = useAppState('isDrawerOpen');
@@ -77,91 +78,91 @@ const MobileDrawer: React.FunctionComponent = () => {
         });
     };
 
-    return (
-        <Drawer
-            width='316px'
-            drawerHandler={
-                <HamburgerIcon>
-                    <span />
-                    <span />
-                    <span />
-                </HamburgerIcon>
-            }
-            open={isDrawerOpen}
-            toggleHandler={toggleHandler}
-            closeButton={
-                <DrawerClose>
-                    <CloseIcon />
-                </DrawerClose>
-            }
-        >
-            <DrawerBody>
-                <Scrollbar className='drawer-scrollbar'>
-                    <DrawerContentWrapper>
-                        <DrawerProfile>
-                            {isAuthenticated ? (
-                                <LoginView>
-                                    <UserAvatar>
-                                        <img src={UserImage} alt='user_avatar' />
-                                    </UserAvatar>
-                                    <UserDetails>
-                                        <h3>David Kinderson</h3>
-                                        <span>+990 374 987</span>
-                                    </UserDetails>
-                                </LoginView>
-                            ) : (
-                                <LogoutView>
-                                    <Button variant='primary' onClick={signInOutForm}>
-                                        <FormattedMessage
-                                            id='mobileSignInButtonText'
-                                            defaultMessage='join'
-                                        />
-                                    </Button>
-                                </LogoutView>
-                            )}
-                        </DrawerProfile>
-
-                        <DrawerMenu>
-                            {MOBILE_DRAWER_MENU.map((item) => (
-                                <DrawerMenuItem key={item.id}>
-                                    <NavLink
-                                        onClick={toggleHandler}
-                                        href={item.href}
-                                        label={item.defaultMessage}
-                                        intlId={item.id}
-                                        className='drawer_menu_item'
-                                    />
-                                </DrawerMenuItem>
-                            ))}
-                        </DrawerMenu>
-
-                        {isAuthenticated && (
-                            <UserOptionMenu>
-                                <DrawerMenuItem>
-                                    <NavLink
-                                        href={PROFILE_PAGE}
-                                        label='Your Account Settings'
-                                        className='drawer_menu_item'
-                                        intlId='navlinkAccountSettings'
-                                    />
-                                </DrawerMenuItem>
-                                <DrawerMenuItem>
-                                    <div onClick={handleLogout} className='drawer_menu_item'>
-                                        <span className='logoutBtn'>
-                                            <FormattedMessage
-                                                id='navlinkLogout'
-                                                defaultMessage='Logout'
-                                            />
-                                        </span>
-                                    </div>
-                                </DrawerMenuItem>
-                            </UserOptionMenu>
-                        )}
-                    </DrawerContentWrapper>
-                </Scrollbar>
-            </DrawerBody>
-        </Drawer>
-    );
+  return (
+    <Drawer
+      width='316px'
+      drawerHandler={
+        <HamburgerIcon>
+          <span />
+          <span />
+          <span />
+        </HamburgerIcon>
+      }
+      open={isDrawerOpen}
+      toggleHandler={toggleHandler}
+      closeButton={
+        <DrawerClose>
+          <CloseIcon />
+        </DrawerClose>
+      }
+    >
+      <DrawerBody>
+        <Scrollbar className='drawer-scrollbar'>
+          <DrawerContentWrapper>
+            {/* <DrawerProfile>
+              {isAuthenticated ? (
+                <LoginView>
+                  <UserAvatar>
+                    <img src={UserImage} alt='user_avatar' />
+                  </UserAvatar>
+                  <UserDetails>
+                    <h3>David Kinderson</h3>
+                    <span>+990 374 987</span>
+                  </UserDetails>
+                </LoginView>
+              ) : (
+                <LogoutView>
+                  <Button variant='primary' onClick={signInOutForm}>
+                    <FormattedMessage
+                      id='mobileSignInButtonText'
+                      defaultMessage='join'
+                    />
+                  </Button>
+                </LogoutView>
+              )}
+            </DrawerProfile> */}
+            <MenuMobile />
+            {/* <DrawerMenu>
+              {MOBILE_DRAWER_MENU.map((item) => (
+                <DrawerMenuItem key={item.id}>
+                  <NavLink
+                    onClick={toggleHandler}
+                    href={item.href}
+                    label={item.defaultMessage}
+                    intlId={item.id}
+                    className='drawer_menu_item'
+                  />
+                </DrawerMenuItem>
+              ))}
+            </DrawerMenu> */}
+            
+            {isAuthenticated && (
+              <UserOptionMenu>
+                <DrawerMenuItem>
+                  <NavLink
+                    href={PROFILE_PAGE}
+                    label='Your Account Settings'
+                    className='drawer_menu_item'
+                    intlId='navlinkAccountSettings'
+                  />
+                </DrawerMenuItem>
+                <DrawerMenuItem>
+                  <div onClick={handleLogout} className='drawer_menu_item'>
+                    <span className='logoutBtn'>
+                      <FormattedMessage
+                        id='navlinkLogout'
+                        defaultMessage='Logout'
+                      />
+                    </span>
+                  </div>
+                </DrawerMenuItem>
+              </UserOptionMenu>
+            )}
+          </DrawerContentWrapper>
+        </Scrollbar>
+      </DrawerBody>
+    </Drawer>
+  );
 };
 
 export default MobileDrawer;
