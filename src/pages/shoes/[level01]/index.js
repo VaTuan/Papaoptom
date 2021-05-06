@@ -119,6 +119,9 @@ const SectionTopRight = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  @media (max-width: 990px) {
+    padding: 0 20px;
+  }
 `;
 
 const SectionSortSideCateName = styled.div`
@@ -126,6 +129,11 @@ const SectionSortSideCateName = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 990px) {
+    h1 {
+      font-size: 18px;
+    }
+  }
 `;
 
 const SelectOption = styled.div`

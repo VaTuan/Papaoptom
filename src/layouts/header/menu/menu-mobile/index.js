@@ -198,7 +198,3 @@ const CategoryItemLevel01 = styled.li``;
 const TitleWithIcon = styled.div`
   background-color: red;
 `;
-const ListCateLevel02 = styled.ul`
-  display: none;
-`;
-const CategoryItemLevel02 = styled.li``;
