@@ -94,7 +94,9 @@ const OfferSection = styled.div`
   background-color: ${themeGet('colors.white', '#ffffff')};
   position: relative;
   border-bottom: 1px solid ${themeGet('colors.gray.500', '#f1f1f1')};
-
+  @media (max-width:990px) {
+    margin-top: 100px;
+  }
   @media (max-width: 1199px) and (min-width: 991px) {
     padding: 20px 15px;
     .prevButton {
