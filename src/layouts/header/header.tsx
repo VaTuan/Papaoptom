@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import { openModal } from "@redq/reuse-modal";
 import { AuthContext } from "contexts/auth/auth.context";
@@ -28,10 +28,11 @@ import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 // import navmenu from './nav-menu';
 import { GET_CATEGORIES } from "graphql/query/category.query";
+import categoriesApi from "api/categoriesApi";
 
 type Props = {
     className?: string;
-    listCategories?: any
+    listCategories?: any;
 };
 
 const Header: React.FC<Props> = ({ className, listCategories }) => {
@@ -71,8 +72,31 @@ const Header: React.FC<Props> = ({ className, listCategories }) => {
 
     const showSearch = isCategoryPage(query.type);
 
+    // const Menu = ({ }) => {
+    //     return <ul>
+    //         {listCategories.}
+    //     </ul>
+    // }
 
 
+    /**
+     *  function thực hiện get all cate
+     */
+    const fetchCategoryList = async () => {
+        try {
+            const response = await categoriesApi.getAll();
+            console.log('====================================');
+            console.log('ressponse : ', response);
+            console.log('====================================');
+
+        } catch (error) {
+            console.log('Failed to fetch category list : ', error)
+        }
+    }
+
+    useEffect(() => {
+        fetchCategoryList();
+    }, [])
 
 
     return (
@@ -102,14 +126,17 @@ const Header: React.FC<Props> = ({ className, listCategories }) => {
                                 shallow={true}
                                 href={{
                                     pathname: "/shoes/[level01]",
-                                    query: { level01: item.slug, cate: item.title, cateid: item.id },
+                                    query: {
+                                        level01: item.slug,
+                                        cate: item.title,
+                                        cateid: item.id,
+                                    },
                                 }}
                             >
                                 <a>{item.title}</a>
                             </Link>
 
-                            {/* 
-                            Phần cate con */}
+                            {/* Phần cate con */}
                             {item.children.length > 0 && (
                                 <>
                                     {/* Nếu mà cate con lớn hơn 7 thì sẽ hiển thị ra mega menu */}
@@ -125,16 +152,14 @@ const Header: React.FC<Props> = ({ className, listCategories }) => {
                                                                 level02: children.slug,
                                                                 cate01: item.title,
                                                                 cate02: children.title,
-                                                                cateid: children.id
+                                                                cateid: children.id,
                                                             },
                                                         }}
                                                         scroll={true}
                                                         key={index}
                                                     >
                                                         <a>
-                                                            <MegaMenuItem>
-                                                                {children.title}
-                                                            </MegaMenuItem>
+                                                            <MegaMenuItem>{children.title}</MegaMenuItem>
                                                         </a>
                                                     </Link>
                                                 ))}
@@ -156,7 +181,7 @@ const Header: React.FC<Props> = ({ className, listCategories }) => {
                                                                     level02: children.slug,
                                                                     cate01: item.title,
                                                                     cate02: children.title,
-                                                                    cateid: children.id
+                                                                    cateid: children.id,
                                                                 },
                                                             }}
                                                             scroll={true}
