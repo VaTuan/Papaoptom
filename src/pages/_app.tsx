@@ -28,10 +28,11 @@ import { messages } from "site-settings/site-translation/messages";
 import "typeface-lato";
 import "typeface-poppins";
 import "../assets/lib/all.min.css";
+import categoriesApi from "api/categoriesApi";
 
 const AppLayout = dynamic(() => import("layouts/app-layout"));
 
-export default function ExtendedApp({ Component, pageProps }) {
+function ExtendedApp({ Component, pageProps, props }) {
   const mobile = useMedia("(max-width: 580px)");
   const tablet = useMedia("(max-width: 991px)");
   const desktop = useMedia("(min-width: 992px)");
@@ -46,7 +47,7 @@ export default function ExtendedApp({ Component, pageProps }) {
             <AppProvider>
               <AuthProvider>
                 <AttributeProvider>
-                  <AppLayout>
+                  <AppLayout categories={props.categories}>
                     <Component
                       {...pageProps}
                       deviceType={{ mobile, tablet, desktop }}
@@ -61,3 +62,13 @@ export default function ExtendedApp({ Component, pageProps }) {
     </ApolloProvider>
   );
 }
+ExtendedApp.getInitialProps = async (ctx) => {
+  const categories: any = await categoriesApi.getAll();
+
+  return {
+    props: {
+      categories: categories.data,
+    },
+  };
+};
+export default ExtendedApp;

@@ -17,6 +17,7 @@
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
     "@styled-system/theme-get": "^5.1.2",
+    "@szhsin/react-menu": "^1.10.0",
     "axios": "^0.21.1",
     "cookie": "^0.4.1",
     "currency.js": "^2.0.3",

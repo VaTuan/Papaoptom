@@ -11,46 +11,50 @@ import { useQuery } from "@apollo/client";
 import { GET_HEADER } from "graphql/query/header.query";
 
 const MobileHeader = dynamic(() => import("./header/mobile-header"), {
-    ssr: false,
+  ssr: false,
 });
 
 type LayoutProps = {
-    className?: string;
-    token?: string;
+  className?: string;
+  token?: string;
+  categories: any;
 };
 
 const Layout: React.FunctionComponent<LayoutProps> = ({
-    className,
-    children,
-    // deviceType: { mobile, tablet, desktop },
-    token,
+  className,
+  children,
+  categories,
+  // deviceType: { mobile, tablet, desktop },
+  token,
 }) => {
-    const { pathname, query } = useRouter();
-    const isSticky = useAppState("isSticky");
+  const { pathname, query } = useRouter();
+  const isSticky = useAppState("isSticky");
 
-    const isHomePage = isCategoryPage(query.type) || pathname === "/bakery";
+  const isHomePage = isCategoryPage(query.type) || pathname === "/bakery";
 
-    const { data, loading, error } = useQuery(GET_HEADER);
+  const { data, loading, error } = useQuery(GET_HEADER);
 
-    return (
-        <LayoutWrapper className={`layoutWrapper ${className}`} title="LAY OUT">
-            <Sticky enabled={isSticky} innerZ={1001}>
-                <MobileHeader
-                    listCategories={data?.categories}
-                    className={`${isSticky ? "sticky" : "sticky"} ${isHomePage ? "home" : ""
-                        } desktop`}
-                />
+  return (
+    <LayoutWrapper className={`layoutWrapper ${className}`} title="LAY OUT">
+      <Sticky enabled={isSticky} innerZ={1001}>
+        <MobileHeader
+          listCategories={data?.categories}
+          className={`${isSticky ? "sticky" : "sticky"} ${
+            isHomePage ? "home" : ""
+          } desktop`}
+        />
 
-                <Header
-                    listCategories={data?.categories}
-                    className={`${isSticky ? "sticky" : "sticky"} ${isHomePage ? "home" : ""
-                        }`}
-                />
-            </Sticky>
-            {children}
-            <Footer />
-        </LayoutWrapper>
-    );
+        <Header
+          listCategories={categories}
+          className={`${isSticky ? "sticky" : "sticky"} ${
+            isHomePage ? "home" : ""
+          }`}
+        />
+      </Sticky>
+      {children}
+      <Footer />
+    </LayoutWrapper>
+  );
 };
 
 export default Layout;
