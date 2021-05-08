@@ -20,11 +20,7 @@ const CategoryMenu = (props) => {
             </SubMenu>
           );
         } else {
-          return c.children.map((menu) => {
-            if (menu.children.length > 0) {
-              return renderMenuItem(menu.children);
-            }
-          });
+          return renderMenuItem(c.children);
         }
       } else {
         return <MenuItem key={c.id}>{c.title}</MenuItem>;

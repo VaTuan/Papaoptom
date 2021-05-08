@@ -67,7 +67,7 @@ const CategoryPage: React.FC<any> = ({ deviceType }) => {
                         <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PHẢI">
                             <div ref={targetRef}>
                                 <Products
-                                    type={PAGE_TYPE}
+                                    type='shoes'
                                     deviceType={deviceType}
                                     fetchLimit={20}
                                 />
@@ -128,10 +128,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
 };
 
-export async function getStaticPaths() {
-    return {
-        paths: [{ params: { type: "shoes" } }],
-        fallback: false,
-    };
-}
+// export async function getStaticPaths() {
+//     return {
+//         paths: [{ params: { type: "shoes" } }],
+//         fallback: false,
+//     };
+// }
 export default CategoryPage;
