@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     items: [],
     isRestaurant: false,
     coupon: null,
+    recentOrder: {}
 };
 
 const useCartActions = (initialCart = INITIAL_STATE) => {
@@ -28,8 +29,14 @@ const useCartActions = (initialCart = INITIAL_STATE) => {
     const clearCartHandler = () => {
         dispatch({ type: 'CLEAR_CART' });
     };
+    const editCart = (payload) => {
+        dispatch({ type: 'EDIT_CART', payload: payload });
+    };
     const toggleCartHandler = () => {
         dispatch({ type: 'TOGGLE_CART' });
+    };
+    const getRecentOrder = (payload) => {
+        dispatch({ type: 'GET_RECENT_ORDER', payload });
     };
     const couponHandler = (coupon) => {
         dispatch({ type: 'APPLY_COUPON', payload: coupon });
@@ -69,9 +76,11 @@ const useCartActions = (initialCart = INITIAL_STATE) => {
         getItemsCount,
         rehydrateLocalState,
         addItemHandler,
+        editCart,
         removeItemHandler,
         clearItemFromCartHandler,
         clearCartHandler,
+        getRecentOrder,
         isInCartHandler,
         getItemHandler,
         toggleCartHandler,
@@ -89,6 +98,7 @@ export const CartProvider = ({ children }) => {
         state,
         rehydrateLocalState,
         getItemsCount,
+        editCart,
         addItemHandler,
         removeItemHandler,
         clearItemFromCartHandler,
@@ -102,6 +112,7 @@ export const CartProvider = ({ children }) => {
         getCartItemsPrice,
         getDiscount,
         toggleRestaurant,
+        getRecentOrder
     } = useCartActions();
     const { rehydrated, error } = useStorage(state, rehydrateLocalState);
 
@@ -110,11 +121,13 @@ export const CartProvider = ({ children }) => {
             value={{
                 isOpen: state.isOpen,
                 items: state.items,
+                recentOrder: state.recentOrder,
                 coupon: state.coupon,
                 isRestaurant: state.isRestaurant,
                 cartItemsCount: state.items?.length,
                 itemsCount: getItemsCount,
                 addItem: addItemHandler,
+                editCart: editCart,
                 removeItem: removeItemHandler,
                 removeItemFromCart: clearItemFromCartHandler,
                 clearCart: clearCartHandler,
@@ -127,6 +140,7 @@ export const CartProvider = ({ children }) => {
                 removeCoupon: removeCouponHandler,
                 calculateDiscount: getDiscount,
                 toggleRestaurant,
+                getRecentOrder
             }}
         >
             {children}

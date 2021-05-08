@@ -14,10 +14,19 @@ import OrderReceivedWrapper, {
   ListDes,
 } from './order-received.style';
 import { FormattedMessage } from 'react-intl';
+import { useCart } from 'contexts/cart/use-cart';
 
 type OrderReceivedProps = {};
 
+
 const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
+  const {recentOrder} = useCart();
+  const count = ()=>{
+    let sum = 0;
+    recentOrder?.products.map(item=>{sum+=item.quantity})
+    return sum
+  }
+  console.log(recentOrder,"ASDASDAD");
   return (
     <OrderReceivedWrapper>
       <OrderReceivedContainer>
@@ -43,7 +52,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
           </Text>
 
           <InfoBlockWrapper>
-            <InfoBlock>
+            {/* <InfoBlock>
               <Text bold className="title">
                 <FormattedMessage
                   id="orderNumberText"
@@ -57,14 +66,14 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               <Text bold className="title">
                 <FormattedMessage id="orderDateText" defaultMessage="Date" />
               </Text>
-              <Text>March 14, 2019</Text>
-            </InfoBlock>
+              <Text>{recentOrder?.date}</Text>
+            </InfoBlock> */}
 
             <InfoBlock>
               <Text bold className="title">
                 <FormattedMessage id="totalText" defaultMessage="Total" />
               </Text>
-              <Text>$10,944.00</Text>
+              <Text>${recentOrder?.subTotal}</Text>
             </InfoBlock>
 
             <InfoBlock>
@@ -102,11 +111,11 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
             </ListTitle>
             <ListDes>
-              <Text>6 Items</Text>
+              <Text>{count()} Items</Text>
             </ListDes>
           </ListItem>
 
-          <ListItem>
+          {/* <ListItem>
             <ListTitle>
               <Text bold>
                 <FormattedMessage
@@ -132,7 +141,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
             <ListDes>
               <Text>90 Minute Express Delivery</Text>
             </ListDes>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem>
             <ListTitle>
@@ -145,7 +154,22 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
             </ListTitle>
             <ListDes>
               <Text>
-                1st Floor, House 149, Road-22, Mohakhali DOHS, Dhaka - North
+                {recentOrder?.customer?.address}
+              </Text>
+            </ListDes>
+          </ListItem>
+          <ListItem>
+            <ListTitle>
+              <Text bold>
+                <FormattedMessage
+                  id="deliveryLocationText"
+                  defaultMessage="Contact"
+                />
+              </Text>
+            </ListTitle>
+            <ListDes>
+              <Text>
+                {recentOrder?.customer?.phone}
               </Text>
             </ListDes>
           </ListItem>
@@ -166,7 +190,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
             </ListTitle>
             <ListDes>
-              <Text>$10,864.00</Text>
+              <Text>${recentOrder?.subTotal}</Text>
             </ListDes>
           </ListItem>
 
@@ -184,7 +208,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
             </ListDes>
           </ListItem>
 
-          <ListItem>
+          {/* <ListItem>
             <ListTitle>
               <Text bold>
                 <FormattedMessage
@@ -196,7 +220,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
             <ListDes>
               <Text>10</Text>
             </ListDes>
-          </ListItem>
+          </ListItem> */}
 
           <ListItem>
             <ListTitle>
@@ -205,7 +229,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
             </ListTitle>
             <ListDes>
-              <Text>$10,874.00</Text>
+              <Text>${recentOrder?.subTotal}</Text>
             </ListDes>
           </ListItem>
         </TotalAmount>

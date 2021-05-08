@@ -66,8 +66,12 @@ export const reducer = (state, action) => {
       return { ...state, items: removeItemFromCart(state, action) };
     case 'CLEAR_ITEM_FROM_CART':
       return { ...state, items: clearItemFromCart(state, action) };
+    case 'EDIT_CART':
+      return { ...state, items: state.items.map(item => {return item.id == action.payload.id ? action.payload : item})}
     case 'CLEAR_CART':
       return { ...state, items: [] };
+    case 'GET_RECENT_ORDER':
+      return { ...state, recentOrder: action.payload };
     case 'APPLY_COUPON':
       return { ...state, coupon: action.payload };
     case 'REMOVE_COUPON':
