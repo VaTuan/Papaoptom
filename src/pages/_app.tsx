@@ -38,9 +38,6 @@ function ExtendedApp({ Component, pageProps, props }) {
     const desktop = useMedia("(min-width: 992px)");
     const apolloClient = useApollo(pageProps.initialApolloState);
 
-
-
-
     return (
         <ApolloProvider client={apolloClient}>
             <ThemeProvider theme={defaultTheme}>
