@@ -27,58 +27,49 @@ import Search from "features/search/search";
 import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 // import navmenu from './nav-menu';
-import { listCategories } from "utils/fakeDataHeader";
-import { groupBy } from "utils/groupBy";
-import { useQuery } from "@apollo/client";
 import { GET_CATEGORIES } from "graphql/query/category.query";
-import { GET_HEADER } from "graphql/query/header.query";
 
 type Props = {
     className?: string;
+    listCategories?: any
 };
 
-const Header: React.FC<Props> = ({ className }) => {
-    const {
-        authState: { isAuthenticated },
-        authDispatch,
-    } = React.useContext<any>(AuthContext);
+const Header: React.FC<Props> = ({ className, listCategories }) => {
+    // const {
+    //     authState: { isAuthenticated },
+    //     authDispatch,
+    // } = React.useContext<any>(AuthContext);
     const { pathname, query } = useRouter();
-    const handleLogout = () => {
-        if (typeof window !== "undefined") {
-            localStorage.removeItem("access_token");
-            authDispatch({ type: "SIGN_OUT" });
-            Router.push("/");
-        }
-    };
+    // const handleLogout = () => {
+    //     if (typeof window !== "undefined") {
+    //         localStorage.removeItem("access_token");
+    //         authDispatch({ type: "SIGN_OUT" });
+    //         Router.push("/");
+    //     }
+    // };
 
-    const handleJoin = () => {
-        authDispatch({
-            type: "SIGNIN",
-        });
+    // const handleJoin = () => {
+    //     authDispatch({
+    //         type: "SIGNIN",
+    //     });
 
-        openModal({
-            show: true,
-            overlayClassName: "quick-view-overlay",
-            closeOnClickOutside: true,
-            component: AuthenticationForm,
-            closeComponent: "",
-            config: {
-                enableResizing: false,
-                disableDragging: true,
-                className: "quick-view-modal",
-                width: 458,
-                height: "auto",
-            },
-        });
-    };
+    //     openModal({
+    //         show: true,
+    //         overlayClassName: "quick-view-overlay",
+    //         closeOnClickOutside: true,
+    //         component: AuthenticationForm,
+    //         closeComponent: "",
+    //         config: {
+    //             enableResizing: false,
+    //             disableDragging: true,
+    //             className: "quick-view-modal",
+    //             width: 458,
+    //             height: "auto",
+    //         },
+    //     });
+    // };
 
     const showSearch = isCategoryPage(query.type);
-
-    const test = groupBy(listCategories, "slug");
-
-    const { data, loading, error } = useQuery(GET_HEADER);
-
-    console.log("data moiws : ", data);
 
     return (
         <WrapperSetionHeader title="WRAPPER HEADER DESKTOP">
@@ -90,20 +81,20 @@ const Header: React.FC<Props> = ({ className }) => {
                 <LeftMenu logo={LogoImage} />
                 <Search minimal={true} className="headerSearch" />
                 <RightMenu
-                    isAuthenticated={isAuthenticated}
-                    onJoin={handleJoin}
-                    onLogout={handleLogout}
+                    // isAuthenticated={isAuthenticated}
+                    // onJoin={handleJoin}
+                    // onLogout={handleLogout}
                     avatar={UserImage}
                 />
             </HeaderTopWrapper>
 
             <HeaderBottomWrapper title="PHẦN CATE TỔNG">
                 <ListCatesRoot>
-                    {data?.categories?.map((item, index) => (
+                    {listCategories?.map((item, index) => (
                         <CategoryItemRoot key={index}>
                             <Link
                                 scroll={true}
-                                // as={`/shoes/${item.slug}`}
+                                as={`/shoes/${item.slug}`}
                                 shallow={true}
                                 href={{
                                     pathname: "/shoes/[level01]",

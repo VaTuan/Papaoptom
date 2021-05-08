@@ -101,7 +101,7 @@ export const TreeMenu: React.FC<Props> = ({
     dataAttributes,
 }) => {
     // console.log("data attributes : ", dataAttributes?.attributes);
-
+    
     // function thực hiện render cate
     // created by tuanva
     const handlerRenderCate = (children) => {
@@ -116,9 +116,9 @@ export const TreeMenu: React.FC<Props> = ({
                     <FilterSliderRange />
                 ) : (
                     <>
-                        {item.values.map((item, index) => {
+                        {/* {item.values.map((item, index) => {
                             return <FilterCheckBox key={index} value={item.value} />;
-                        })}
+                        })} */}
                         <Attributes attributes={item.values} />
 
                     </>

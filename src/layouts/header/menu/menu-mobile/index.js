@@ -4,7 +4,7 @@ import { listCategories } from "utils/fakeDataHeader";
 import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 
-export default function MenuMobile() {
+export default function MenuMobile(props) {
   console.log("hieutt", listCategories);
   const [isShow, setIsShow] = useState();
   const [toggleItem, setToggleItem] = useState(false);
@@ -39,6 +39,7 @@ export default function MenuMobile() {
   const handelClickItemMenu = () => {
     setToggleItem(!toggleItem);
   };
+  console.log(props);
   return (
     <Wrapper value={isShow} toggle={toggle}>
       {listCategories.map((item, index) => (
@@ -109,7 +110,7 @@ export default function MenuMobile() {
             {toggleItem === false ? (
               <div className="buttonbackcap1" onClick={() => setToggle(false)}>
                 <span>
-                  <i class="far fa-long-arrow-left"></i>
+                  <i className="far fa-long-arrow-left"></i>
                 </span>
               </div>
             ) : (

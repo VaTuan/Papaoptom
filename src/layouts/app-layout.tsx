@@ -1,13 +1,16 @@
-import React from 'react';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import Sticky from 'react-stickynode';
-import { useAppState } from 'contexts/app/app.provider';
-import Header from './header/header';
-import { LayoutWrapper } from './layout.style';
-import { isCategoryPage } from './is-home-page';
-import Footer from './footer';
-const MobileHeader = dynamic(() => import('./header/mobile-header'), {
+import React from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import Sticky from "react-stickynode";
+import { useAppState } from "contexts/app/app.provider";
+import Header from "./header/header";
+import { LayoutWrapper } from "./layout.style";
+import { isCategoryPage } from "./is-home-page";
+import Footer from "./footer";
+import { useQuery } from "@apollo/client";
+import { GET_HEADER } from "graphql/query/header.query";
+
+const MobileHeader = dynamic(() => import("./header/mobile-header"), {
     ssr: false,
 });
 
@@ -23,20 +26,25 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     token,
 }) => {
     const { pathname, query } = useRouter();
-    const isSticky = useAppState('isSticky');
+    const isSticky = useAppState("isSticky");
 
-    const isHomePage = isCategoryPage(query.type) || pathname === '/bakery';
+    const isHomePage = isCategoryPage(query.type) || pathname === "/bakery";
 
+    const { data, loading, error } = useQuery(GET_HEADER);
 
     return (
-        <LayoutWrapper className={`layoutWrapper ${className}`} title='LAY OUT'>
+        <LayoutWrapper className={`layoutWrapper ${className}`} title="LAY OUT">
             <Sticky enabled={isSticky} innerZ={1001}>
                 <MobileHeader
-                    className={`${isSticky ? 'sticky' : 'sticky'} ${isHomePage ? 'home' : ''} desktop`}
+                    listCategories={data?.categories}
+                    className={`${isSticky ? "sticky" : "sticky"} ${isHomePage ? "home" : ""
+                        } desktop`}
                 />
 
                 <Header
-                    className={`${isSticky ? 'sticky' : 'sticky'} ${isHomePage ? 'home' : ''}`}
+                    listCategories={data?.categories}
+                    className={`${isSticky ? "sticky" : "sticky"} ${isHomePage ? "home" : ""
+                        }`}
                 />
             </Sticky>
             {children}
