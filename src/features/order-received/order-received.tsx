@@ -23,10 +23,9 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
   const {recentOrder} = useCart();
   const count = ()=>{
     let sum = 0;
-    recentOrder?.products.map(item=>{sum+=item.quantity})
+    if(recentOrder?.products?.length > 0)recentOrder?.products.map(item=>{sum+=item.quantity})
     return sum
   }
-  console.log(recentOrder,"ASDASDAD");
   return (
     <OrderReceivedWrapper>
       <OrderReceivedContainer>
