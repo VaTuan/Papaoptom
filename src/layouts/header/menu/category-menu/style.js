@@ -17,12 +17,32 @@ export const WrapperMenu = styled.div`
   .rc-menu.rc-menu--open.rc-menu--animation.rc-menu--dir-right {
     padding: 0px;
   }
-  /* .mega_menu {
+  .mega_menu {
     width: 500px;
-    height: auto;
+    height: 500px;
+    overflow-y: scroll;
+    overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
-  } */
+    top: 100%;
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #009e7feb;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+  }
 `;
 export const MenuItemRoot = styled.p`
   color: #ffffff;
