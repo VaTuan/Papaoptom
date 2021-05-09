@@ -23,7 +23,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
   const {recentOrder} = useCart();
   const count = ()=>{
     let sum = 0;
-    if(recentOrder?.products?.length > 0)recentOrder?.products.map(item=>{sum+=item.quantity})
+    if(recentOrder?.products?.length > 0)recentOrder?.products?.map(item=>{sum+=item.quantity})
     return sum
   }
   return (
@@ -51,7 +51,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
           </Text>
 
           <InfoBlockWrapper>
-            {/* <InfoBlock>
+            <InfoBlock>
               <Text bold className="title">
                 <FormattedMessage
                   id="orderNumberText"
@@ -60,7 +60,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
               </Text>
               <Text>1444</Text>
             </InfoBlock>
-
+{/* 
             <InfoBlock>
               <Text bold className="title">
                 <FormattedMessage id="orderDateText" defaultMessage="Date" />

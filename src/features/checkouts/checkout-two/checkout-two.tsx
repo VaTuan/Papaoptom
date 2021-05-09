@@ -133,7 +133,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const validationSchema = yup.object({
     name: yup.string().required("Please enter your name"),
     email: yup.string(),
-    phone: yup.string().matches(/^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/, "Wrong format").required("Please enter your phone"),
+    phone: yup.string().matches(/^(?:(\(044\)|\(066\)|\(098\)|\(093\))[ .-]?[0-9]{2}[ .-]?[0-9]{2}[ .-]?[0-9]{3}|(044|066|098|033)[ .-]?[0-9]{2}[ .-]?[0-9]{2}[ .-]?[0-9]{3}|(044|066|098|033)[0-9]{7})$/, "Wrong format").required("Please enter your phone"),
     address: yup.string(),
     message: yup.string(),
   });
