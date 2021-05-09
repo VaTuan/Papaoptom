@@ -285,8 +285,8 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                   <input id="phone"
                     name="phone"
                     value={formik.values.phone}
-                    onKeyDown={(e) => {
-                      if (e.keyCode == 8 && e.target.value.length < 8) {
+                    onKeyDown={(e) => {     
+                      if (e.keyCode == 8 && (e.target as HTMLInputElement).value.length < 8) {
                         e.preventDefault();
                       }
                     }}
