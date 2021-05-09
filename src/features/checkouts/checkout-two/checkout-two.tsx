@@ -103,22 +103,22 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
     );
   else {
     return (
-        <Items key={id}>
-          <img style={{ width: "60px", height: "60px", margin: "0 12px" }} src={characteristics.photo1}></img>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <NumberButton onClick={(e) => handleClick(e, 1)}>+</NumberButton>
-            <NumberButton onClick={(e) => handleClick(e, -1)}>-</NumberButton>
-          </div>
-          <Quantity>{quantity}</Quantity>
-          <Multiplier>x</Multiplier>
-          <ItemInfo>
-            {name ? name + ' ' + brand.name + ' ' + vcode : title} {unit ? `| ${unit}` : ''}
-          </ItemInfo>
-          <Price>
-            {(displayPrice * quantity).toFixed(2)}
-            {CURRENCY_UAH}
-          </Price>
-        </Items>)
+      <Items key={id}>
+        <img style={{ width: "60px", height: "60px", margin: "0 12px" }} src={characteristics.photo1}></img>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <NumberButton onClick={(e) => handleClick(e, 1)}>+</NumberButton>
+          <NumberButton onClick={(e) => handleClick(e, -1)}>-</NumberButton>
+        </div>
+        <Quantity>{quantity}</Quantity>
+        <Multiplier>x</Multiplier>
+        <ItemInfo>
+          {name ? name + ' ' + brand.name + ' ' + vcode : title} {unit ? `| ${unit}` : ''}
+        </ItemInfo>
+        <Price>
+          {(displayPrice * quantity).toFixed(2)}
+          {CURRENCY_UAH}
+        </Price>
+      </Items>)
   }
 };
 
@@ -133,7 +133,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const validationSchema = yup.object({
     name: yup.string().required("Please enter your name"),
     email: yup.string(),
-    phone: yup.string().matches(/^(?:(\(044\)|\(066\)|\(098\)|\(093\))[ .-]?[0-9]{2}[ .-]?[0-9]{2}[ .-]?[0-9]{3}|(044|066|098|033)[ .-]?[0-9]{2}[ .-]?[0-9]{2}[ .-]?[0-9]{3}|(044|066|098|033)[0-9]{7})$/, "Wrong format").required("Please enter your phone"),
+    phone: yup.string().matches(/^(?:\(\+380\)\s\d)/, "Wrong format").required("Please enter your phone"),
     address: yup.string(),
     message: yup.string(),
   });
@@ -141,36 +141,12 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     initialValues: {
       name: "",
       email: email,
-      phone: phone,
+      phone: "(+380) " + phone,
       address: address,
       message: message,
     },
     onSubmit: (values) => {
       setLoading(true);
-      getRecentOrder({
-        products: items.map(item => ({
-          id: item.id,
-          slug: item.slug,
-          vcode: item.vcode,
-          productName: item.name,
-          quantity: item.quantity,
-          categoryId: item.category.id,
-          subTotal: parseFloat(item.subTotal),
-          price: parseFloat(item.subTotal),
-        })),
-        isActivated: true,
-        date: new Date().getDay() + new Date().getMonth(),
-        disCount: 0,
-        deliveryFee: 0,
-        subTotal: parseFloat(calculateSubTotalPrice()),
-        customer: {
-          fullName: values.name,
-          email: values.email,
-          phone: values.phone,
-          address: values.address,
-        },
-        message: values.message
-      })
       addOrder({
         variables: {
           products: items.map(item => ({
@@ -196,8 +172,31 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
           message: values.message
         }
       });
+      getRecentOrder({
+        products: items.map(item => ({
+          id: item.id,
+          slug: item.slug,
+          vcode: item.vcode,
+          productName: item.name,
+          quantity: item.quantity,
+          categoryId: item.category.id,
+          subTotal: parseFloat(item.subTotal),
+          price: parseFloat(item.subTotal),
+        })),
+        isActivated: true,
+        date: new Date().getDay() + new Date().getMonth(),
+        disCount: 0,
+        deliveryFee: 0,
+        subTotal: parseFloat(calculateSubTotalPrice()),
+        customer: {
+          fullName: values.name,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+        },
+        message: values.message
+      })
       clearCart();
-      Router.push('/order-received');
       setLoading(false);
     },
     validationSchema,
@@ -225,8 +224,13 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const size = useWindowSize();
 
 
-  const [addOrder, code] = useMutation(ADD_ORDER_PAPA);
-
+  const [addOrder, data] = useMutation(ADD_ORDER_PAPA);
+  
+      
+      if(data?.data){ 
+        console.log(data.data);
+        Router.push({pathname: '/order-received',query : { id : data.data.addOrder.orderNumber}});
+}
   const handleSubmit = async (e) => {
     e.preventDefault();
     formik.handleSubmit()
@@ -236,12 +240,6 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     if (
       calculatePrice() > 0 &&
       cartItemsCount > 0
-      // cartItemsCount > 0 &&
-      // cartItemsCount > 0 &&
-      // address.length &&
-      // contact.length &&
-      // card.length &&
-      // schedules.length
     ) {
       setIsValid(true);
     }
@@ -282,12 +280,23 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
                 </InputContainer>
                 <InputContainer>
                   <p>*Phone number</p>
+                  {/* <div style={{ display: 'flex', alignItems: 'center', width: '100%'}}> */}
+                  {/* <span>(+380)</span> */}
                   <input id="phone"
                     name="phone"
                     value={formik.values.phone}
-                    onChange={(e) => formik.handleChange(e)}
+                    onKeyDown={(e) => {
+                      if (e.keyCode == 8 && e.target.value.length < 8) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onChange={(e) => {
+                      formik.handleChange(e)
+
+                    }}
                     onBlur={formik.handleBlur}
                     placeholder="Enter your phone"></input>
+                  {/* </div> */}
                   {formik.touched.phone && formik.errors.phone && (
                     <ErrorText>
                       {formik.errors.phone}
