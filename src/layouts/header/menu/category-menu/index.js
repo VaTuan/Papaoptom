@@ -7,7 +7,7 @@ const CategoryMenu = (props) => {
   const { items } = props;
 
   console.log("====================================");
-  console.log("items : ", items);
+  console.log("items : ", "!");
   console.log("====================================");
 
   const renderMenuItem = (categories) => {
