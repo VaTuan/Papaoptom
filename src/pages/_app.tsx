@@ -36,7 +36,7 @@ function ExtendedApp({ Component, pageProps, props }) {
     const mobile = useMedia("(max-width: 580px)");
     const tablet = useMedia("(max-width: 991px)");
     const desktop = useMedia("(min-width: 992px)");
-    const apolloClient = useApollo(pageProps.initialApolloState);
+    const apolloClient = useApollo(pageProps?.initialApolloState);
 
     return (
         <ApolloProvider client={apolloClient}>

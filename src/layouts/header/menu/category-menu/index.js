@@ -9,6 +9,7 @@ const CategoryMenu = (props) => {
   const handleMenuClick = (e) => {
     console.log(e);
   };
+
   const renderMenuItem = (categories, callBack) => {
     return categories.map((c) => {
       if (c.children && c.children.length > 0) {
