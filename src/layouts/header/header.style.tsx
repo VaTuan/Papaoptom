@@ -291,7 +291,8 @@ export const HeaderTopWrapper = styled.header`
 
     .headerSearch {
       display: flex;
-
+      width:50%;
+      height:40px;
       form {
         background-color: ${themeGet("colors.gray.400", "#F3F3F3")};
 
