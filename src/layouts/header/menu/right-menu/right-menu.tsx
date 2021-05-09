@@ -8,17 +8,17 @@ import { RightMenuBox } from './right-menu.style';
 const AuthMenu = dynamic(() => import('../auth-menu'), { ssr: false });
 
 type Props = {
-  onLogout: () => void;
-  onJoin: () => void;
+  // onLogout: () => void;
+  // onJoin: () => void;
   avatar: string;
-  isAuthenticated: boolean;
+  // isAuthenticated: boolean;
 };
 
 export const RightMenu: React.FC<Props> = ({
-  onLogout,
+  // onLogout,
   avatar,
-  isAuthenticated,
-  onJoin,
+  // isAuthenticated,
+  // onJoin,
 }) => {
   return (
     <RightMenuBox>

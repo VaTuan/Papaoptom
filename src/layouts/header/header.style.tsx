@@ -58,6 +58,10 @@ export const HeaderBottomWrapper = styled.div`
   margin-top: 92px;
   position: fixed;
   width: 100%;
+
+  display : flex;
+  align-items : center;
+  justify-content : center;
 `;
 export const ListCatesRoot = styled.ul`
   display: flex;
@@ -66,14 +70,16 @@ export const ListCatesRoot = styled.ul`
   box-shadow: 0 2px 9px 0 rgb(0 0 0 / 20%);
 `;
 export const CategoryItemRoot = styled.li`
-  padding: 20px 30px;
+  
   cursor: pointer;
   color: #ffffff;
   font-size: 16px;
   position: relative;
 
   & > a {
+    display : block;
     color: #ffffff;
+    padding: 20px 30px;
   }
   &:last-child {
     margin-right: 0px;
@@ -131,9 +137,11 @@ export const ListCateLevel01 = styled.ul`
 export const CategoryItemLevel01 = styled.li`
   display: flex;
   align-items: center;
-  padding: 8px;
+  
   & > a {
     color: #ffffff;
+    padding: 8px;
+    display : block;
   }
 
   position: relative;

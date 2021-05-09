@@ -21,10 +21,12 @@ import Logo from 'layouts/logo/logo';
 import LanguageSwitcher from './menu/language-switcher/language-switcher';
 import { isCategoryPage } from '../is-home-page';
 import useDimensions from 'utils/useComponentSize';
+import { listCategories } from 'utils/fakeDataHeader';
 
 type MobileHeaderProps = {
     className?: string;
     closeSearch?: any;
+    listCategories?: any
 };
 
 const SearchModal: React.FC<{}> = () => {
@@ -45,7 +47,7 @@ const SearchModal: React.FC<{}> = () => {
     );
 };
 
-const MobileHeader: React.FC<MobileHeaderProps> = ({ className }) => {
+const MobileHeader: React.FC<MobileHeaderProps> = ({ className, listCategories }) => {
     const { pathname, query } = useRouter();
 
     const [mobileHeaderRef, dimensions] = useDimensions();
@@ -73,7 +75,7 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ className }) => {
         <MobileHeaderWrapper title='HEADER FOR MOBLIE'>
             <MobileHeaderInnerWrapper className={className} ref={mobileHeaderRef}>
                 <DrawerWrapper>
-                    <MobileDrawer />
+                    <MobileDrawer listCategories={listCategories} />
                 </DrawerWrapper>
 
                 <LogoWrapper>

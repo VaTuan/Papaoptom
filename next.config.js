@@ -15,6 +15,14 @@ const nextConfig = (phase, { defaultConfig }) => {
         },
       ];
     },
+    async rewrites() {
+      return [
+        {
+          source: "/shoes/:level01",
+          destination: "/shoes/:level01",
+        },
+      ];
+    },
     webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
       let env = Object.keys(process.env).reduce((acc, curr) => {
         acc[`process.env.${curr}`] = JSON.stringify(process.env[curr]);
@@ -27,3 +35,7 @@ const nextConfig = (phase, { defaultConfig }) => {
 };
 
 module.exports = withPlugins([withOptimizedImages], nextConfig);
+
+// module.exports = {
+//   basePath: "/shoes",
+// };
