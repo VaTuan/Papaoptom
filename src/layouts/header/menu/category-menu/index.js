@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuList } from "./style";
+import { WrapperMenu, MenuItemRoot } from "./style";
 import { Menu, MenuItem, MenuButton, SubMenu } from "@szhsin/react-menu";
 import "@szhsin/react-menu/dist/index.css";
 
@@ -15,7 +15,11 @@ const CategoryMenu = (props) => {
       if (c.children && c.children.length > 0) {
         if (c.title) {
           return (
-            <SubMenu key={c.id} label={c.title}>
+            <SubMenu
+              key={c.id}
+              label={c.title}
+              className={c.children.length > 16 && "mega_menu"}
+            >
               {renderMenuItem(c.children)}
             </SubMenu>
           );
@@ -23,23 +27,28 @@ const CategoryMenu = (props) => {
           return renderMenuItem(c.children);
         }
       } else {
-        return <MenuItem key={c.id}>{c.title}</MenuItem>;
+        return (
+          <MenuItem key={c.id} className="tuan_qua_dz">
+            {c.title}
+          </MenuItem>
+        );
       }
     });
   };
   return (
-    <div style={{ display: "flex", justifyItems: "center" }}>
+    <WrapperMenu>
       {items.map((m) => {
         return (
           <Menu
+            className="menu_item"
             key={m.id}
-            menuButton={<h6 style={{ marginRight: "16px" }}>{m.title}</h6>}
+            menuButton={<MenuItemRoot>{m.title}</MenuItemRoot>}
           >
             {renderMenuItem(m.children)}
           </Menu>
         );
       })}
-    </div>
+    </WrapperMenu>
   );
 };
 

@@ -58,6 +58,10 @@ export const HeaderBottomWrapper = styled.div`
   margin-top: 92px;
   position: fixed;
   width: 100%;
+
+  display : flex;
+  align-items : center;
+  justify-content : center;
 `;
 export const ListCatesRoot = styled.ul`
   display: flex;
