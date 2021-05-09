@@ -67,30 +67,59 @@ type CartItemProps = {
 };
 
 const OrderItem: React.FC<CartItemProps> = ({ product }) => {
-
-  const { id, quantity, name,brand, vcode,characteristics } = product;
+  const { editCart, items } = useCart();
+  const { id, quantity, name, brand, vcode, characteristics } = product;
   const title = `${product?.name ?? ""} ${product?.characteristics?.type ?? ""} ${product?.characteristics?.brand?.name ?? ""} ${product?.vcode ?? ""} ${product?.characteristics?.color ?? ""}` ?? null;
   const unit = Number(product?.characteristics?.steamInBox) ?? 1;
   const price = Number(product?.characteristics?.totalOldPurchasePrice) ?? 0;
   const salePrice = Number(product?.characteristics?.totalSellingPrice) ?? 0;
   const displayPrice = salePrice ? salePrice : price;
-  return (
-    <Items key={id}>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <NumberButton>+</NumberButton>
-        <NumberButton>-</NumberButton>
-      </div>
-      <Quantity>{quantity}</Quantity>
-      <Multiplier>x</Multiplier>
-      <ItemInfo>
-        {name ? name +' '+ brand.name+' '+vcode : title} {unit ? `| ${unit}` : ''}
-      </ItemInfo>
-      <Price>
-        {(displayPrice * quantity).toFixed(2)}
-        {CURRENCY_UAH}
-      </Price>
-    </Items>
-  );
+
+  const handleClick = (e, value) => {
+    e.preventDefault()
+    if (product.quantity < 1 && value == -1) {
+      return
+    }
+    editCart({ ...product, quantity: product.quantity + value })
+  }
+  if (window.innerHeight > 980)
+    return (
+      <Items key={id}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <NumberButton onClick={(e) => handleClick(e, 1)}>+</NumberButton>
+          <NumberButton onClick={(e) => handleClick(e, -1)}>-</NumberButton>
+        </div>
+        <Quantity>{quantity}</Quantity>
+        <Multiplier>x</Multiplier>
+        <img style={{ width: "120px", height: "120px", margin: "0 12px" }} src={characteristics.photo1}></img>
+        <ItemInfo>
+          {name ? name + ' ' + brand.name + ' ' + vcode : title} {unit ? `| ${unit}` : ''}
+        </ItemInfo>
+        <Price>
+          {(displayPrice * quantity).toFixed(2)}
+          {CURRENCY_UAH}
+        </Price>
+      </Items>
+    );
+  else {
+    return (
+        <Items key={id}>
+          <img style={{ width: "60px", height: "60px", margin: "0 12px" }} src={characteristics.photo1}></img>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <NumberButton onClick={(e) => handleClick(e, 1)}>+</NumberButton>
+            <NumberButton onClick={(e) => handleClick(e, -1)}>-</NumberButton>
+          </div>
+          <Quantity>{quantity}</Quantity>
+          <Multiplier>x</Multiplier>
+          <ItemInfo>
+            {name ? name + ' ' + brand.name + ' ' + vcode : title} {unit ? `| ${unit}` : ''}
+          </ItemInfo>
+          <Price>
+            {(displayPrice * quantity).toFixed(2)}
+            {CURRENCY_UAH}
+          </Price>
+        </Items>)
+  }
 };
 
 const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
@@ -104,7 +133,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const validationSchema = yup.object({
     name: yup.string().required("Please enter your name"),
     email: yup.string(),
-    phone: yup.string().matches(/^(\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2}$/, "Wrong format").required("Please enter your phone"),
+    phone: yup.string().matches(/^(?:(\(044\)|\(066\)|\(098\)|\(093\))[ .-]?[0-9]{2}[ .-]?[0-9]{2}[ .-]?[0-9]{3}|(044|066|098|033)[ .-]?[0-9]{2}[ .-]?[0-9]{2}[ .-]?[0-9]{3}|(044|066|098|033)[0-9]{7})$/, "Wrong format").required("Please enter your phone"),
     address: yup.string(),
     message: yup.string(),
   });
@@ -117,35 +146,58 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
       message: message,
     },
     onSubmit: (values) => {
-      console.log("=====",);
       setLoading(true);
-        addOrder({
-          variables: {
-            products: items.map(item =>({
-              id: item.id,
-              slug: item.slug,
-              vcode: item.vcode,
-              productName: item.name,
-              quantity: item.quantity,
-              categoryId: item.category.id,
-              subTotal: parseFloat(item.subTotal),
-              price: parseFloat(item.subTotal),
-            })),
-            isActivated: true,
-            disCount: 0,
-            deliveryFee: 0,
-            subTotal: parseFloat(calculateSubTotalPrice()),
-            customer: {
-              fullName: values.name,
-              email: values.email,
-              phone: values.phone,
-              address: values.address,
-            },
-            message : values.message
-          }
-        });
-        clearCart();
-        Router.push('/order-received');
+      getRecentOrder({
+        products: items.map(item => ({
+          id: item.id,
+          slug: item.slug,
+          vcode: item.vcode,
+          productName: item.name,
+          quantity: item.quantity,
+          categoryId: item.category.id,
+          subTotal: parseFloat(item.subTotal),
+          price: parseFloat(item.subTotal),
+        })),
+        isActivated: true,
+        date: new Date().getDay() + new Date().getMonth(),
+        disCount: 0,
+        deliveryFee: 0,
+        subTotal: parseFloat(calculateSubTotalPrice()),
+        customer: {
+          fullName: values.name,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+        },
+        message: values.message
+      })
+      addOrder({
+        variables: {
+          products: items.map(item => ({
+            id: item.id,
+            slug: item.slug,
+            vcode: item.vcode,
+            productName: item.name,
+            quantity: item.quantity,
+            categoryId: item.category.id,
+            subTotal: parseFloat(item.subTotal),
+            price: parseFloat(item.subTotal),
+          })),
+          isActivated: true,
+          disCount: 0,
+          deliveryFee: 0,
+          subTotal: parseFloat(calculateSubTotalPrice()),
+          customer: {
+            fullName: values.name,
+            email: values.email,
+            phone: values.phone,
+            address: values.address,
+          },
+          message: values.message
+        }
+      });
+      clearCart();
+      Router.push('/order-received');
       setLoading(false);
     },
     validationSchema,
@@ -164,20 +216,20 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     calculateSubTotalPrice,
     isRestaurant,
     toggleRestaurant,
+    getRecentOrder
   } = useCart();
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(true);
   // const { address, contact, card, schedules } = state;
   const { contact } = state;
   const size = useWindowSize();
-  
-  
-  const [addOrder,code] = useMutation(ADD_ORDER_PAPA);
-  
+
+
+  const [addOrder, code] = useMutation(ADD_ORDER_PAPA);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     formik.handleSubmit()
-    console.log("Vao day");
   };
 
   useEffect(() => {
@@ -298,7 +350,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
               <CheckoutSubmit>
                 <Button
                   type='submit'
-                  onClick={e =>handleSubmit(e)}
+                  onClick={e => handleSubmit(e)}
                   disabled={!isValid}
                   size='big'
                   loading={loading}

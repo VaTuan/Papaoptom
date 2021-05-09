@@ -277,12 +277,12 @@ export const TermConditionLink = styled.span`
 `;
 
 export const CartWrapper = styled.div`
-  width: 340px;
+  width: 480px;
   flex-shrink: 0;
   padding-top: 20px;
 
   @media (min-width: 768px) and (max-width: 1200px) {
-    width: 260px;
+    width: 420px;
   }
 
   @media (max-width: 767px) {
@@ -432,6 +432,7 @@ export const NoProductMsg = styled.h3`
   margin-bottom: 10px;
   align-items: center;
 `;
+
 
 export const NoProductImg = styled.div`
   display: flex;
