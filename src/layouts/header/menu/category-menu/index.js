@@ -1,65 +1,21 @@
-import React, { useRef, useState, useEffect } from "react";
+import React from "react";
 import { WrapperMenu, MenuItemRoot } from "./style";
-
-import Menu, { SubMenu, MenuItem } from "rc-menu";
-import "rc-menu/assets/index.css";
-import animate from "css-animation";
-
-const animation = {
-  enter(node, done) {
-    let height;
-    return animate(node, "rc-menu-collapse", {
-      start() {
-        height = node.offsetHeight;
-        node.style.height = 0;
-      },
-      active() {
-        node.style.height = `${height}px`;
-      },
-      end() {
-        node.style.height = "";
-        done();
-      },
-    });
-  },
-
-  appear() {
-    return this.enter.apply(this, arguments);
-  },
-
-  leave(node, done) {
-    return animate(node, "rc-menu-collapse", {
-      start() {
-        node.style.height = `${node.offsetHeight}px`;
-      },
-      active() {
-        node.style.height = 0;
-      },
-      end() {
-        node.style.height = "";
-        done();
-      },
-    });
-  },
-};
+import { Menu, MenuItem, MenuButton, SubMenu } from "@szhsin/react-menu";
+import "@szhsin/react-menu/dist/index.css";
 
 const CategoryMenu = (props) => {
   const { items } = props;
 
-  //   console.log("====================================");
-  //   console.log("items : ", items);
-  //   console.log("====================================");
+  console.log("====================================");
+  console.log("items : ", items);
+  console.log("====================================");
 
   const renderMenuItem = (categories) => {
     return categories.map((c) => {
       if (c.children && c.children.length > 0) {
         if (c.title) {
           return (
-            <SubMenu
-              key={c.id}
-              title={<span className="submenu-title-wrapper">{c.title}</span>}
-              popupOffset={[10, 15]}
-            >
+            <SubMenu key={c.id} label={c.title}>
               {renderMenuItem(c.children)}
             </SubMenu>
           );
@@ -67,30 +23,28 @@ const CategoryMenu = (props) => {
           return renderMenuItem(c.children);
         }
       } else {
-        return <MenuItem key={c.id}>{c.title}</MenuItem>;
+        return (
+          <MenuItem key={c.id} className="tuan_qua_dz">
+            {c.title}
+          </MenuItem>
+        );
       }
     });
   };
-
   return (
-    <Menu
-      triggerSubMenuAction="hover"
-      openAnimation="slide-up"
-      mode="horizontal"
-      selectedKeys={["3"]}
-    >
+    <WrapperMenu>
       {items.map((m) => {
         return (
-          <SubMenu
+          <Menu
+            className="menu_item"
             key={m.id}
-            title={<span className="submenu-title-wrapper">{m.title}</span>}
-            popupOffset={[10, 15]}
+            menuButton={<MenuItemRoot>{m.title}</MenuItemRoot>}
           >
             {renderMenuItem(m.children)}
-          </SubMenu>
+          </Menu>
         );
       })}
-    </Menu>
+    </WrapperMenu>
   );
 };
 
