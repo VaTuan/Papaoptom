@@ -15,17 +15,24 @@ import OrderReceivedWrapper, {
 } from './order-received.style';
 import { FormattedMessage } from 'react-intl';
 import { useCart } from 'contexts/cart/use-cart';
-
+import { useMutation } from '@apollo/client';
+import { ADD_ORDER_PAPA } from 'graphql/mutation/order';
+import {useRouter} from 'next/router';
+// import { ADD_ORDER_PAPA } from "../../../graphql/mutation/order";
 type OrderReceivedProps = {};
 
 
 const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
   const {recentOrder} = useCart();
+  const router = useRouter();
   const count = ()=>{
     let sum = 0;
     if(recentOrder?.products?.length > 0)recentOrder?.products?.map(item=>{sum+=item.quantity})
     return sum
   }
+  const [addOrder, data] = useMutation(ADD_ORDER_PAPA);
+  
+  
   return (
     <OrderReceivedWrapper>
       <OrderReceivedContainer>
@@ -58,7 +65,7 @@ const OrderReceived: React.FunctionComponent<OrderReceivedProps> = (props) => {
                   defaultMessage="Order Number"
                 />
               </Text>
-              <Text>1444</Text>
+              <Text>{router.query.id}</Text>
             </InfoBlock>
 {/* 
             <InfoBlock>
