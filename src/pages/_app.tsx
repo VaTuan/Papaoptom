@@ -38,6 +38,8 @@ function ExtendedApp({ Component, pageProps, props }) {
     const desktop = useMedia("(min-width: 992px)");
     const apolloClient = useApollo(pageProps?.initialApolloState);
 
+    const { categories } = props
+
     return (
         <ApolloProvider client={apolloClient}>
             <ThemeProvider theme={defaultTheme}>
@@ -47,10 +49,11 @@ function ExtendedApp({ Component, pageProps, props }) {
                         <AppProvider>
                             <AuthProvider>
                                 <AttributeProvider>
-                                    <AppLayout categories={props.categories}>
+                                    <AppLayout categories={categories}>
                                         <Component
                                             {...pageProps}
                                             deviceType={{ mobile, tablet, desktop }}
+                                            categories={{ categories }}
                                         />
                                     </AppLayout>
                                 </AttributeProvider>

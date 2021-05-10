@@ -66,6 +66,9 @@ export const ItemLevel02 = styled.li`
       top: 0;
       left: 100%;
     }
+    ul.mega-menu__level_03.index_custom-1 {
+      top: -100%;
+    }
   }
 `;
 
