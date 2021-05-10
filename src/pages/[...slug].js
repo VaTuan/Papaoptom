@@ -29,10 +29,25 @@ function ShoesFilterPage(props) {
   const { deviceType, categories } = props;
   const router = useRouter();
 
-  console.log("====================================");
   console.log("route : ", router);
-  console.log("====================================");
 
+  const { query } = router;
+  const categoryId = query.cateId;
+  const slugs = query?.slug;
+
+  const cateNames = slugs?.map((slug) => {
+    // console.log("slug item:", slug);
+    if (slug?.includes("-")) {
+      return slug
+        ?.split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+    } else {
+      return slug.charAt(0).toUpperCase() + slug.slice(1);
+    }
+  });
+
+  console.log("run page");
   return (
     <>
       <SEO title="PAGE LEVEL 01" description="description for seo" />
@@ -60,18 +75,23 @@ function ShoesFilterPage(props) {
               <SectionTopRight>
                 <ContentTop title="Hàng 1">
                   <BreadCrumb title="BreadCrumb Level 01">
-                    <Link href="/shoes">
+                    <Link href="/">
                       <a>
                         <span className="icon_home">
                           <i className="fas fa-home-lg-alt"></i>
                         </span>
                       </a>
                     </Link>
-
-                    <span className="icon_right">
-                      <i className="fal fa-chevron-right"></i>
-                    </span>
-                    <span className="cate_name">{router.query.cate}</span>
+                    {cateNames?.map((cateName, index) => {
+                      return (
+                        <span key={index}>
+                          <span className="icon_right">
+                            <i className="fal fa-chevron-right"></i>
+                          </span>
+                          <span className="cate_name">{cateName}</span>
+                        </span>
+                      );
+                    })}
                   </BreadCrumb>
 
                   <TotalProduct>
@@ -80,7 +100,7 @@ function ShoesFilterPage(props) {
                 </ContentTop>
 
                 <SectionSortSideCateName title="Hàng 2">
-                  <h1>{router.query.cate}</h1>
+                  <h1>{cateNames.slice(-1)[0]}</h1>
                   <SelectOption>
                     <Select>
                       <Option>Theo hàng mới</Option>
@@ -196,5 +216,6 @@ const BreadCrumb = styled.div`
     font-size: 16px;
     font-weight: 600;
     color: #213779;
+    margin-right: 8px;
   }
 `;
