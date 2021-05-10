@@ -32,35 +32,38 @@ import categoriesApi from "api/categoriesApi";
 
 const AppLayout = dynamic(() => import("layouts/app-layout"));
 
-function ExtendedApp({ Component, props }) {
-  const mobile = useMedia("(max-width: 580px)");
-  const tablet = useMedia("(max-width: 991px)");
-  const desktop = useMedia("(min-width: 992px)");
-  const apolloClient = useApollo(props.initialApolloState);
+function ExtendedApp({ Component, pageProps, props }) {
+    const mobile = useMedia("(max-width: 580px)");
+    const tablet = useMedia("(max-width: 991px)");
+    const desktop = useMedia("(min-width: 992px)");
+    const apolloClient = useApollo(pageProps?.initialApolloState);
 
-  return (
-    <ApolloProvider client={apolloClient}>
-      <ThemeProvider theme={defaultTheme}>
-        <GlobalStyle />
-        <LanguageProvider messages={messages}>
-          <CartProvider>
-            <AppProvider>
-              <AuthProvider>
-                <AttributeProvider>
-                  <AppLayout categories={props.categories}>
-                    <Component
-                      {...props}
-                      deviceType={{ mobile, tablet, desktop }}
-                    />
-                  </AppLayout>
-                </AttributeProvider>
-              </AuthProvider>
-            </AppProvider>
-          </CartProvider>
-        </LanguageProvider>
-      </ThemeProvider>
-    </ApolloProvider>
-  );
+    const { categories } = props
+
+    return (
+        <ApolloProvider client={apolloClient}>
+            <ThemeProvider theme={defaultTheme}>
+                <GlobalStyle />
+                <LanguageProvider messages={messages}>
+                    <CartProvider>
+                        <AppProvider>
+                            <AuthProvider>
+                                <AttributeProvider>
+                                    <AppLayout categories={categories}>
+                                        <Component
+                                            {...pageProps}
+                                            deviceType={{ mobile, tablet, desktop }}
+                                            categories={{ categories }}
+                                        />
+                                    </AppLayout>
+                                </AttributeProvider>
+                            </AuthProvider>
+                        </AppProvider>
+                    </CartProvider>
+                </LanguageProvider>
+            </ThemeProvider>
+        </ApolloProvider>
+    );
 }
 
 ExtendedApp.getInitialProps = async (ctx) => {
