@@ -2,6 +2,7 @@ import { ArrowNext } from "assets/icons/ArrowNext";
 import Link from "next/link";
 import React from "react";
 import getSlug from "utils/getSlug";
+import getCateId from "utils/getCateId";
 import { WrapperMenu } from "../category-menu/style";
 import {
   CustomLink,
@@ -21,29 +22,25 @@ import {
 function CategoriesMenu(props) {
   const { items, deviceType, categories } = props;
 
+  console.log("items : ", items);
+
   return (
     <WrapperMenu>
       <Level01>
         {items?.map((level01) => {
           const slugLevel01 = getSlug(level01?.slug);
+          const cateId01 = getCateId(level01);
           return (
             <ItemLevel01 key={level01.id}>
               <Link
                 href={{
                   pathname: "/[...slug]",
                   query: {
-                    slug: [level01?.title],
-                    cateName: [`${level01?.title}`],
-                    cateId:
-                      level01?.query === null
-                        ? "none"
-                        : level01?.query?.categoryIds?.length > 0
-                        ? level01?.query?.categoryIds[0]
-                        : "all",
+                    slug: [slugLevel01, cateId01],
                   },
                 }}
                 scroll={true}
-                as={`/${slugLevel01}`}
+                as={`/${slugLevel01}?q=${cateId01}`}
               >
                 <CustomLink padding="20px" color="#ffffff">
                   {level01.title}
@@ -53,25 +50,30 @@ function CategoriesMenu(props) {
               <React.Fragment>
                 <Level02 className="level_02">
                   {level01?.children.map((level02) => {
+                    const slugLevel02 = getSlug(level02?.slug);
+                    const cateId02 = getCateId(level02);
+                    // CHECK ĐIỀU KIỆN NẾU TITLE BẰNG RỖNG
                     if (level02?.title === "") {
                       return (
                         <React.Fragment key={level02.id}>
                           {level02?.children.map((level02_c, index) => {
+                            const slugLevel02_c = getSlug(level02_c?.slug);
+                            const cateId02_c = getCateId(level02_c);
                             return (
                               <ItemLevel02 key={level02_c.id}>
                                 <Link
                                   href={{
                                     pathname: "/[...slug]",
                                     query: {
-                                      slug: [level01?.title, level02_c?.title],
-                                      cateId:
-                                        level02_c?.query?.categoryIds.length > 0
-                                          ? level02_c?.query?.categoryIds[0]
-                                          : "all",
+                                      slug: [
+                                        slugLevel01,
+                                        slugLevel02_c,
+                                        cateId02_c,
+                                      ],
                                     },
                                   }}
                                   scroll={true}
-                                  as={`/${level01?.title}/${level02_c?.title}`}
+                                  as={`/${slugLevel01}/${slugLevel02_c}?q=${cateId02_c}`}
                                 >
                                   <TitleWithIcon>
                                     <CustomLink
@@ -95,6 +97,11 @@ function CategoriesMenu(props) {
                                       } index_custom-${index}`}
                                     >
                                       {level02_c?.children.map((level03_c) => {
+                                        const slugLevel03_c = getSlug(
+                                          level03_c?.slug
+                                        );
+                                        const cateId03_c = getCateId(level03_c);
+
                                         return (
                                           <ItemLevel03 key={level03_c.id}>
                                             <Link
@@ -102,23 +109,15 @@ function CategoriesMenu(props) {
                                                 pathname: "/[...slug]",
                                                 query: {
                                                   slug: [
-                                                    level01?.title,
-                                                    level02_c?.title,
-                                                    level03_c?.title,
+                                                    slugLevel01,
+                                                    slugLevel02_c,
+                                                    slugLevel03_c,
+                                                    cateId03_c,
                                                   ],
-                                                  cateId:
-                                                    level03_c?.query === null
-                                                      ? "none"
-                                                      : level03_c?.query
-                                                          ?.categoryIds
-                                                          ?.length > 0
-                                                      ? level03_c?.query
-                                                          ?.categoryIds[0]
-                                                      : "all",
                                                 },
                                               }}
                                               scroll={true}
-                                              as={`/${level01?.slug}/${level02_c?.slug}/${level03_c?.slug}`}
+                                              as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}?q=${cateId03_c}`}
                                             >
                                               <TitleWithIcon>
                                                 <CustomLink color="#000000">
@@ -139,147 +138,135 @@ function CategoriesMenu(props) {
                                                   }`}
                                                 >
                                                   {level03_c?.children.map(
-                                                    (level04_c, index) => (
-                                                      <ItemLevel04 key={index}>
-                                                        {level04_c?.children
-                                                          .length > 0 ? (
-                                                          <Link
-                                                            href={{
-                                                              pathname:
-                                                                "/[...slug]",
-                                                              query: {
-                                                                slug: [
-                                                                  level01?.title,
-                                                                  level02_c?.title,
-                                                                  level03_c?.title,
-                                                                  level04_c?.title,
-                                                                ],
-                                                                cateId:
-                                                                  level04_c?.query ===
-                                                                  null
-                                                                    ? "none"
-                                                                    : level04_c
-                                                                        ?.query
-                                                                        ?.categoryIds
-                                                                        ?.length >
-                                                                      0
-                                                                    ? level04_c
-                                                                        ?.query
-                                                                        ?.categoryIds[0]
-                                                                    : "all",
-                                                              },
-                                                            }}
-                                                            scroll={true}
-                                                            as={`/${level01?.slug}/${level02_c?.slug}/${level03_c?.slug}/${level04_c?.slug}`}
-                                                          >
-                                                            <TitleWithIcon>
-                                                              <CustomLink color="#000000">
-                                                                {
-                                                                  level04_c.title
-                                                                }
-                                                              </CustomLink>
-                                                              <ArrowNext width="14" />
-                                                            </TitleWithIcon>
-                                                          </Link>
-                                                        ) : (
-                                                          <>
+                                                    (level04_c, index) => {
+                                                      const slugLevel04_c = getSlug(
+                                                        level04_c?.slug
+                                                      );
+                                                      const cateId04_c = getCateId(
+                                                        level04_c
+                                                      );
+
+                                                      return (
+                                                        <ItemLevel04
+                                                          key={index}
+                                                        >
+                                                          {level04_c?.children
+                                                            .length > 0 ? (
                                                             <Link
                                                               href={{
                                                                 pathname:
                                                                   "/[...slug]",
                                                                 query: {
                                                                   slug: [
-                                                                    level01?.title,
-                                                                    level02_c?.title,
-                                                                    level03_c?.title,
-                                                                    level04_c?.title,
+                                                                    slugLevel01,
+                                                                    slugLevel02_c,
+                                                                    slugLevel03_c,
+                                                                    slugLevel04_c,
+                                                                    cateId04_c,
                                                                   ],
-                                                                  cateId:
-                                                                    level04_c?.query ===
-                                                                    null
-                                                                      ? "none"
-                                                                      : level04_c
-                                                                          ?.query
-                                                                          ?.categoryIds
-                                                                          ?.length >
-                                                                        0
-                                                                      ? level04_c
-                                                                          ?.query
-                                                                          ?.categoryIds[0]
-                                                                      : "all",
                                                                 },
                                                               }}
                                                               scroll={true}
-                                                              as={`/${level01?.slug}/${level02_c?.slug}/${level03_c?.slug}/${level04_c?.slug}`}
+                                                              as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}?q=${cateId04_c}`}
                                                             >
-                                                              {level04_c.title}
+                                                              <TitleWithIcon>
+                                                                <CustomLink color="#000000">
+                                                                  {
+                                                                    level04_c.title
+                                                                  }
+                                                                </CustomLink>
+                                                                <ArrowNext width="14" />
+                                                              </TitleWithIcon>
                                                             </Link>
-                                                          </>
-                                                        )}
+                                                          ) : (
+                                                            <>
+                                                              <Link
+                                                                href={{
+                                                                  pathname:
+                                                                    "/[...slug]",
+                                                                  query: {
+                                                                    slug: [
+                                                                      slugLevel01,
+                                                                      slugLevel02_c,
+                                                                      slugLevel03_c,
+                                                                      slugLevel04_c,
+                                                                      cateId04_c,
+                                                                    ],
+                                                                  },
+                                                                }}
+                                                                scroll={true}
+                                                                as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}?q=${cateId04_c}`}
+                                                              >
+                                                                {
+                                                                  level04_c.title
+                                                                }
+                                                              </Link>
+                                                            </>
+                                                          )}
 
-                                                        {level04_c?.children
-                                                          .length > 0 && (
-                                                          <React.Fragment>
-                                                            <Level05
-                                                              className={`level_05 ${
-                                                                level04_c
-                                                                  ?.children
-                                                                  .length >
-                                                                  10 &&
-                                                                "mega-menu__level_05"
-                                                              } index_custom-${index}`}
-                                                            >
-                                                              {level04_c?.children?.map(
-                                                                (level05_c) => (
-                                                                  <Link
-                                                                    href={{
-                                                                      pathname:
-                                                                        "/[...slug]",
-                                                                      query: {
-                                                                        slug: [
-                                                                          level01?.title,
-                                                                          level02_c?.title,
-                                                                          level03_c?.title,
-                                                                          level04_c?.title,
-                                                                          level05_c?.title,
-                                                                        ],
-                                                                        cateId:
-                                                                          level05_c?.query ===
-                                                                          null
-                                                                            ? "none"
-                                                                            : level05_c
-                                                                                ?.query
-                                                                                ?.categoryIds
-                                                                                ?.length >
-                                                                              0
-                                                                            ? level05_c
-                                                                                ?.query
-                                                                                ?.categoryIds[0]
-                                                                            : "all",
-                                                                      },
-                                                                    }}
-                                                                    scroll={
-                                                                      true
-                                                                    }
-                                                                    as={`/${level01?.slug}/${level02_c?.slug}/${level03_c?.slug}/${level04_c?.slug}/${level05_c?.slug}`}
-                                                                  >
-                                                                    <ItemLevel05
-                                                                      key={
-                                                                        level05_c.id
-                                                                      }
-                                                                    >
-                                                                      {
-                                                                        level05_c.title
-                                                                      }
-                                                                    </ItemLevel05>
-                                                                  </Link>
-                                                                )
-                                                              )}
-                                                            </Level05>
-                                                          </React.Fragment>
-                                                        )}
-                                                      </ItemLevel04>
-                                                    )
+                                                          {level04_c?.children
+                                                            .length > 0 && (
+                                                            <React.Fragment>
+                                                              <Level05
+                                                                className={`level_05 ${
+                                                                  level04_c
+                                                                    ?.children
+                                                                    .length >
+                                                                    10 &&
+                                                                  "mega-menu__level_05"
+                                                                } index_custom-${index}`}
+                                                              >
+                                                                {level04_c?.children?.map(
+                                                                  (
+                                                                    level05_c
+                                                                  ) => {
+                                                                    const slugLevel05_c = getSlug(
+                                                                      level05_c?.slug
+                                                                    );
+                                                                    const cateId05_c = getCateId(
+                                                                      level05_c
+                                                                    );
+
+                                                                    return (
+                                                                      <Link
+                                                                        href={{
+                                                                          pathname:
+                                                                            "/[...slug]",
+                                                                          query: {
+                                                                            slug: [
+                                                                              slugLevel01,
+                                                                              slugLevel02_c,
+                                                                              slugLevel03_c,
+                                                                              slugLevel04_c,
+                                                                              slugLevel05_c,
+                                                                              cateId05_c,
+                                                                            ],
+                                                                          },
+                                                                        }}
+                                                                        scroll={
+                                                                          true
+                                                                        }
+                                                                        as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${slugLevel05_c}?q=${cateId05_c}`}
+                                                                      >
+                                                                        <ItemLevel05
+                                                                          key={
+                                                                            level05_c.id
+                                                                          }
+                                                                        >
+                                                                          {
+                                                                            level05_c.title
+                                                                          }
+                                                                        </ItemLevel05>
+                                                                      </Link>
+                                                                    );
+                                                                  }
+                                                                )}
+                                                              </Level05>
+                                                            </React.Fragment>
+                                                          )}
+                                                        </ItemLevel04>
+                                                      );
+                                                    }
                                                   )}
                                                 </Level04>
                                               </React.Fragment>
@@ -296,6 +283,7 @@ function CategoriesMenu(props) {
                         </React.Fragment>
                       );
                     } else {
+                      // NẾU CÓ TITLE ĐẦY ĐỦ THÌ CHẠY VÀO ĐÂY
                       return (
                         <>
                           <ItemLevel02 key={level02.id} topPosition="-100%">
@@ -303,15 +291,18 @@ function CategoriesMenu(props) {
                               href={{
                                 pathname: "/[...slug]",
                                 query: {
-                                  slug: [level01?.title, level02?.title],
+                                  slug: [slugLevel01, slugLevel02, cateId02],
+
                                   cateId:
-                                    level02?.query?.categoryIds.length > 0
+                                    level02?.query === null
+                                      ? "none"
+                                      : level02?.query?.categoryIds?.length > 0
                                       ? level02?.query?.categoryIds[0]
                                       : "all",
                                 },
                               }}
                               scroll={true}
-                              as={`/${level01?.title}/${level02?.title}`}
+                              as={`/${slugLevel01}/${slugLevel02}?p=${cateId02}`}
                             >
                               <TitleWithIcon>
                                 <CustomLink color="#000000" paddingRight="16px">
@@ -331,37 +322,35 @@ function CategoriesMenu(props) {
                                     "mega-menu__level_03"
                                   }`}
                                 >
-                                  {level02?.children?.map((level03) => (
-                                    <Link
-                                      href={{
-                                        pathname: "/[...slug]",
-                                        query: {
-                                          slug: [
-                                            level01?.title,
-                                            level02?.title,
-                                            level03?.title,
-                                          ],
-                                          cateId:
-                                            level03?.query === null
-                                              ? "none"
-                                              : level03?.query?.categoryIds
-                                                  ?.length > 0
-                                              ? level03?.query?.categoryIds[0]
-                                              : "all",
-                                        },
-                                      }}
-                                      scroll={true}
-                                      as={`/${level01?.slug}/${level02?.slug}/${level03?.slug}`}
-                                    >
-                                      <ItemLevel03 key={level03.id}>
-                                        {level03.title}
+                                  {level02?.children?.map((level03) => {
+                                    const slugLevel03 = getSlug(level03?.slug);
+                                    const cateId03 = getCateId(level03);
+                                    return (
+                                      <Link
+                                        href={{
+                                          pathname: "/[...slug]",
+                                          query: {
+                                            slug: [
+                                              slugLevel01,
+                                              slugLevel02,
+                                              slugLevel03,
+                                              cateId03,
+                                            ],
+                                          },
+                                        }}
+                                        scroll={true}
+                                        as={`/${slugLevel01}/${slugLevel02}/${slugLevel03}?q=${cateId03}`}
+                                      >
+                                        <ItemLevel03 key={level03.id}>
+                                          {level03.title}
 
-                                        {/* HIỆN TẠI ĐẾN ĐÂY LÀ HẾT  */}
-                                        {level03?.children.length > 0 &&
-                                          "còn tiếp"}
-                                      </ItemLevel03>
-                                    </Link>
-                                  ))}
+                                          {/* HIỆN TẠI ĐẾN ĐÂY LÀ HẾT  */}
+                                          {level03?.children.length > 0 &&
+                                            "còn tiếp"}
+                                        </ItemLevel03>
+                                      </Link>
+                                    );
+                                  })}
                                 </Level03>
                               </React.Fragment>
                             )}
