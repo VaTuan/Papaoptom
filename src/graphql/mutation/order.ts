@@ -22,7 +22,8 @@ export const ADD_ORDER_PAPA = gql`
     addOrder(message: $message, isActivated: $isActivated, disCount: $disCount, deliveryFee: $deliveryFee, subTotal: $subTotal, products: $products, customer: $customer) {
       code,
       message,
-      success
+      success,
+      orderNumber
     }
   }
 `;

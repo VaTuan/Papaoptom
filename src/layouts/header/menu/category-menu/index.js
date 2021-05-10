@@ -6,20 +6,16 @@ import "@szhsin/react-menu/dist/index.css";
 const CategoryMenu = (props) => {
   const { items } = props;
 
-  console.log("====================================");
-  console.log("items : ", items);
-  console.log("====================================");
+  const handleMenuClick = (e) => {
+    console.log(e);
+  };
 
-  const renderMenuItem = (categories) => {
+  const renderMenuItem = (categories, callBack) => {
     return categories.map((c) => {
       if (c.children && c.children.length > 0) {
         if (c.title) {
           return (
-            <SubMenu
-              key={c.id}
-              label={c.title}
-              className={c.children.length > 16 && "mega_menu"}
-            >
+            <SubMenu onChange={() => callBack(c)} key={c.id} label={c.title}>
               {renderMenuItem(c.children)}
             </SubMenu>
           );
@@ -28,7 +24,11 @@ const CategoryMenu = (props) => {
         }
       } else {
         return (
-          <MenuItem key={c.id} className="tuan_qua_dz">
+          <MenuItem
+            onChange={() => callBack(c)}
+            key={c.id}
+            className="tuan_qua_dz"
+          >
             {c.title}
           </MenuItem>
         );
@@ -40,11 +40,18 @@ const CategoryMenu = (props) => {
       {items.map((m) => {
         return (
           <Menu
+            overflow="auto"
+            position="auto"
             className="menu_item"
             key={m.id}
+            onChange={() => {
+              handleMenuClick(m);
+            }}
+            value={m}
+            onClick={handleMenuClick}
             menuButton={<MenuItemRoot>{m.title}</MenuItemRoot>}
           >
-            {renderMenuItem(m.children)}
+            {renderMenuItem(m.children, handleMenuClick)}
           </Menu>
         );
       })}

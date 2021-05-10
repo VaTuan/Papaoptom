@@ -30,6 +30,7 @@ import { ArrowNext } from "assets/icons/ArrowNext";
 import { GET_CATEGORIES } from "graphql/query/category.query";
 import categoriesApi from "api/categoriesApi";
 import CategoryMenu from "./menu/category-menu";
+import CategoriesMenu from "./menu/categories-menu/CategoriesMenu";
 
 type Props = {
     className?: string;
@@ -101,7 +102,8 @@ const Header: React.FC<Props> = ({ className, listCategories }) => {
 
             <HeaderBottomWrapper title="PHẦN CATE TỔNG">
 
-                <CategoryMenu items={listCategories} />
+                {/* <CategoryMenu items={listCategories} /> */}
+                <CategoriesMenu items={listCategories} />
             </HeaderBottomWrapper>
         </WrapperSetionHeader>
     );
