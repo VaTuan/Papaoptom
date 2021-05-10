@@ -10,83 +10,83 @@ import { CloseIcon } from "assets/icons/CloseIcon";
 import { AuthContext } from "contexts/auth/auth.context";
 import AuthenticationForm from "features/authentication-form";
 import {
-    DrawerBody,
-    HamburgerIcon,
-    DrawerContentWrapper,
-    DrawerClose,
-    DrawerProfile,
-    LogoutView,
-    LoginView,
-    UserAvatar,
-    UserDetails,
-    DrawerMenu,
-    DrawerMenuItem,
-    UserOptionMenu,
+  DrawerBody,
+  HamburgerIcon,
+  DrawerContentWrapper,
+  DrawerClose,
+  DrawerProfile,
+  LogoutView,
+  LoginView,
+  UserAvatar,
+  UserDetails,
+  DrawerMenu,
+  DrawerMenuItem,
+  UserOptionMenu,
 } from "./header.style";
 import UserImage from "assets/images/user.jpg";
 import {
-    MOBILE_DRAWER_MENU,
-    PROFILE_PAGE,
+  MOBILE_DRAWER_MENU,
+  PROFILE_PAGE,
 } from "site-settings/site-navigation";
 import { useAppState, useAppDispatch } from "contexts/app/app.provider";
 import MenuMobile from "./menu/menu-mobile";
 
 type MobileDrawerProps = {
-    listCategories?: any;
+  listCategories?: any;
 };
 
 const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = ({
-    listCategories,
+  listCategories,
 }) => {
-    console.log("====================================");
-    console.log("data header mobile đây nhé : ", listCategories);
-    console.log("====================================");
+  // console.log("====================================");
+  // console.log("data header mobile đây nhé : ", listCategories);
+  // console.log("====================================");
 
-    const isDrawerOpen = useAppState("isDrawerOpen");
-    const dispatch = useAppDispatch();
-    // const {
-    //     authState: { isAuthenticated },
-    //     authDispatch,
-    // } = useContext<any>(AuthContext);
-    // Toggle drawer
-    const toggleHandler = React.useCallback(() => {
-        dispatch({
-            type: "TOGGLE_DRAWER",
-        });
-    }, [dispatch]);
+  const isDrawerOpen = useAppState("isDrawerOpen");
+  const dispatch = useAppDispatch();
+  // const {
+  //     authState: { isAuthenticated },
+  //     authDispatch,
+  // } = useContext<any>(AuthContext);
+  // Toggle drawer
+  const toggleHandler = React.useCallback(() => {
+    dispatch({
+      type: "TOGGLE_DRAWER",
+    });
+  }, [dispatch]);
 
-    // const handleLogout = () => {
-    //     if (typeof window !== 'undefined') {
-    //         localStorage.removeItem('access_token');
-    //         authDispatch({ type: 'SIGN_OUT' });
-    //         Router.push('/');
-    //     }
-    // };
+  // const handleLogout = () => {
+  //     if (typeof window !== 'undefined') {
+  //         localStorage.removeItem('access_token');
+  //         authDispatch({ type: 'SIGN_OUT' });
+  //         Router.push('/');
+  //     }
+  // };
 
-    // const signInOutForm = () => {
-    //     dispatch({
-    //         type: 'TOGGLE_DRAWER',
-    //     });
+  // const signInOutForm = () => {
+  //     dispatch({
+  //         type: 'TOGGLE_DRAWER',
+  //     });
 
-    //     authDispatch({
-    //         type: 'SIGNIN',
-    //     });
+  //     authDispatch({
+  //         type: 'SIGNIN',
+  //     });
 
-    //     openModal({
-    //         show: true,
-    //         overlayClassName: 'quick-view-overlay',
-    //         closeOnClickOutside: true,
-    //         component: AuthenticationForm,
-    //         closeComponent: '',
-    //         config: {
-    //             enableResizing: false,
-    //             disableDragging: true,
-    //             className: 'quick-view-modal',
-    //             width: 458,
-    //             height: 'auto',
-    //         },
-    //     });
-    // };
+  //     openModal({
+  //         show: true,
+  //         overlayClassName: 'quick-view-overlay',
+  //         closeOnClickOutside: true,
+  //         component: AuthenticationForm,
+  //         closeComponent: '',
+  //         config: {
+  //             enableResizing: false,
+  //             disableDragging: true,
+  //             className: 'quick-view-modal',
+  //             width: 458,
+  //             height: 'auto',
+  //         },
+  //     });
+  // };
 
     return (
         <Drawer
@@ -108,7 +108,6 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = ({
         >
             <DrawerBody>
                 <Scrollbar className="drawer-scrollbar">
-                    <h6>Not authentica</h6>
                     <MenuMobile dataMenuMobile={listCategories}/>
                     {/* <DrawerContentWrapper>
                         <DrawerProfile>
@@ -171,10 +170,10 @@ const MobileDrawer: React.FunctionComponent<MobileDrawerProps> = ({
                             </UserOptionMenu>
                         )}
                     </DrawerContentWrapper> */}
-                </Scrollbar>
-            </DrawerBody>
-        </Drawer>
-    );
+        </Scrollbar>
+      </DrawerBody>
+    </Drawer>
+  );
 };
 
 export default MobileDrawer;

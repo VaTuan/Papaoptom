@@ -58,8 +58,11 @@ export const HeaderBottomWrapper = styled.div`
   margin-top: 92px;
   position: fixed;
   width: 100%;
-  @media (max-width: 990px) {
-    display: none;
+  display : flex;
+  align-items : center;
+  justify-content : center;
+  @media(max-width: 990px) {
+    display : none;
   }
 `;
 export const ListCatesRoot = styled.ul`
@@ -553,6 +556,9 @@ export const DrawerWrapper = styled.div`
 export const DrawerBody = styled.div`
   .drawer-scrollbar {
     height: 100%;
+    @media (max-width:990px) {
+      height:100vh;
+    }
   }
 `;
 

@@ -7,8 +7,6 @@ import Header from "./header/header";
 import { LayoutWrapper } from "./layout.style";
 import { isCategoryPage } from "./is-home-page";
 import Footer from "./footer";
-import { useQuery } from "@apollo/client";
-import { GET_HEADER } from "graphql/query/header.query";
 
 const MobileHeader = dynamic(() => import("./header/mobile-header"), {
     ssr: false,
@@ -17,11 +15,13 @@ const MobileHeader = dynamic(() => import("./header/mobile-header"), {
 type LayoutProps = {
     className?: string;
     token?: string;
+    categories: any;
 };
 
 const Layout: React.FunctionComponent<LayoutProps> = ({
     className,
     children,
+    categories,
     // deviceType: { mobile, tablet, desktop },
     token,
 }) => {
@@ -30,19 +30,18 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
     const isHomePage = isCategoryPage(query.type) || pathname === "/bakery";
 
-    const { data, loading, error } = useQuery(GET_HEADER);
 
     return (
         <LayoutWrapper className={`layoutWrapper ${className}`} title="LAY OUT">
             <Sticky enabled={isSticky} innerZ={1001}>
                 <MobileHeader
-                    listCategories={data?.categories}
+                    listCategories={categories}
                     className={`${isSticky ? "sticky" : "sticky"} ${isHomePage ? "home" : ""
                         } desktop`}
                 />
 
                 <Header
-                    listCategories={data?.categories}
+                    listCategories={categories}
                     className={`${isSticky ? "sticky" : "sticky"} ${isHomePage ? "home" : ""
                         }`}
                 />

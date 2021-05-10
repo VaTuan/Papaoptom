@@ -5,32 +5,27 @@ import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 
 export default function MenuMobile(props) {
-  console.log("hieutt", listCategories);
   const [isShow, setIsShow] = useState();
+  const [valueMenuCap2, setValueMenuCap2] = useState();
+  const [valueMenuCap3, setValueMenuCap3] = useState();
+
   const [toggleItem, setToggleItem] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [toggleMenuCap2, setToggleMenuCap2] = useState(false);
+  const [toggleMenuCap3, setToggleMenuCap3] = useState(false);
 
-  /**
-   * TODO: func thuc hien click mo..
-   * ?sdfsdfsdf
-   * !sdfkslkdfjsdf
-   * *ksjdfjksndfsdf
-   * @param {} value
-   */
   const handelClick = (value) => {
-    console.log("====================================");
-    console.log("value : ", value);
-    console.log("====================================");
     setIsShow(value);
     setToggle(true);
   };
-  const datatest = listCategories.map((item) => item);
-  console.log("hieu", datatest, isShow);
+
+  const dataMenu = props.dataMenuMobile.map((item) => item);
   /**
    * todo filter theo id click
    */
-  const datalistmenu = datatest.filter((x) => x.id === isShow);
-  console.log("data click id menu");
+
+  const datalistmenu = dataMenu.filter((x) => x.id === isShow);
+  console.log("data click id menu", datalistmenu);
   const aaa = datalistmenu[0]?.children.map((item) => item);
   console.log("dulieu 3 th", aaa);
   // const bbb = aaa?.childrenLevel02[0].map((item) => item);
@@ -39,10 +34,27 @@ export default function MenuMobile(props) {
   const handelClickItemMenu = () => {
     setToggleItem(!toggleItem);
   };
-  console.log(props);
+  console.log("dulieuprops", props);
+
+  const handelClickMenuCap2 = (value) => {
+    setToggleMenuCap2(true);
+    setValueMenuCap2(value);
+  };
+
+  let dulieuLV2 = datalistmenu[0]?.children[0]?.children?.filter(
+    (item) => item.id === valueMenuCap2
+  );
+  let dulieuLV3 = datalistmenu[0]?.children[0]?.children?.map((item) => item);
+  console.log("id", dulieuLV3);
+
+  const handelClickMenuCap3 = (value) => {
+    setToggleMenuCap3(true);
+    setValueMenuCap3(value);
+    console.log("uiui", valueMenuCap3);
+  };
   return (
-    <Wrapper value={isShow} toggle={toggle}>
-      {listCategories.map((item, index) => (
+    <Wrapper value={isShow} toggle={toggle} toggleMenuCap2={toggleMenuCap2}>
+      {props.dataMenuMobile.map((item, index) => (
         <CategoryItemRoot key={index}>
           <div
             scroll={true}
@@ -101,12 +113,71 @@ export default function MenuMobile(props) {
       {isShow === datalistmenu[0]?.id ? (
         <>
           <div className="list-menu">
-            {datalistmenu[0]?.children.map((index, key) => (
-              <li key={key}>
-                {index.title}
-                <ArrowNext width="13" />
-              </li>
+            {datalistmenu[0]?.children[0]?.children?.map((index, key) => (
+              <>
+                <li key={key}>
+                  {index.title}
+                  <ArrowNext
+                    width="13"
+                    onClick={() => handelClickMenuCap2(index.id)}
+                  />
+                </li>
+              </>
             ))}
+            {toggleMenuCap2 === true ? (
+              <div className="menuCap2">
+                <span>
+                  <i
+                    className="far fa-long-arrow-left"
+                    onClick={() => setToggleMenuCap2(false)}
+                  ></i>
+                </span>
+                {dulieuLV2.map((item, key) => (
+                  <li key={key}>
+                    {item?.children.map((item01, key01) => (
+                      <>
+                        <p key={key01}>
+                          {item01?.title}
+                          <ArrowNext
+                            width="13"
+                            onClick={() => handelClickMenuCap3(item01?.id)}
+                          />
+                        </p>
+                      </>
+                    ))}
+                  </li>
+                ))}{" "}
+              </div>
+            ) : (
+              ""
+            )}
+            {/* MenuLV3 */}
+            {toggleMenuCap3 === true ? (
+              <div className="menuCap3">
+                <span>
+                  <i
+                    className="far fa-long-arrow-left"
+                    onClick={() => setToggleMenuCap3(false)}
+                  ></i>
+                </span>
+                {dulieuLV2.map((item, key) => (
+                  <li key={key}>
+                    {item?.children.map((item01, key01) => (
+                      <>
+                        <p key={key01}>
+                          {item01?.children.map((item, key) => (
+                            <li>{item?.title}</li>
+                          ))}
+                        </p>
+                      </>
+                    ))}
+                  </li>
+                ))}
+              </div>
+            ) : (
+              ""
+            )}
+
             {toggleItem === false ? (
               <div className="buttonbackcap1" onClick={() => setToggle(false)}>
                 <span>
@@ -125,7 +196,6 @@ export default function MenuMobile(props) {
   );
 }
 const Wrapper = styled.div`
-  /* border-bottom: 1px solid #cccccc; */
   padding: 0 10px;
   padding-top: 10px;
   .list-menu {
@@ -155,22 +225,44 @@ const Wrapper = styled.div`
     li {
       padding: 10px;
       font-size: 16px;
-      .menucap2 {
-        padding: 20px;
-        padding-top: 50px;
-        font-size: 16px;
+    }
+    .menuCap2 {
+      background-color: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 10;
+      padding: 20px;
+      padding-top: 50px;
+      span {
         position: absolute;
-        top: 0;
-        left: 0;
-        background-color: gray;
-        width: 100%;
-        height: 100vh;
-        .buttonback {
-          position: absolute;
-          left: 35px;
-          top: 15px;
+        left: 35px;
+        top: 20px;
+        i {
+          font-size: 18px;
+          color: #77798c;
         }
-        li {
+      }
+    }
+    .menuCap3 {
+      background-color: white;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 10;
+      padding: 20px;
+      padding-top: 50px;
+      span {
+        position: absolute;
+        left: 35px;
+        top: 20px;
+        i {
+          font-size: 18px;
+          color: #77798c;
         }
       }
     }
