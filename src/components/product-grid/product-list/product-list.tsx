@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // @ts-ignore
 import { useRouter } from "next/router";
 // @ts-ignore
@@ -27,6 +27,7 @@ import { useAppState } from "../../../contexts/app/app.provider";
 const ErrorMessage = dynamic(() => import("components/error-message/error-message"));
 
 const GeneralCard = dynamic(import("components/product-card/product-card-one/product-card-one"));
+import { GET_SHOES_BY_CATE } from './../../../graphql/query/shoes.query';
 
 type ProductsProps = {
     deviceType?: {
@@ -37,6 +38,8 @@ type ProductsProps = {
     fetchLimit?: number;
     loadMore?: boolean;
     type?: string;
+    cateId?: string;
+    onTotalProduct?: Function;
 };
 
 type ProductsQueryProps = {
@@ -44,14 +47,13 @@ type ProductsQueryProps = {
     searchShoes?: any;
 };
 
-export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20, loadMore = true, type }) => {
+export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20, loadMore = true, type, cateId, onTotalProduct }) => {
     const router = useRouter();
     const searchTerm = useAppState("searchTerm");
     const category = useAppState("category");
-    console.log(category);
 
     let queryResult = useQuery(
-        searchTerm ? SEARCH_SHOES : GET_SHOES,
+        searchTerm ? SEARCH_SHOES : GET_SHOES_BY_CATE,
         searchTerm
             ? {
                 variables: {
@@ -64,11 +66,13 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                 variables: {
                     pageSize: fetchLimit,
                     pageNumber: 1,
+                    categoryIds: cateId === "A" ? [] : [`${cateId}`]
                 },
             },
     );
 
     const { error, loading, fetchMore, networkStatus } = queryResult;
+
 
     const loadingMore = networkStatus === NetworkStatus.fetchMore;
 
@@ -90,15 +94,26 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
     }
 
     const result = searchTerm ? queryResult.data.searchShoes : queryResult.data.filterProduct;
-    // console.log(result);
 
     if (!result || !result.data || result.data.length === 0) {
         return <NoResultFound />;
     }
 
     const data = result?.data;
-    // console.log(data);
+    // const totalProduct = onTotalProduct && onTotalProduct(result?.totalProduct)
+    const isNextPage = result?.hasNextPage;
 
+
+    if (onTotalProduct) {
+        onTotalProduct(result?.totalProduct)
+    }
+    // const [isNextPage, setIsNextPage] = useState(result?.hasNextPage)
+    console.log('data nhận được nè : ', data);
+
+
+    /**
+     * function thực hiện loadmore products
+     */
     const handleLoadMore = () => {
         const fetchLimit = result?.pageSize ?? 10;
         fetchMore({
@@ -200,7 +215,7 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                     </ProductsCol>
                 ))}
             </ProductsRow>
-            {loadMore && (
+            {isNextPage && (
                 <ButtonWrapper>
                     <Button
                         onClick={handleLoadMore}

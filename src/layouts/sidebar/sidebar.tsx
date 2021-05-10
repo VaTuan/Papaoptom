@@ -38,9 +38,9 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
     const router = useRouter();
 
 
-    console.log('====================================');
-    console.log('cate id : ', categoryId);
-    console.log('====================================');
+    // console.log('====================================');
+    // console.log('cate id : ', categoryId);
+    // console.log('====================================');
 
 
     const { loading, data } = useQuery(GET_ATTRIBUTES_BY_CATE_ID, {

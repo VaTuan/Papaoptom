@@ -22,7 +22,7 @@ import {
 function CategoriesMenu(props) {
   const { items, deviceType, categories } = props;
 
-  console.log("items : ", items);
+  //   console.log("items : ", items);
 
   return (
     <WrapperMenu>
@@ -32,16 +32,7 @@ function CategoriesMenu(props) {
           const cateId01 = getCateId(level01);
           return (
             <ItemLevel01 key={level01.id}>
-              <Link
-                href={{
-                  pathname: "/[...slug]",
-                  query: {
-                    slug: [slugLevel01, cateId01],
-                  },
-                }}
-                scroll={true}
-                as={`/${slugLevel01}?q=${cateId01}`}
-              >
+              <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
                 <CustomLink padding="20px" color="#ffffff">
                   {level01.title}
                 </CustomLink>
@@ -62,18 +53,8 @@ function CategoriesMenu(props) {
                             return (
                               <ItemLevel02 key={level02_c.id}>
                                 <Link
-                                  href={{
-                                    pathname: "/[...slug]",
-                                    query: {
-                                      slug: [
-                                        slugLevel01,
-                                        slugLevel02_c,
-                                        cateId02_c,
-                                      ],
-                                    },
-                                  }}
+                                  href={`/${slugLevel01}/${slugLevel02_c}/${cateId02_c}`}
                                   scroll={true}
-                                  as={`/${slugLevel01}/${slugLevel02_c}?q=${cateId02_c}`}
                                 >
                                   <TitleWithIcon>
                                     <CustomLink
@@ -105,19 +86,8 @@ function CategoriesMenu(props) {
                                         return (
                                           <ItemLevel03 key={level03_c.id}>
                                             <Link
-                                              href={{
-                                                pathname: "/[...slug]",
-                                                query: {
-                                                  slug: [
-                                                    slugLevel01,
-                                                    slugLevel02_c,
-                                                    slugLevel03_c,
-                                                    cateId03_c,
-                                                  ],
-                                                },
-                                              }}
+                                              href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${cateId03_c}`}
                                               scroll={true}
-                                              as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}?q=${cateId03_c}`}
                                             >
                                               <TitleWithIcon>
                                                 <CustomLink color="#000000">
@@ -153,21 +123,8 @@ function CategoriesMenu(props) {
                                                           {level04_c?.children
                                                             .length > 0 ? (
                                                             <Link
-                                                              href={{
-                                                                pathname:
-                                                                  "/[...slug]",
-                                                                query: {
-                                                                  slug: [
-                                                                    slugLevel01,
-                                                                    slugLevel02_c,
-                                                                    slugLevel03_c,
-                                                                    slugLevel04_c,
-                                                                    cateId04_c,
-                                                                  ],
-                                                                },
-                                                              }}
+                                                              href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${cateId04_c}`}
                                                               scroll={true}
-                                                              as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}?q=${cateId04_c}`}
                                                             >
                                                               <TitleWithIcon>
                                                                 <CustomLink color="#000000">
@@ -181,21 +138,8 @@ function CategoriesMenu(props) {
                                                           ) : (
                                                             <>
                                                               <Link
-                                                                href={{
-                                                                  pathname:
-                                                                    "/[...slug]",
-                                                                  query: {
-                                                                    slug: [
-                                                                      slugLevel01,
-                                                                      slugLevel02_c,
-                                                                      slugLevel03_c,
-                                                                      slugLevel04_c,
-                                                                      cateId04_c,
-                                                                    ],
-                                                                  },
-                                                                }}
+                                                                href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${cateId04_c}`}
                                                                 scroll={true}
-                                                                as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}?q=${cateId04_c}`}
                                                               >
                                                                 {
                                                                   level04_c.title
@@ -229,24 +173,10 @@ function CategoriesMenu(props) {
 
                                                                     return (
                                                                       <Link
-                                                                        href={{
-                                                                          pathname:
-                                                                            "/[...slug]",
-                                                                          query: {
-                                                                            slug: [
-                                                                              slugLevel01,
-                                                                              slugLevel02_c,
-                                                                              slugLevel03_c,
-                                                                              slugLevel04_c,
-                                                                              slugLevel05_c,
-                                                                              cateId05_c,
-                                                                            ],
-                                                                          },
-                                                                        }}
+                                                                        href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${slugLevel05_c}/${cateId05_c}`}
                                                                         scroll={
                                                                           true
                                                                         }
-                                                                        as={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${slugLevel05_c}?q=${cateId05_c}`}
                                                                       >
                                                                         <ItemLevel05
                                                                           key={
@@ -288,21 +218,8 @@ function CategoriesMenu(props) {
                         <>
                           <ItemLevel02 key={level02.id} topPosition="-100%">
                             <Link
-                              href={{
-                                pathname: "/[...slug]",
-                                query: {
-                                  slug: [slugLevel01, slugLevel02, cateId02],
-
-                                  cateId:
-                                    level02?.query === null
-                                      ? "none"
-                                      : level02?.query?.categoryIds?.length > 0
-                                      ? level02?.query?.categoryIds[0]
-                                      : "all",
-                                },
-                              }}
+                              href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                               scroll={true}
-                              as={`/${slugLevel01}/${slugLevel02}?p=${cateId02}`}
                             >
                               <TitleWithIcon>
                                 <CustomLink color="#000000" paddingRight="16px">
@@ -327,19 +244,8 @@ function CategoriesMenu(props) {
                                     const cateId03 = getCateId(level03);
                                     return (
                                       <Link
-                                        href={{
-                                          pathname: "/[...slug]",
-                                          query: {
-                                            slug: [
-                                              slugLevel01,
-                                              slugLevel02,
-                                              slugLevel03,
-                                              cateId03,
-                                            ],
-                                          },
-                                        }}
+                                        href={`/${slugLevel01}/${slugLevel02}/${slugLevel03}/${cateId03}`}
                                         scroll={true}
-                                        as={`/${slugLevel01}/${slugLevel02}/${slugLevel03}?q=${cateId03}`}
                                       >
                                         <ItemLevel03 key={level03.id}>
                                           {level03.title}

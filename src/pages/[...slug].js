@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { ModalProvider } from "contexts/modal/modal.provider";
@@ -29,25 +29,29 @@ function ShoesFilterPage(props) {
   const { deviceType, categories } = props;
   const router = useRouter();
 
-  console.log("route : ", router);
-
   const { query } = router;
-  const categoryId = query.cateId;
   const slugs = query?.slug;
 
+  /**
+   * function render ra cate Name , phục vụ render breadcrumb
+   */
   const cateNames = slugs?.map((slug) => {
-    // console.log("slug item:", slug);
     if (slug?.includes("-")) {
       return slug
         ?.split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .map((word) => word?.charAt(0)?.toUpperCase() + word?.slice(1))
         .join(" ");
     } else {
-      return slug.charAt(0).toUpperCase() + slug.slice(1);
+      return slug?.charAt(0)?.toUpperCase() + slug?.slice(1);
     }
   });
 
-  console.log("run page");
+  const cateId = cateNames.pop();
+
+  const [totalProduct, setTotalProduct] = useState(null);
+  const onTotalProduct = (value) => {
+    setTotalProduct(value);
+  };
   return (
     <>
       <SEO title="PAGE LEVEL 01" description="description for seo" />
@@ -95,7 +99,7 @@ function ShoesFilterPage(props) {
                   </BreadCrumb>
 
                   <TotalProduct>
-                    Количество товаров: <strong>123123</strong>
+                    Количество товаров: <strong>10812</strong>
                   </TotalProduct>
                 </ContentTop>
 
@@ -113,7 +117,12 @@ function ShoesFilterPage(props) {
                 </SectionSortSideCateName>
               </SectionTopRight>
 
-              <Products deviceType={deviceType} fetchLimit={20} />
+              <Products
+                deviceType={deviceType}
+                fetchLimit={20}
+                cateId={cateId}
+                onTotalProduct={onTotalProduct}
+              />
             </ContentSection>
           </MainContentArea>
 
