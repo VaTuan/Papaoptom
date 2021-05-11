@@ -27,13 +27,13 @@ type SidebarCategoryProps = {
         desktop: boolean;
     };
     type: string;
-    categoryId: number;
+    cateId?: any;
 };
 
 const SidebarCategory: React.FC<SidebarCategoryProps> = ({
     deviceType: { mobile, tablet, desktop },
     type,
-    categoryId,
+    cateId,
 }) => {
     const router = useRouter();
 
@@ -44,7 +44,7 @@ const SidebarCategory: React.FC<SidebarCategoryProps> = ({
 
 
     const { loading, data } = useQuery(GET_ATTRIBUTES_BY_CATE_ID, {
-        variables: { categoryId },
+        variables: { cateId },
     });
 
     const { pathname, query } = router;

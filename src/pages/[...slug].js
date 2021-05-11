@@ -68,11 +68,7 @@ function ShoesFilterPage(props) {
 
           <MainContentArea title="PHẦN NỘI DUNG CHÍNH">
             <SidebarSection title="PHẦN SIDE BAR BÊN TRÁI">
-              <Sidebar
-                deviceType={deviceType}
-                type="shoes"
-                categoryId={router.query.cateid}
-              />
+              <Sidebar deviceType={deviceType} type="shoes" cateId={cateId} />
             </SidebarSection>
 
             <ContentSection title="PHẦN LIST SẢN PHẨM BÊN PHẢI">
@@ -194,7 +190,7 @@ const ContentTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 16px;
 `;
 const TotalProduct = styled.div`
   font-size: 14px;
