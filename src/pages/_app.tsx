@@ -66,13 +66,12 @@ function ExtendedApp({ Component, pageProps, props }) {
     );
 }
 
-
 ExtendedApp.getInitialProps = async (ctx) => {
-    const categories: any = await categoriesApi.getAll();
-    return {
-        props: {
-            categories
-        },
-    };
+  const categories: any = await categoriesApi.getAll();
+  return {
+    props: {
+      categories,
+    },
+  };
 };
 export default ExtendedApp;
