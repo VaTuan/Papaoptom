@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
 import getSlug from "utils/getSlug";
 import getCateId from "utils/getCateId";
+import { setLocalState } from "utils/localStorage";
 
 export default function MenuMobile(props) {
   const [isShow, setIsShow] = useState();
@@ -18,22 +19,23 @@ export default function MenuMobile(props) {
   const [valueSlug03, setValueSlug03] = useState("");
   const [valueSlug04, setValueSlug04] = useState("");
   const [valueSlug05, setValueSlug05] = useState("");
-  // console.log("object", valueSlug01);
 
-  const handelClick = (value, item) => {
+  const handelClick = (value, item, query) => {
     setIsShow(value);
     setToggle(true);
     setValueSlug01(item);
+    setLocalState("query", query?.query);
   };
 
   const dataMenu = props.dataMenuMobile.map((item) => item);
 
   const datalistmenu = dataMenu.filter((x) => x.id === isShow);
 
-  const handelClickMenuCap2 = (value, item) => {
+  const handelClickMenuCap2 = (value, item, query) => {
     setToggleMenuCap2(true);
     setValueMenuCap2(value);
     setValueSlug02(item);
+    setLocalState("query", query?.query);
   };
 
   let dulieuLV2 = datalistmenu[0]?.children[0]?.children?.filter(
@@ -44,15 +46,15 @@ export default function MenuMobile(props) {
       item?.children?.filter((item) => item?.id === valueMenuCap4)
     )
   );
-  const handelClickMenuCap4 = (value, item) => {
+  const handelClickMenuCap4 = (value, item, query) => {
     setToggleMenuCap4(true);
     setValueMenuCap4(value);
     setValueSlug04(item);
-    console.log("hieu1232", valueSlug04);
+    setLocalState("query", query?.query);
   };
-  const handelClickMenuCap5 = (item) => {
+  const handelClickMenuCap5 = (item, query) => {
     setValueSlug05(item);
-    console.log("hieuookkkkk", valueSlug05);
+    setLocalState("query", query?.query);
   };
   return (
     <Wrapper value={isShow} toggle={toggle} toggleMenuCap2={toggleMenuCap2}>
@@ -68,7 +70,7 @@ export default function MenuMobile(props) {
                   <ArrowNext
                     className="mr10"
                     width="13"
-                    onClick={() => handelClick(item.id, item.slug)}
+                    onClick={() => handelClick(item.id, item.slug, item)}
                   />
                 )}
               </a>
@@ -98,7 +100,7 @@ export default function MenuMobile(props) {
                           className="mr10"
                           width="13"
                           onClick={() =>
-                            handelClickMenuCap2(index.id, index.slug)
+                            handelClickMenuCap2(index.id, index.slug, index)
                           }
                         />
                       )}
@@ -155,7 +157,8 @@ export default function MenuMobile(props) {
                                                 onClick={() =>
                                                   handelClickMenuCap4(
                                                     item02?.id,
-                                                    item02?.slug
+                                                    item02?.slug,
+                                                    item02
                                                   )
                                                 }
                                               />
@@ -205,7 +208,9 @@ export default function MenuMobile(props) {
                             key={key}
                           >
                             <li
-                              onClick={() => handelClickMenuCap5(item03?.slug)}
+                              onClick={() =>
+                                handelClickMenuCap5(item03?.slug, item03)
+                              }
                             >
                               {item03.title}
                             </li>

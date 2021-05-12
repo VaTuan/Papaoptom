@@ -204,9 +204,16 @@ const ContentTop = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
+  @media (max-width: 600px) {
+    display: unset;
+  }
 `;
 const TotalProduct = styled.div`
   font-size: 14px;
+  @media (max-width: 600px) {
+    margin-top: 15px;
+    font-size: 10px;
+  }
   strong {
     color: #213779;
   }
@@ -238,5 +245,8 @@ const BreadCrumb = styled.div`
   }
   @media (max-width: 600px) {
     display: unset;
+    span.cate_name {
+      font-size: 10px;
+    }
   }
 `;
