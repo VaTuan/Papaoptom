@@ -150,6 +150,12 @@ const SectionTopRight = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  @media (max-width: 990px) {
+    padding: 0 15px;
+    h1 {
+      font-size: 22px;
+    }
+  }
 `;
 
 const SectionSortSideCateName = styled.div`
@@ -229,5 +235,8 @@ const BreadCrumb = styled.div`
     font-weight: 600;
     color: #213779;
     margin-right: 8px;
+  }
+  @media (max-width: 600px) {
+    display: unset;
   }
 `;

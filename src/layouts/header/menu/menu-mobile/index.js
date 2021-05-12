@@ -1,129 +1,112 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { listCategories } from "utils/fakeDataHeader";
 import Link from "next/link";
 import { ArrowNext } from "assets/icons/ArrowNext";
+import getSlug from "utils/getSlug";
+import getCateId from "utils/getCateId";
 
 export default function MenuMobile(props) {
   const [isShow, setIsShow] = useState();
   const [valueMenuCap2, setValueMenuCap2] = useState();
-  const [valueMenuCap3, setValueMenuCap3] = useState();
-
+  const [valueMenuCap4, setValueMenuCap4] = useState();
   const [toggleItem, setToggleItem] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [toggleMenuCap2, setToggleMenuCap2] = useState(false);
-  const [toggleMenuCap3, setToggleMenuCap3] = useState(false);
+  const [toggleMenuCap4, setToggleMenuCap4] = useState(false);
+  const [valueSlug01, setValueSlug01] = useState("");
+  const [valueSlug02, setValueSlug02] = useState("");
+  const [valueSlug03, setValueSlug03] = useState("");
+  const [valueSlug04, setValueSlug04] = useState("");
+  const [valueSlug05, setValueSlug05] = useState("");
+  // console.log("object", valueSlug01);
 
-  const handelClick = (value) => {
+  const handelClick = (value, item) => {
     setIsShow(value);
     setToggle(true);
+    setValueSlug01(item);
   };
 
   const dataMenu = props.dataMenuMobile.map((item) => item);
-  /**
-   * todo filter theo id click
-   */
 
   const datalistmenu = dataMenu.filter((x) => x.id === isShow);
-  console.log("data click id menu", datalistmenu);
-  const aaa = datalistmenu[0]?.children.map((item) => item);
-  console.log("dulieu 3 th", aaa);
-  // const bbb = aaa?.childrenLevel02[0].map((item) => item);
-  // console.log({ bbb });
 
-  const handelClickItemMenu = () => {
-    setToggleItem(!toggleItem);
-  };
-  console.log("dulieuprops", props);
-
-  const handelClickMenuCap2 = (value) => {
+  const handelClickMenuCap2 = (value, item) => {
     setToggleMenuCap2(true);
     setValueMenuCap2(value);
+    setValueSlug02(item);
   };
 
   let dulieuLV2 = datalistmenu[0]?.children[0]?.children?.filter(
     (item) => item.id === valueMenuCap2
   );
-  let dulieuLV3 = datalistmenu[0]?.children[0]?.children?.map((item) => item);
-  console.log("id", dulieuLV3);
-
-  const handelClickMenuCap3 = (value) => {
-    setToggleMenuCap3(true);
-    setValueMenuCap3(value);
-    console.log("uiui", valueMenuCap3);
+  let dulieuLV3 = dulieuLV2?.map((item) =>
+    item?.children.map((item) =>
+      item?.children?.filter((item) => item?.id === valueMenuCap4)
+    )
+  );
+  const handelClickMenuCap4 = (value, item) => {
+    setToggleMenuCap4(true);
+    setValueMenuCap4(value);
+    setValueSlug04(item);
+    console.log("hieu1232", valueSlug04);
+  };
+  const handelClickMenuCap5 = (item) => {
+    setValueSlug05(item);
+    console.log("hieuookkkkk", valueSlug05);
   };
   return (
     <Wrapper value={isShow} toggle={toggle} toggleMenuCap2={toggleMenuCap2}>
-      {props.dataMenuMobile.map((item, index) => (
-        <CategoryItemRoot key={index}>
-          <div
-            scroll={true}
-            shallow={true}
-            href={{
-              pathname: "/shoes/[level01]",
-              query: { level01: item.slug, cate: item.title },
-            }}
-          >
-            <a>{item.title}</a>
-            {item.children.length > 0 ? (
-              <ArrowNext width="13" onClick={() => handelClick(item.id)} />
-            ) : (
-              ""
-            )}
-          </div>
-
-          {/* Phần cate con */}
-          {item.children.length > 0 && (
-            <ListCateLevel01
-              ishow={isShow}
-              className={isShow === true ? "show" : "hide"}
-            >
-              {item.children.map((children, index) => {
-                return (
-                  <CategoryItemLevel01
-                    className="cate_item__level01"
-                    key={index}
-                  >
-                    <Link
-                      href={{
-                        pathname: "/shoes/[level01]/[level02]",
-                        query: {
-                          level01: item.slug,
-                          level02: children.slug,
-                          cate01: item.title,
-                          cate02: children.title,
-                        },
-                      }}
-                      scroll={true}
-                    >
-                      <TitleWithIcon>
-                        <a>{children.title}</a>
-                        {children.childrenLevel02?.length > 0 && (
-                          <ArrowNext width="13" />
-                        )}
-                      </TitleWithIcon>
-                    </Link>
-                  </CategoryItemLevel01>
-                );
-              })}
-            </ListCateLevel01>
-          )}
-        </CategoryItemRoot>
-      ))}
+      {props.dataMenuMobile.map((item, index) => {
+        const slugLevel01 = getSlug(item?.slug);
+        const cateId01 = getCateId(item);
+        return (
+          <CategoryItemRoot key={index}>
+            <Link scroll={true} href={`/${slugLevel01}/${cateId01}`}>
+              <a>
+                {item.title}
+                {item.children.length > 0 && (
+                  <ArrowNext
+                    className="mr10"
+                    width="13"
+                    onClick={() => handelClick(item.id, item.slug)}
+                  />
+                )}
+              </a>
+            </Link>
+          </CategoryItemRoot>
+        );
+      })}
       {isShow === datalistmenu[0]?.id ? (
         <>
           <div className="list-menu">
-            {datalistmenu[0]?.children[0]?.children?.map((index, key) => (
-              <>
+            {datalistmenu[0]?.children[0]?.children?.map((index, key) => {
+              const slugLevel01 = getSlug(datalistmenu[0]?.slug);
+              const slugLevel02_c = getSlug(index?.slug);
+              const cateId02_c = getCateId(index);
+              return (
                 <li key={key}>
-                  {index.title}
-                  <ArrowNext
-                    width="13"
-                    onClick={() => handelClickMenuCap2(index.id)}
-                  />
+                  <Link
+                    href={`/${slugLevel01}/${slugLevel02_c}/${cateId02_c}`}
+                    scroll={true}
+                  >
+                    <a>
+                      {index.title}
+                      {datalistmenu[0]?.children[0]?.title !== "" ? (
+                        ""
+                      ) : (
+                        <ArrowNext
+                          className="mr10"
+                          width="13"
+                          onClick={() =>
+                            handelClickMenuCap2(index.id, index.slug)
+                          }
+                        />
+                      )}
+                    </a>
+                  </Link>
                 </li>
-              </>
-            ))}
+              );
+            })}
             {toggleMenuCap2 === true ? (
               <div className="menuCap2">
                 <span>
@@ -133,46 +116,105 @@ export default function MenuMobile(props) {
                   ></i>
                 </span>
                 {dulieuLV2.map((item, key) => (
-                  <li key={key}>
-                    {item?.children.map((item01, key01) => (
-                      <>
-                        <p key={key01}>
-                          {item01?.title}
-                          <ArrowNext
-                            width="13"
-                            onClick={() => handelClickMenuCap3(item01?.id)}
-                          />
-                        </p>
-                      </>
-                    ))}
-                  </li>
+                  <React.Fragment key={key}>
+                    {item?.children.map((item01, key01) => {
+                      return (
+                        <>
+                          <li key={key01}>
+                            <>
+                              <a
+                                className={
+                                  item01?.children.length > 0 ? "titleH2" : ""
+                                }
+                              >
+                                {item01?.title}
+                              </a>
+                              {item01?.children.length > 0 ? (
+                                <ul>
+                                  {item01?.children.map((item02, key) => {
+                                    const slugLevel01 = getSlug(
+                                      datalistmenu[0]?.slug
+                                    );
+                                    const slugLevel02_c = getSlug(item?.slug);
+                                    const slugLevel04_c = getSlug(item02?.slug);
+                                    const cateId04_c = getCateId(item02);
+                                    return (
+                                      <li key={key}>
+                                        <Link
+                                          href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel04_c}/${cateId04_c}`}
+                                          scroll={true}
+                                        >
+                                          <a>
+                                            {item02?.title}
+                                            {item02?.children.length === 0 ? (
+                                              ""
+                                            ) : (
+                                              <ArrowNext
+                                                className="mr10"
+                                                width="13"
+                                                onClick={() =>
+                                                  handelClickMenuCap4(
+                                                    item02?.id,
+                                                    item02?.slug
+                                                  )
+                                                }
+                                              />
+                                            )}
+                                          </a>
+                                        </Link>
+                                      </li>
+                                    );
+                                  })}
+                                </ul>
+                              ) : (
+                                ""
+                              )}
+                            </>
+                          </li>
+                        </>
+                      );
+                    })}
+                  </React.Fragment>
                 ))}{" "}
               </div>
             ) : (
               ""
             )}
-            {/* MenuLV3 */}
-            {toggleMenuCap3 === true ? (
-              <div className="menuCap3">
+            {/* MenuLV4 */}
+            {toggleMenuCap4 === true ? (
+              <div className="menuCap4">
                 <span>
                   <i
                     className="far fa-long-arrow-left"
-                    onClick={() => setToggleMenuCap3(false)}
+                    onClick={() => setToggleMenuCap4(false)}
                   ></i>
                 </span>
-                {dulieuLV2.map((item, key) => (
-                  <li key={key}>
-                    {item?.children.map((item01, key01) => (
-                      <>
-                        <p key={key01}>
-                          {item01?.children.map((item, key) => (
-                            <li>{item?.title}</li>
-                          ))}
-                        </p>
-                      </>
-                    ))}
-                  </li>
-                ))}
+                {dulieuLV3.map((item) =>
+                  item?.map((item01) =>
+                    item01?.map((item02) =>
+                      item02?.children?.map((item03, key) => {
+                        const slugLevel05 = getSlug(item03?.slug);
+                        const cateId05 = getCateId(item03);
+                        const slugLevel04 = getSlug(valueSlug04);
+                        const slugLevel02 = getSlug(valueSlug02);
+                        const slugLevel01 = getSlug(valueSlug01);
+                        return (
+                          <Link
+                            href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${slugLevel05}/${cateId05}`}
+                            scroll={true}
+                            key={key}
+                          >
+                            <li
+                              onClick={() => handelClickMenuCap5(item03?.slug)}
+                            >
+                              {item03.title}
+                            </li>
+                          </Link>
+                        );
+                      })
+                    )
+                  )
+                )}
               </div>
             ) : (
               ""
@@ -225,6 +267,9 @@ const Wrapper = styled.div`
     li {
       padding: 10px;
       font-size: 16px;
+      a {
+        color: #101010;
+      }
     }
     .menuCap2 {
       background-color: white;
@@ -246,14 +291,19 @@ const Wrapper = styled.div`
         }
       }
     }
-    .menuCap3 {
+    .titleH2 {
+      font-size: 20px;
+      text-align: center;
+      color: #111111;
+    }
+    .menuCap4 {
       background-color: white;
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100vh;
-      z-index: 10;
+      z-index: 12;
       padding: 20px;
       padding-top: 50px;
       span {
@@ -266,6 +316,9 @@ const Wrapper = styled.div`
         }
       }
     }
+  }
+  .mr10 {
+    margin-left: 10px;
   }
 `;
 const CategoryItemRoot = styled.li`
@@ -283,11 +336,4 @@ const CategoryItemRoot = styled.li`
   a {
     color: #101010;
   }
-`;
-const ListCateLevel01 = styled.ul`
-  /* display: ${({ isShow }) => (isShow === true ? "block" : "none")}; */
-`;
-const CategoryItemLevel01 = styled.li``;
-const TitleWithIcon = styled.div`
-  background-color: red;
 `;
