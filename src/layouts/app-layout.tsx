@@ -7,6 +7,7 @@ import Header from "./header/header";
 import { LayoutWrapper } from "./layout.style";
 import { isCategoryPage } from "./is-home-page";
 import Footer from "./footer";
+import About from "./About";
 
 const MobileHeader = dynamic(() => import("./header/mobile-header"), {
     ssr: false,
@@ -47,6 +48,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                 />
             </Sticky>
             {children}
+            <About/>
             <Footer />
         </LayoutWrapper>
     );

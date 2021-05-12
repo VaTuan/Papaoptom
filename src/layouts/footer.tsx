@@ -19,7 +19,7 @@ const Box = styled.div(
         },
     }),
     {
-        padding: 20,
+        padding: '20px',
         width: '100%',
         textAlign: 'center',
         display: 'flex',
@@ -30,9 +30,9 @@ const Box = styled.div(
 const Box2 = styled.div(
     css({
         fontFamily: 'body',
-        fontSize: 'sm',
+        fontSize: '16px',
         fontWeight: 'regular',
-        minHeight: '100px',
+        minHeight: '120px',
         color: '#165d4f',
         width: '100%',
         a: {
@@ -44,50 +44,32 @@ const Box2 = styled.div(
     }),
     {
         background: 'white',
-        float: 'right',
-        borderTop: '2px solid #165d4f',
+        paddingTop: '60px',
+        textAlign:'center',
     }
 );
 
 const Footer = () => {
     return (
-        <div>
+        <div>            
+            <Box2>
+                <div>
+                    <h6>Ромер телефон:(068) 237-1999</h6>
+                    <h6>Mail:<a href="mailto:duongminhhoalegend@gmail.com"> duongminhhoalegend@gmail.com</a></h6>
+                    <h6>Время работы:Сб.-Чт. с 6.00 до 17.00 (Пятница - выходной)</h6>
+                    <h6>Адресс: Одесса, ул.Базовая, 11 (район рынка "7 КМ")</h6>
+                </div>
+            </Box2>
             <Box>
                 <FormattedMessage
                     id='siteFooter'
                     defaultMessage='Papaoptom is a product of'
                 />
-        &nbsp;
-        <a href='#' target='_blank'>
-                    Papaoptom
-        </a>
+                &nbsp;
+                <a href='#' target='_blank'>
+                            Papaoptom
+                </a>
             </Box>
-            <Box2>
-                <div style={{
-                    width: '50%',
-                    float: 'left',
-                    borderLeft: '1px white solid',
-                    padding: '20px',
-                    textAlign: 'center'
-                }}>
-                    <h6>PAPAOPTOM</h6>
-                    <p><a href="">О Нас</a></p>
-                    <p><a href="">Как Заказать</a></p>
-                    <p><a href="">Доставка и Оплата</a></p>
-                </div>
-                <div style={{
-                    width: '50%',
-                    float: 'left',
-                    borderLeft: '1px white solid',
-                    padding: '20px',
-                    textAlign: 'center'
-                }}>
-                    <h6>КОНТАКТЫ</h6>
-                    <p>Call: 0966457832</p>
-                    <p><a href="mailto:abc@gmail.com">Mail: abc@gmail.com</a></p>
-                    <p>Время работы: Сб.-Чт. с 6.00 до 17.00 <br />Пятница - выходной</p>
-                </div>
-            </Box2>
         </div>
 
     );
