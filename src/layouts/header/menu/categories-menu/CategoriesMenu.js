@@ -17,6 +17,11 @@ import {
   ItemLevel04,
   Level05,
   ItemLevel05,
+  ListMenu,
+  MenuWithTitle,
+  TitleMenu,
+  MegaMenuWithTitle,
+  MenuWithTitleOneLevel,
 } from "./style";
 
 function CategoriesMenu(props) {
@@ -24,253 +29,491 @@ function CategoriesMenu(props) {
 
   //   console.log("items : ", items);
 
-  return (
-    <WrapperMenu>
-      <Level01>
-        {items?.map((level01) => {
-          const slugLevel01 = getSlug(level01?.slug);
-          const cateId01 = getCateId(level01);
-          return (
-            <ItemLevel01 key={level01.id}>
-              <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
-                <CustomLink padding="20px" color="#ffffff">
-                  {level01.title}
-                </CustomLink>
-              </Link>
+  const Cate01 = items[0];
+  const Cate02 = items[1];
+  const Cate03 = items[2];
+  const Cate04 = items[3];
+  const Cate05 = items[4];
+  const Cate06 = items[5];
+  const Cate07 = items[6];
 
-              <React.Fragment>
-                <Level02 className="level_02">
-                  {level01?.children.map((level02) => {
-                    const slugLevel02 = getSlug(level02?.slug);
-                    const cateId02 = getCateId(level02);
-                    // CHECK ĐIỀU KIỆN NẾU TITLE BẰNG RỖNG
-                    if (level02?.title === "") {
-                      return (
-                        <React.Fragment key={level02.id}>
-                          {level02?.children.map((level02_c, index) => {
-                            const slugLevel02_c = getSlug(level02_c?.slug);
-                            const cateId02_c = getCateId(level02_c);
-                            return (
-                              <ItemLevel02 key={level02_c.id}>
-                                <Link
-                                  href={`/${slugLevel01}/${slugLevel02_c}/${cateId02_c}`}
-                                  scroll={true}
-                                >
-                                  <TitleWithIcon>
-                                    <CustomLink
-                                      color="#000000"
-                                      paddingRight="16px"
-                                    >
-                                      {level02_c.title}
-                                    </CustomLink>
-                                    {level02_c?.children?.length > 0 && (
-                                      <ArrowNext width="14" />
-                                    )}
-                                  </TitleWithIcon>
-                                </Link>
+  console.log("====================================");
+  console.log("cate07 : ", Cate07);
+  console.log("====================================");
 
-                                {level02_c?.children.length > 0 && (
-                                  <React.Fragment>
-                                    <Level03
-                                      className={`level_03 ${
-                                        level02_c?.children.length > 16 &&
-                                        "mega-menu__level_03"
-                                      } index_custom-${index}`}
+  const renderCate01 = () => {
+    const slugLevel01 = getSlug(Cate01?.slug);
+    const cateId01 = getCateId(Cate01);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate01?.title}
+          </CustomLink>
+        </Link>
+
+        {Cate01?.children.length > 0 && (
+          <Level02 className="level_02">
+            {Cate01?.children[0]?.children?.map((level02) => {
+              const slugLevel02 = getSlug(level02?.slug);
+              const cateId02 = getCateId(level02);
+              return (
+                <ItemLevel02 key={level02.id}>
+                  <Link
+                    href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                    scroll={true}
+                  >
+                    <TitleWithIcon>
+                      <CustomLink color="#000000" paddingRight="16px">
+                        {level02.title}
+                      </CustomLink>
+                      {level02?.children?.length > 0 && (
+                        <ArrowNext width="14" />
+                      )}
+                    </TitleWithIcon>
+                  </Link>
+
+                  {level02?.children?.length > 0 && (
+                    <Level03 className={`level_03 ${level02.title}`}>
+                      {level02?.children?.map((level03, index) => {
+                        return (
+                          <MenuWithTitle
+                            className={`custom-menu__${level03.title}`}
+                            key={index}
+                          >
+                            <TitleMenu>{level03?.title}</TitleMenu>
+                            {level03?.children?.map((level04) => {
+                              const slugLevel04 = getSlug(level04?.slug);
+                              const cateId04 = getCateId(level04);
+                              return (
+                                <ItemLevel03 key={level04.id}>
+                                  <Link
+                                    href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${cateId04}`}
+                                    scroll={true}
+                                  >
+                                    <TitleWithIcon>
+                                      <CustomLink color="#000000">
+                                        {level04?.title}
+                                      </CustomLink>
+                                      {level04?.children?.length > 0 && (
+                                        <ArrowNext width="14" />
+                                      )}
+                                    </TitleWithIcon>
+                                  </Link>
+
+                                  {level04?.children?.length > 0 && (
+                                    <Level04
+                                      className={`level_04 ${level04.title} mega-menu__level_04`}
                                     >
-                                      {level02_c?.children.map((level03_c) => {
-                                        const slugLevel03_c = getSlug(
-                                          level03_c?.slug
+                                      {level04?.children?.map((level05) => {
+                                        const slugLevel05 = getSlug(
+                                          level05?.slug
                                         );
-                                        const cateId03_c = getCateId(level03_c);
-
+                                        const cateId05 = getCateId(level05);
                                         return (
-                                          <ItemLevel03 key={level03_c.id}>
+                                          <ItemLevel04 key={level05.id}>
                                             <Link
-                                              href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${cateId03_c}`}
+                                              href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${slugLevel05}/${cateId05}`}
                                               scroll={true}
                                             >
                                               <TitleWithIcon>
                                                 <CustomLink color="#000000">
-                                                  {level03_c.title}
+                                                  {level05?.title}
                                                 </CustomLink>
-                                                {level03_c?.children?.length >
+                                                {level05?.children?.length >
                                                   0 && <ArrowNext width="14" />}
                                               </TitleWithIcon>
                                             </Link>
-
-                                            {level03_c?.children.length > 0 && (
-                                              <React.Fragment>
-                                                <Level04
-                                                  className={`level_04 ${
-                                                    level03_c?.children.length >
-                                                      10 &&
-                                                    "mega-menu__level_04"
-                                                  }`}
-                                                >
-                                                  {level03_c?.children.map(
-                                                    (level04_c, index) => {
-                                                      const slugLevel04_c = getSlug(
-                                                        level04_c?.slug
-                                                      );
-                                                      const cateId04_c = getCateId(
-                                                        level04_c
-                                                      );
-
-                                                      return (
-                                                        <ItemLevel04
-                                                          key={index}
-                                                        >
-                                                          {level04_c?.children
-                                                            .length > 0 ? (
-                                                            <Link
-                                                              href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${cateId04_c}`}
-                                                              scroll={true}
-                                                            >
-                                                              <TitleWithIcon>
-                                                                <CustomLink color="#000000">
-                                                                  {
-                                                                    level04_c.title
-                                                                  }
-                                                                </CustomLink>
-                                                                <ArrowNext width="14" />
-                                                              </TitleWithIcon>
-                                                            </Link>
-                                                          ) : (
-                                                            <>
-                                                              <Link
-                                                                href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${cateId04_c}`}
-                                                                scroll={true}
-                                                              >
-                                                                {
-                                                                  level04_c.title
-                                                                }
-                                                              </Link>
-                                                            </>
-                                                          )}
-
-                                                          {level04_c?.children
-                                                            .length > 0 && (
-                                                            <React.Fragment>
-                                                              <Level05
-                                                                className={`level_05 ${
-                                                                  level04_c
-                                                                    ?.children
-                                                                    .length >
-                                                                    10 &&
-                                                                  "mega-menu__level_05"
-                                                                } index_custom-${index}`}
-                                                              >
-                                                                {level04_c?.children?.map(
-                                                                  (
-                                                                    level05_c
-                                                                  ) => {
-                                                                    const slugLevel05_c = getSlug(
-                                                                      level05_c?.slug
-                                                                    );
-                                                                    const cateId05_c = getCateId(
-                                                                      level05_c
-                                                                    );
-
-                                                                    return (
-                                                                      <Link
-                                                                        href={`/${slugLevel01}/${slugLevel02_c}/${slugLevel03_c}/${slugLevel04_c}/${slugLevel05_c}/${cateId05_c}`}
-                                                                        scroll={
-                                                                          true
-                                                                        }
-                                                                      >
-                                                                        <ItemLevel05
-                                                                          key={
-                                                                            level05_c.id
-                                                                          }
-                                                                        >
-                                                                          {
-                                                                            level05_c.title
-                                                                          }
-                                                                        </ItemLevel05>
-                                                                      </Link>
-                                                                    );
-                                                                  }
-                                                                )}
-                                                              </Level05>
-                                                            </React.Fragment>
-                                                          )}
-                                                        </ItemLevel04>
-                                                      );
-                                                    }
-                                                  )}
-                                                </Level04>
-                                              </React.Fragment>
-                                            )}
-                                          </ItemLevel03>
+                                          </ItemLevel04>
                                         );
                                       })}
-                                    </Level03>
-                                  </React.Fragment>
-                                )}
-                              </ItemLevel02>
-                            );
-                          })}
-                        </React.Fragment>
-                      );
-                    } else {
-                      // NẾU CÓ TITLE ĐẦY ĐỦ THÌ CHẠY VÀO ĐÂY
-                      return (
-                        <>
-                          <ItemLevel02 key={level02.id} topPosition="-100%">
+                                    </Level04>
+                                  )}
+                                </ItemLevel03>
+                              );
+                            })}
+                          </MenuWithTitle>
+                        );
+                      })}
+                    </Level03>
+                  )}
+                </ItemLevel02>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
+
+  const renderCate02 = () => {
+    const slugLevel01 = getSlug(Cate02?.slug);
+    const cateId01 = getCateId(Cate02);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate02?.title}
+          </CustomLink>
+        </Link>
+
+        {Cate02?.children?.length > 0 && (
+          <Level02 className="level_02">
+            {Cate02?.children?.map((item, index) => {
+              return (
+                <MenuWithTitleOneLevel key={index}>
+                  <TitleMenu>{item?.title}</TitleMenu>
+                  {item?.children?.map((level02) => {
+                    const slugLevel02 = getSlug(level02?.slug);
+                    const cateId02 = getCateId(level02);
+                    return (
+                      <ItemLevel02 key={level02.id}>
+                        <Link
+                          href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                          scroll={true}
+                        >
+                          <TitleWithIcon>
+                            <CustomLink color="#000000">
+                              {level02?.title}
+                            </CustomLink>
+                            {level02?.children?.length > 0 && (
+                              <ArrowNext width="14" />
+                            )}
+                          </TitleWithIcon>
+                        </Link>
+                      </ItemLevel02>
+                    );
+                  })}
+                </MenuWithTitleOneLevel>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
+  const renderCate03 = () => {
+    const slugLevel01 = getSlug(Cate03?.slug);
+    const cateId01 = getCateId(Cate03);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate03?.title}
+          </CustomLink>
+        </Link>
+
+        {Cate03?.children?.length > 0 && (
+          <Level02 className="level_02">
+            {Cate03?.children?.map((item, index) => {
+              return (
+                <MenuWithTitleOneLevel key={index}>
+                  <TitleMenu>{item?.title}</TitleMenu>
+                  {item?.children?.map((level02) => {
+                    const slugLevel02 = getSlug(level02?.slug);
+                    const cateId02 = getCateId(level02);
+                    return (
+                      <ItemLevel02 key={level02.id}>
+                        <Link
+                          href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                          scroll={true}
+                        >
+                          <TitleWithIcon>
+                            <CustomLink color="#000000">
+                              {level02?.title}
+                            </CustomLink>
+                            {level02?.children?.length > 0 && (
+                              <ArrowNext width="14" />
+                            )}
+                          </TitleWithIcon>
+                        </Link>
+                      </ItemLevel02>
+                    );
+                  })}
+                </MenuWithTitleOneLevel>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
+  const renderCate04 = () => {
+    const slugLevel01 = getSlug(Cate04?.slug);
+    const cateId01 = getCateId(Cate04);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate04?.title}
+          </CustomLink>
+        </Link>
+
+        {Cate04?.children?.length > 0 && (
+          <Level02 className="level_02">
+            {Cate04?.children?.map((item, index) => {
+              return (
+                <MenuWithTitleOneLevel key={index}>
+                  <TitleMenu>{item?.title}</TitleMenu>
+                  {item?.children?.map((level02) => {
+                    const slugLevel02 = getSlug(level02?.slug);
+                    const cateId02 = getCateId(level02);
+                    return (
+                      <ItemLevel02 key={level02.id}>
+                        <Link
+                          href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                          scroll={true}
+                        >
+                          <TitleWithIcon>
+                            <CustomLink color="#000000">
+                              {level02?.title}
+                            </CustomLink>
+                            {level02?.children?.length > 0 && (
+                              <ArrowNext width="14" />
+                            )}
+                          </TitleWithIcon>
+                        </Link>
+                      </ItemLevel02>
+                    );
+                  })}
+                </MenuWithTitleOneLevel>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
+
+  const renderCate05 = () => {
+    const slugLevel01 = getSlug(Cate05?.slug);
+    const cateId01 = getCateId(Cate05);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate05?.title}
+          </CustomLink>
+        </Link>
+
+        {Cate05?.children?.length > 0 && (
+          <Level02 className="level_02">
+            {Cate05?.children?.map((item, index) => {
+              return (
+                <MenuWithTitleOneLevel key={index}>
+                  <TitleMenu>{item?.title}</TitleMenu>
+                  {item?.children?.map((level02) => {
+                    const slugLevel02 = getSlug(level02?.slug);
+                    const cateId02 = getCateId(level02);
+                    return (
+                      <ItemLevel02 key={level02.id}>
+                        <Link
+                          href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                          scroll={true}
+                        >
+                          <TitleWithIcon>
+                            <CustomLink color="#000000">
+                              {level02?.title}
+                            </CustomLink>
+                            {level02?.children?.length > 0 && (
+                              <ArrowNext width="14" />
+                            )}
+                          </TitleWithIcon>
+                        </Link>
+                      </ItemLevel02>
+                    );
+                  })}
+                </MenuWithTitleOneLevel>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
+  const renderCate06 = () => {
+    const slugLevel01 = getSlug(Cate06?.slug);
+    const cateId01 = getCateId(Cate06);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate06?.title}
+          </CustomLink>
+        </Link>
+
+        {Cate06?.children.length > 0 && (
+          <Level02 className="level_02">
+            {Cate06?.children[0]?.children?.map((level02) => {
+              const slugLevel02 = getSlug(level02?.slug);
+              const cateId02 = getCateId(level02);
+              return (
+                <ItemLevel02 key={level02.id}>
+                  <Link
+                    href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                    scroll={true}
+                  >
+                    <TitleWithIcon>
+                      <CustomLink color="#000000" paddingRight="16px">
+                        {level02.title}
+                      </CustomLink>
+                      {level02?.children?.length > 0 && (
+                        <ArrowNext width="14" />
+                      )}
+                    </TitleWithIcon>
+                  </Link>
+
+                  {level02?.children?.length > 0 && (
+                    <Level03 className={`level_03 ${level02.title}`}>
+                      {level02?.children?.map((level03, index) => {
+                        return (
+                          <MenuWithTitle
+                            className={`custom-menu__${level03.title}`}
+                            key={index}
+                          >
+                            <TitleMenu>{level03?.title}</TitleMenu>
+                            {level03?.children?.map((level04) => {
+                              const slugLevel04 = getSlug(level04?.slug);
+                              const cateId04 = getCateId(level04);
+                              return (
+                                <ItemLevel03 key={level04.id}>
+                                  <Link
+                                    href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${cateId04}`}
+                                    scroll={true}
+                                  >
+                                    <TitleWithIcon>
+                                      <CustomLink color="#000000">
+                                        {level04?.title}
+                                      </CustomLink>
+                                      {level04?.children?.length > 0 && (
+                                        <ArrowNext width="14" />
+                                      )}
+                                    </TitleWithIcon>
+                                  </Link>
+
+                                  {level04?.children?.length > 0 && (
+                                    <Level04
+                                      className={`level_04 ${level04.title} mega-menu__level_04`}
+                                    >
+                                      {level04?.children?.map((level05) => {
+                                        const slugLevel05 = getSlug(
+                                          level05?.slug
+                                        );
+                                        const cateId05 = getCateId(level05);
+                                        return (
+                                          <ItemLevel04 key={level05.id}>
+                                            <Link
+                                              href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${slugLevel05}/${cateId05}`}
+                                              scroll={true}
+                                            >
+                                              <TitleWithIcon>
+                                                <CustomLink color="#000000">
+                                                  {level05?.title}
+                                                </CustomLink>
+                                                {level05?.children?.length >
+                                                  0 && <ArrowNext width="14" />}
+                                              </TitleWithIcon>
+                                            </Link>
+                                          </ItemLevel04>
+                                        );
+                                      })}
+                                    </Level04>
+                                  )}
+                                </ItemLevel03>
+                              );
+                            })}
+                          </MenuWithTitle>
+                        );
+                      })}
+                    </Level03>
+                  )}
+                </ItemLevel02>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
+
+  const renderCate07 = () => {
+    const slugLevel01 = getSlug(Cate07?.slug);
+    const cateId01 = getCateId(Cate07);
+    return (
+      <ItemLevel01>
+        <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
+          <CustomLink padding="20px" color="#ffffff">
+            {Cate07?.title}
+          </CustomLink>
+        </Link>
+        {Cate07?.children?.length > 0 && (
+          <Level02 className="level_02">
+            {Cate07?.children[0]?.children?.map((level02) => {
+              const slugLevel02 = getSlug(level02?.slug);
+              const cateId02 = getCateId(level02);
+              return (
+                <ItemLevel02 key={level02.id}>
+                  <Link
+                    href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                    scroll={true}
+                  >
+                    <TitleWithIcon>
+                      <CustomLink color="#000000" paddingRight="16px">
+                        {level02.title}
+                      </CustomLink>
+                      {level02?.children?.length > 0 && (
+                        <ArrowNext width="14" />
+                      )}
+                    </TitleWithIcon>
+                  </Link>
+
+                  {level02?.children?.length > 0 && (
+                    <Level03
+                      className={`level_03 mega-menu__level_03 ${level02.title}`}
+                    >
+                      {level02?.children?.map((level03) => {
+                        const slugLevel03 = getSlug(level03?.slug);
+                        const cateId03 = getCateId(level03);
+                        return (
+                          <ItemLevel03 key={level03.id}>
                             <Link
-                              href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
+                              href={`/${slugLevel01}/${slugLevel02}/${slugLevel03}/${cateId03}`}
                               scroll={true}
                             >
                               <TitleWithIcon>
                                 <CustomLink color="#000000" paddingRight="16px">
-                                  {level02.title}
+                                  {level03.title}
                                 </CustomLink>
-                                {level02.children?.length > 0 && (
+                                {level03?.children?.length > 0 && (
                                   <ArrowNext width="14" />
                                 )}
                               </TitleWithIcon>
                             </Link>
+                          </ItemLevel03>
+                        );
+                      })}
+                    </Level03>
+                  )}
+                </ItemLevel02>
+              );
+            })}
+          </Level02>
+        )}
+      </ItemLevel01>
+    );
+  };
 
-                            {level02?.children.length > 0 && (
-                              <React.Fragment>
-                                <Level03
-                                  className={`level_03 ${
-                                    level02?.children.length > 15 &&
-                                    "mega-menu__level_03"
-                                  }`}
-                                >
-                                  {level02?.children?.map((level03) => {
-                                    const slugLevel03 = getSlug(level03?.slug);
-                                    const cateId03 = getCateId(level03);
-                                    return (
-                                      <Link
-                                        href={`/${slugLevel01}/${slugLevel02}/${slugLevel03}/${cateId03}`}
-                                        scroll={true}
-                                      >
-                                        <ItemLevel03 key={level03.id}>
-                                          {level03.title}
-
-                                          {/* HIỆN TẠI ĐẾN ĐÂY LÀ HẾT  */}
-                                          {level03?.children.length > 0 &&
-                                            "còn tiếp"}
-                                        </ItemLevel03>
-                                      </Link>
-                                    );
-                                  })}
-                                </Level03>
-                              </React.Fragment>
-                            )}
-                          </ItemLevel02>
-                        </>
-                      );
-                    }
-                  })}
-                </Level02>
-              </React.Fragment>
-            </ItemLevel01>
-          );
-        })}
-      </Level01>
+  return (
+    <WrapperMenu>
+      <ListMenu>
+        {renderCate01()}
+        {renderCate02()}
+        {renderCate03()}
+        {renderCate04()}
+        {renderCate05()}
+        {renderCate06()}
+        {renderCate07()}
+      </ListMenu>
     </WrapperMenu>
   );
 }

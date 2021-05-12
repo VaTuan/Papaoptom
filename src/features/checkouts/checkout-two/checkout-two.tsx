@@ -74,7 +74,7 @@ const OrderItem: React.FC<CartItemProps> = ({ product }) => {
   const price = Number(product?.characteristics?.totalOldPurchasePrice) ?? 0;
   const salePrice = Number(product?.characteristics?.totalSellingPrice) ?? 0;
   const displayPrice = salePrice ? salePrice : price;
-
+  
   const handleClick = (e, value) => {
     e.preventDefault()
     if (product.quantity < 1 && value == -1) {
@@ -129,7 +129,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   const [address, setADdress] = useState("")
   const [message, setMessage] = useState("")
 
-
+  
   const validationSchema = yup.object({
     name: yup.string().required("Please enter your name"),
     email: yup.string(),
@@ -147,18 +147,22 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
     },
     onSubmit: (values) => {
       setLoading(true);
+      
       addOrder({
         variables: {
-          products: items.map(item => ({
+          products: items.map(item => {
+            delete item.characteristics.__typename;
+            return {
             id: item.id,
             slug: item.slug,
             vcode: item.vcode,
             productName: item.name,
             quantity: item.quantity,
             categoryId: item.category.id,
-            subTotal: parseFloat(item.subTotal),
-            price: parseFloat(item.subTotal),
-          })),
+            subTotal: parseFloat(item.characteristics.totalSellingPrice)*item.quantity,
+            price: parseFloat(item.characteristics.totalSellingPrice),
+            characteristics: item.characteristics
+          }}),
           isActivated: true,
           disCount: 0,
           deliveryFee: 0,
@@ -222,6 +226,7 @@ const CheckoutWithSidebar: React.FC<MyFormProps> = ({ token, deviceType }) => {
   // const { address, contact, card, schedules } = state;
   const { contact } = state;
   const size = useWindowSize();
+  console.log(items,"ITEMMMMMMMMM");
 
 
   const [addOrder, data] = useMutation(ADD_ORDER_PAPA);
