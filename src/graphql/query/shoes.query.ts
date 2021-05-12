@@ -147,9 +147,29 @@ export const SEARCH_SHOES = gql`
   }
 `;
 
-export const GET_SHOES_BY_CATE = gql`
-query queruProduct($supplier: String, $pageSize: Int, $pageNumber: Int, $categoryIds: [String!]){
-    filterProduct(filter :{supplier: $supplier, pageSize: $pageSize, pageNumber: $pageNumber, categoryIds: $categoryIds}){
+export const GET_PRODUCT_BY_CATE = gql`
+query queruProduct(
+    $supplier: String,
+    $pageSize: Int,
+    $pageNumber: Int,
+    $categoryIds: [String!],
+    $categoriesName :[String!],
+    $attributeValues :[String!],
+    $brandIds :[String!],
+    $isNew :Boolean,
+    $isSale:Boolean
+    ){
+    filterProduct(filter :{
+        supplier: $supplier,
+        pageSize: $pageSize,
+        pageNumber: $pageNumber,
+        categoryIds: $categoryIds,
+        categoriesName :$categoriesName, 
+        attributeValues :$attributeValues,
+        brandIds :$brandIds,
+        isNew :$isNew,
+        isSale:$isSale
+    }){
       message
       code
       data {
@@ -174,6 +194,7 @@ query queruProduct($supplier: String, $pageSize: Int, $pageNumber: Int, $categor
         }
         createdAt
         updatedAt
+        isNew
         characteristics {
           description
           photo1

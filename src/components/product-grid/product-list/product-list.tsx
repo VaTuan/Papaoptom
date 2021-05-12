@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // @ts-ignore
 import { useRouter } from "next/router";
 // @ts-ignore
@@ -13,21 +13,24 @@ import {
 } from "./product-list.style";
 import { CURRENCY, CURRENCY_UAH } from "utils/constant";
 // @ts-ignore
-import { useQuery, NetworkStatus } from "@apollo/client";
+import { useQuery, NetworkStatus, useLazyQuery } from "@apollo/client";
 import Placeholder from "components/placeholder/placeholder";
 // @ts-ignore
 import Fade from "react-reveal/Fade";
 import NoResultFound from "components/no-result/no-result";
 import { FormattedMessage } from "react-intl";
 import { Button } from "components/button/loadmore-button";
-import { GET_PRODUCTS } from "graphql/query/products.query";
-import { GET_SHOES, SEARCH_SHOES } from "graphql/query/shoes.query";
+import { GET_PRODUCT_BY_CATE, SEARCH_SHOES } from "graphql/query/shoes.query";
 import { useAppState } from "../../../contexts/app/app.provider";
 
-const ErrorMessage = dynamic(() => import("components/error-message/error-message"));
+const ErrorMessage = dynamic(
+    () => import("components/error-message/error-message")
+);
 
-const GeneralCard = dynamic(import("components/product-card/product-card-one/product-card-one"));
-import { GET_SHOES_BY_CATE } from './../../../graphql/query/shoes.query';
+const GeneralCard = dynamic(
+    import("components/product-card/product-card-one/product-card-one")
+);
+import { getLocalState } from "utils/localStorage";
 
 type ProductsProps = {
     deviceType?: {
@@ -47,37 +50,80 @@ type ProductsQueryProps = {
     searchShoes?: any;
 };
 
-export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20, loadMore = true, type, cateId, onTotalProduct }) => {
+export const Products: React.FC<ProductsProps> = ({
+    deviceType,
+    fetchLimit = 20,
+    loadMore = true,
+    type,
+    cateId,
+    onTotalProduct,
+}) => {
     const router = useRouter();
     const searchTerm = useAppState("searchTerm");
     const category = useAppState("category");
+    const localState = getLocalState("query");
 
-    let queryResult = useQuery(
-        searchTerm ? SEARCH_SHOES : GET_SHOES_BY_CATE,
-        searchTerm
-            ? {
-                variables: {
-                    searchTerm: searchTerm,
-                    pageSize: fetchLimit,
-                    pageNumber: 1,
-                },
-            }
-            : {
-                variables: {
-                    pageSize: fetchLimit,
-                    pageNumber: 1,
-                    categoryIds: cateId === "A" ? [] : !cateId ? [] : [`${cateId}`]
-                },
+    // console.log("====================================");
+    // console.log("local state : ", localState);
+    // console.log("====================================");
+
+    // let queryResult = useQuery(
+    //     searchTerm ? SEARCH_SHOES : GET_PRODUCT_BY_CATE,
+    //     searchTerm
+    //         ? {
+    //             variables: {
+    //                 searchTerm: searchTerm,
+    //                 pageSize: fetchLimit,
+    //                 pageNumber: 1,
+    //             },
+    //         }
+    //         : {
+    //             variables: {
+    //                 pageSize: fetchLimit,
+    //                 pageNumber: 1,
+    //                 categoryIds: localState?.categoryIds,
+    //                 categoriesName: localState?.categoriesName,
+    //                 attributeValues: localState?.attributeValues,
+    //                 brandIds: localState?.brandIds?.map(brandId => brandId.toString()),
+    //                 isNew: localState?.isNew,
+    //                 isSale: localState?.isSale,
+    //             },
+    //         }
+    // );
+
+    const [products, setProducts] = useState([]);
+
+    // const [loadGreeting, { called, loading, data }] = useLazyQuery(
+    const [getProductByCate, { called, loading, error }] = useLazyQuery(
+        GET_PRODUCT_BY_CATE,
+        {
+            variables: {
+                pageSize: fetchLimit,
+                pageNumber: 1,
+                categoryIds: localState?.categoryIds,
+                categoriesName: localState?.categoriesName,
+                attributeValues: localState?.attributeValues,
+                brandIds: localState?.brandIds?.map((brandId) => brandId.toString()),
+                // brandIds: [123],
+                isNew: localState?.isNew,
+                isSale: localState?.isSale,
             },
+            onCompleted: (response) => {
+                setProducts(response.filterProduct.data);
+            },
+        }
     );
 
-    const { error, loading, fetchMore, networkStatus } = queryResult;
+    useEffect(() => {
+        getProductByCate();
+    }, []);
 
+    // const { error, loading, fetchMore, networkStatus } = queryResult;
 
-    const loadingMore = networkStatus === NetworkStatus.fetchMore;
+    // const loadingMore = networkStatus === NetworkStatus.fetchMore;
 
     if (error) return <ErrorMessage message={error.message} />;
-    if (loading && !loadingMore) {
+    if (loading) {
         return (
             <LoaderWrapper>
                 <LoaderItem>
@@ -93,23 +139,26 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
         );
     }
 
-    const result = searchTerm ? queryResult.data.searchShoes : queryResult.data.filterProduct;
+    // const result = searchTerm
+    //     ? queryResult.data.searchShoes
+    //     : queryResult.data.filterProduct;
 
-    if (!result || !result.data || result.data.length === 0) {
+    // if (!result || !result.data || result.data.length === 0) {
+    //     return <NoResultFound />;
+    // }
+    if (products?.length === 0) {
         return <NoResultFound />;
     }
 
-    const data = result?.data;
+    // const data = result?.data;
     // const totalProduct = onTotalProduct && onTotalProduct(result?.totalProduct)
-    const isNextPage = result?.hasNextPage;
+    // const isNextPage = result?.hasNextPage;
 
-
-    if (onTotalProduct) {
-        onTotalProduct(result?.totalProduct)
-    }
+    // if (onTotalProduct) {
+    //     onTotalProduct(result?.totalProduct);
+    // }
     // const [isNextPage, setIsNextPage] = useState(result?.hasNextPage)
-    console.log('data nhận được nè : ', data);
-
+    // console.log('data nhận được nè : ', data);
 
     /**
      * function thực hiện loadmore products
@@ -121,7 +170,10 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                 pageNumber: Number(result?.nextPage ?? 0),
                 pageSize: fetchLimit,
             },
-            updateQuery: (previousResult: ProductsQueryProps, { fetchMoreResult }) => {
+            updateQuery: (
+                previousResult: ProductsQueryProps,
+                { fetchMoreResult }
+            ) => {
                 console.log(previousResult);
                 console.log(fetchMoreResult);
 
@@ -129,8 +181,10 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                     return previousResult;
                 }
                 const data = [
-                    ...(previousResult?.[searchTerm ? "searchShoes" : "filterProduct"]?.data ?? []),
-                    ...(fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"].data ?? []),
+                    ...(previousResult?.[searchTerm ? "searchShoes" : "filterProduct"]
+                        ?.data ?? []),
+                    ...(fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"]
+                        .data ?? []),
                 ];
 
                 const {
@@ -166,12 +220,12 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
         });
     };
 
-
     // function thực hiện render card product
     //  created by tuanva 21/04/2020
     const renderCard = (productType, props) => {
         // console.log(props);
-        const { name, characteristics, category, brand, vcode, type, supplier } = props;
+        const { name, characteristics, category, brand, vcode, type, supplier } =
+            props;
         const {
             description,
             photo1,
@@ -185,7 +239,8 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
 
         return (
             <GeneralCard
-                title={`${name} ${type ?? ""} ${brand?.name ?? ""} ${vcode ?? ""} ${color ?? ""}`}
+                title={`${name} ${type ?? ""} ${brand?.name ?? ""} ${vcode ?? ""} ${color ?? ""
+                    }`}
                 description={description}
                 image={photo1}
                 weight={`P.${sizeChart} / ${steamInBox} Пар`}
@@ -199,23 +254,24 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
         );
     };
 
-
-
     return (
         <>
             <ProductsRow>
-                {data?.map((item: any, index: number) => (
+                {products?.map((item: any, index: number) => (
                     <ProductsCol key={index}>
                         <ProductCardWrapper>
-                            <Fade duration={800} delay={index * 10} style={{ height: "100%" }}>
-
+                            <Fade
+                                duration={800}
+                                delay={index * 10}
+                                style={{ height: "100%" }}
+                            >
                                 {renderCard(type, item)}
                             </Fade>
                         </ProductCardWrapper>
                     </ProductsCol>
                 ))}
             </ProductsRow>
-            {isNextPage && (
+            {/* {isNextPage && (
                 <ButtonWrapper>
                     <Button
                         onClick={handleLoadMore}
@@ -229,7 +285,7 @@ export const Products: React.FC<ProductsProps> = ({ deviceType, fetchLimit = 20,
                         <FormattedMessage id="loadMoreButton" defaultMessage="Load More" />
                     </Button>
                 </ButtonWrapper>
-            )}
+            )} */}
         </>
     );
 };

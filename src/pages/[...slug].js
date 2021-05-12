@@ -16,6 +16,7 @@ import { siteOffers } from "site-settings/site-offers";
 
 import Carousel from "components/carousel/carousel";
 import Link from "next/link";
+import { getLocalState } from "utils/localStorage";
 
 const CartPopUp = dynamic(() => import("features/carts/cart-popup"), {
   ssr: false,
@@ -52,6 +53,12 @@ function ShoesFilterPage(props) {
   const onTotalProduct = (value) => {
     setTotalProduct(value);
   };
+  const localState = getLocalState("query");
+
+  console.log("====================================");
+  console.log("local state : ", localState);
+  console.log("====================================");
+
   return (
     <>
       <SEO title="PAGE LEVEL 01" description="description for seo" />

@@ -1,6 +1,6 @@
 import { ArrowNext } from "assets/icons/ArrowNext";
 import Link from "next/link";
-import React from "react";
+import React, { useRef } from "react";
 import getSlug from "utils/getSlug";
 import getCateId from "utils/getCateId";
 import { WrapperMenu } from "../category-menu/style";
@@ -23,11 +23,10 @@ import {
   MegaMenuWithTitle,
   MenuWithTitleOneLevel,
 } from "./style";
+import { setLocalState } from "utils/localStorage";
 
 function CategoriesMenu(props) {
   const { items, deviceType, categories } = props;
-
-  //   console.log("items : ", items);
 
   const Cate01 = items[0];
   const Cate02 = items[1];
@@ -37,15 +36,17 @@ function CategoriesMenu(props) {
   const Cate06 = items[5];
   const Cate07 = items[6];
 
-  console.log("====================================");
-  console.log("cate07 : ", Cate07);
-  console.log("====================================");
-
   const renderCate01 = () => {
     const slugLevel01 = getSlug(Cate01?.slug);
     const cateId01 = getCateId(Cate01);
+
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
+
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate01)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate01?.title}
@@ -58,7 +59,10 @@ function CategoriesMenu(props) {
               const slugLevel02 = getSlug(level02?.slug);
               const cateId02 = getCateId(level02);
               return (
-                <ItemLevel02 key={level02.id}>
+                <ItemLevel02
+                  key={level02.id}
+                  onMouseDown={(e) => handelClick(e, level02)}
+                >
                   <Link
                     href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                     scroll={true}
@@ -86,7 +90,10 @@ function CategoriesMenu(props) {
                               const slugLevel04 = getSlug(level04?.slug);
                               const cateId04 = getCateId(level04);
                               return (
-                                <ItemLevel03 key={level04.id}>
+                                <ItemLevel03
+                                  key={level04.id}
+                                  onMouseDown={(e) => handelClick(e, level04)}
+                                >
                                   <Link
                                     href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${cateId04}`}
                                     scroll={true}
@@ -111,7 +118,12 @@ function CategoriesMenu(props) {
                                         );
                                         const cateId05 = getCateId(level05);
                                         return (
-                                          <ItemLevel04 key={level05.id}>
+                                          <ItemLevel04
+                                            key={level05.id}
+                                            onMouseDown={(e) =>
+                                              handelClick(e, level05)
+                                            }
+                                          >
                                             <Link
                                               href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${slugLevel05}/${cateId05}`}
                                               scroll={true}
@@ -149,8 +161,14 @@ function CategoriesMenu(props) {
   const renderCate02 = () => {
     const slugLevel01 = getSlug(Cate02?.slug);
     const cateId01 = getCateId(Cate02);
+
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
+
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate02)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate02?.title}
@@ -167,7 +185,10 @@ function CategoriesMenu(props) {
                     const slugLevel02 = getSlug(level02?.slug);
                     const cateId02 = getCateId(level02);
                     return (
-                      <ItemLevel02 key={level02.id}>
+                      <ItemLevel02
+                        key={level02.id}
+                        onMouseDown={(e) => handelClick(e, level02)}
+                      >
                         <Link
                           href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                           scroll={true}
@@ -195,8 +216,13 @@ function CategoriesMenu(props) {
   const renderCate03 = () => {
     const slugLevel01 = getSlug(Cate03?.slug);
     const cateId01 = getCateId(Cate03);
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
+
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate03)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate03?.title}
@@ -213,7 +239,10 @@ function CategoriesMenu(props) {
                     const slugLevel02 = getSlug(level02?.slug);
                     const cateId02 = getCateId(level02);
                     return (
-                      <ItemLevel02 key={level02.id}>
+                      <ItemLevel02
+                        key={level02.id}
+                        onMouseDown={(e) => handelClick(e, level02)}
+                      >
                         <Link
                           href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                           scroll={true}
@@ -241,8 +270,13 @@ function CategoriesMenu(props) {
   const renderCate04 = () => {
     const slugLevel01 = getSlug(Cate04?.slug);
     const cateId01 = getCateId(Cate04);
+
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate04)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate04?.title}
@@ -259,7 +293,10 @@ function CategoriesMenu(props) {
                     const slugLevel02 = getSlug(level02?.slug);
                     const cateId02 = getCateId(level02);
                     return (
-                      <ItemLevel02 key={level02.id}>
+                      <ItemLevel02
+                        key={level02.id}
+                        onMouseDown={(e) => handelClick(e, level02)}
+                      >
                         <Link
                           href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                           scroll={true}
@@ -288,8 +325,12 @@ function CategoriesMenu(props) {
   const renderCate05 = () => {
     const slugLevel01 = getSlug(Cate05?.slug);
     const cateId01 = getCateId(Cate05);
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate05)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate05?.title}
@@ -306,7 +347,10 @@ function CategoriesMenu(props) {
                     const slugLevel02 = getSlug(level02?.slug);
                     const cateId02 = getCateId(level02);
                     return (
-                      <ItemLevel02 key={level02.id}>
+                      <ItemLevel02
+                        key={level02.id}
+                        onMouseDown={(e) => handelClick(e, level02)}
+                      >
                         <Link
                           href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                           scroll={true}
@@ -331,11 +375,16 @@ function CategoriesMenu(props) {
       </ItemLevel01>
     );
   };
+
   const renderCate06 = () => {
     const slugLevel01 = getSlug(Cate06?.slug);
     const cateId01 = getCateId(Cate06);
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate06)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate06?.title}
@@ -348,7 +397,10 @@ function CategoriesMenu(props) {
               const slugLevel02 = getSlug(level02?.slug);
               const cateId02 = getCateId(level02);
               return (
-                <ItemLevel02 key={level02.id}>
+                <ItemLevel02
+                  key={level02.id}
+                  onMouseDown={(e) => handelClick(e, level02)}
+                >
                   <Link
                     href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                     scroll={true}
@@ -376,7 +428,10 @@ function CategoriesMenu(props) {
                               const slugLevel04 = getSlug(level04?.slug);
                               const cateId04 = getCateId(level04);
                               return (
-                                <ItemLevel03 key={level04.id}>
+                                <ItemLevel03
+                                  key={level04.id}
+                                  onMouseDown={(e) => handelClick(e, level04)}
+                                >
                                   <Link
                                     href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${cateId04}`}
                                     scroll={true}
@@ -401,7 +456,12 @@ function CategoriesMenu(props) {
                                         );
                                         const cateId05 = getCateId(level05);
                                         return (
-                                          <ItemLevel04 key={level05.id}>
+                                          <ItemLevel04
+                                            key={level05.id}
+                                            onMouseDown={(e) =>
+                                              handelClick(e, level05)
+                                            }
+                                          >
                                             <Link
                                               href={`/${slugLevel01}/${slugLevel02}/${slugLevel04}/${slugLevel05}/${cateId05}`}
                                               scroll={true}
@@ -439,8 +499,12 @@ function CategoriesMenu(props) {
   const renderCate07 = () => {
     const slugLevel01 = getSlug(Cate07?.slug);
     const cateId01 = getCateId(Cate07);
+    const handelClick = (e, item) => {
+      e.stopPropagation();
+      setLocalState("query", item?.query);
+    };
     return (
-      <ItemLevel01>
+      <ItemLevel01 onMouseDown={(e) => handelClick(e, Cate07)}>
         <Link href={`/${slugLevel01}/${cateId01}`} scroll={true}>
           <CustomLink padding="20px" color="#ffffff">
             {Cate07?.title}
@@ -452,7 +516,10 @@ function CategoriesMenu(props) {
               const slugLevel02 = getSlug(level02?.slug);
               const cateId02 = getCateId(level02);
               return (
-                <ItemLevel02 key={level02.id}>
+                <ItemLevel02
+                  key={level02.id}
+                  onMouseDown={(e) => handelClick(e, level02)}
+                >
                   <Link
                     href={`/${slugLevel01}/${slugLevel02}/${cateId02}`}
                     scroll={true}
@@ -475,7 +542,10 @@ function CategoriesMenu(props) {
                         const slugLevel03 = getSlug(level03?.slug);
                         const cateId03 = getCateId(level03);
                         return (
-                          <ItemLevel03 key={level03.id}>
+                          <ItemLevel03
+                            key={level03.id}
+                            onMouseDown={(e) => handelClick(e, level03)}
+                          >
                             <Link
                               href={`/${slugLevel01}/${slugLevel02}/${slugLevel03}/${cateId03}`}
                               scroll={true}
