@@ -88,6 +88,9 @@ export const ItemLevel02 = styled.li`
     ul.mega-menu__level_03.index_custom-1 {
       top: -100%;
     }
+    ul.Одежда {
+      top: -200%;
+    }
   }
 `;
 
