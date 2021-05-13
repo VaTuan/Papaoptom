@@ -43,7 +43,7 @@ type ProductsProps = {
     type?: string;
     cateId?: string;
     onTotalProduct?: Function;
-    dataIsNew: Boolean;
+    dataIsNew?: Boolean;
 };
 
 type ProductsQueryProps = {
