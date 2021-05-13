@@ -170,7 +170,7 @@ export const ProductHomePage: React.FC<ProductsProps> = ({ deviceType, fetchLimi
     //  created by tuanva 21/04/2020
     const renderCard = (productType, props) => {
         // console.log(props);
-        const { name, characteristics, category, brand, vcode, type, supplier } = props;
+        const { name, isNew, characteristics, category, brand, vcode, type, supplier } = props;
         const {
             description,
             photo1,
@@ -180,11 +180,13 @@ export const ProductHomePage: React.FC<ProductsProps> = ({ deviceType, fetchLimi
             discountInPercent,
             color,
             steamInBox,
+            purchasePrice
         } = characteristics;
 
         return (
             <GeneralCard
                 title={`${name} ${type ?? ""} ${brand?.name ?? ""} ${vcode ?? ""} ${color ?? ""}`}
+                isNew={isNew}
                 description={description}
                 image={photo1}
                 weight={`P.${sizeChart} / ${steamInBox} Пар`}
@@ -194,6 +196,7 @@ export const ProductHomePage: React.FC<ProductsProps> = ({ deviceType, fetchLimi
                 discountInPercent={discountInPercent}
                 data={props}
                 deviceType={deviceType}
+                purchasePrice={purchasePrice}
             />
         );
     };

@@ -164,6 +164,12 @@ const SectionSortSideCateName = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 16px;
+    }
+  }
 `;
 
 const SelectOption = styled.div`

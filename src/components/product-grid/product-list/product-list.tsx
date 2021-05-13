@@ -101,11 +101,10 @@ export const Products: React.FC<ProductsProps> = ({
             variables: {
                 pageSize: fetchLimit,
                 pageNumber: 1,
-                categoryIds: localState?.categoryIds,
-                categoriesName: localState?.categoriesName,
-                attributeValues: localState?.attributeValues,
+                categoryIds: localState?.categoryIds?.length > 0 ? localState?.categoryIds : undefined,
+                categoriesName: localState?.categoriesName?.length > 0 ? localState?.categoriesName : undefined,
+                attributeValues: localState?.attributeValues?.length > 0 ? localState?.attributeValues : undefined,
                 brandIds: localState?.brandIds?.length > 0 ? localState?.brandIds?.map((brandId) => brandId.toString()) : undefined,
-                // brandIds: [123],
                 isNew: localState?.isNew,
                 isSale: localState?.isSale,
             },
@@ -234,8 +233,8 @@ export const Products: React.FC<ProductsProps> = ({
     // function thực hiện render card product
     //  created by tuanva 21/04/2020
     const renderCard = (productType, props) => {
-        console.log("hieutt",props);
-        const { name, isNew,characteristics ,category, brand, vcode, type, supplier } =
+        console.log("hieutt", props);
+        const { name, isNew, characteristics, category, brand, vcode, type, supplier } =
             props;
         const {
             description,
@@ -246,9 +245,9 @@ export const Products: React.FC<ProductsProps> = ({
             discountInPercent,
             color,
             steamInBox,
-            totalPurchasePrice
+            totalPurchasePrice,
+            purchasePrice
         } = characteristics;
-        let giaMotDoi:number = parseInt(totalPurchasePrice)/parseInt(steamInBox)
         return (
             <GeneralCard
                 title={`${name} ${type ?? ""} ${brand?.name ?? ""} ${vcode ?? ""} ${color ?? ""
@@ -263,28 +262,29 @@ export const Products: React.FC<ProductsProps> = ({
                 discountInPercent={discountInPercent}
                 data={props}
                 deviceType={deviceType}
-                giaMotDoi={giaMotDoi}
+                purchasePrice={purchasePrice}
             />
         );
-    };
+    }
 
     return (
         <>
             <ProductsRow>
                 {products?.map((item: any, index: number) => {
-                    return(
-                    <ProductsCol key={index}>
-                        <ProductCardWrapper >
-                            <Fade
-                                duration={800}
-                                delay={index * 10}
-                                style={{ height: "100%" }}
-                            >
-                                {renderCard(type, item)}
-                            </Fade>
-                        </ProductCardWrapper>
-                    </ProductsCol>
-                )})}
+                    return (
+                        <ProductsCol key={index}>
+                            <ProductCardWrapper >
+                                <Fade
+                                    duration={800}
+                                    delay={index * 10}
+                                    style={{ height: "100%" }}
+                                >
+                                    {renderCard(type, item)}
+                                </Fade>
+                            </ProductCardWrapper>
+                        </ProductsCol>
+                    )
+                })}
             </ProductsRow>
             {/* {isNextPage && (
                 <ButtonWrapper>

@@ -42,12 +42,12 @@ type ProductCardProps = {
     value?: any;
     deviceType?: any;
     isNew?: Boolean;
-    giaMotDoi?:number;
+    purchasePrice?: string;
 };
 
 const ProductCard: React.FC<ProductCardProps> = (
-    {   isNew,
-        giaMotDoi,
+    { isNew,
+        purchasePrice,
         title,
         image,
         weight,
@@ -70,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = (
     const router = useRouter();
 
 
-    console.log('route : ',typeof discountInPercent);
+    console.log('route : ', typeof discountInPercent);
 
     const [showModal, hideModal] = useModal(
         () => (
@@ -154,16 +154,16 @@ const ProductCard: React.FC<ProductCardProps> = (
                     style={{ position: 'relative' }}
                     alt={title}
                 />
-                { parseInt(discountInPercent) !== 0 ? (
+                {parseInt(discountInPercent) !== 0 ? (
                     <DiscountPercent>{discountInPercent}%</DiscountPercent>
                 ) : null}
-                { isNew && <NewNoti>New</NewNoti>
+                {isNew && <NewNoti>New</NewNoti>
                 }
             </ProductImageWrapper>
             <ProductInfo >
                 <h3 className="product-title">{title}</h3>
                 <span className="product-weight">{weight}</span>
-                <p className="product-weight">{giaMotDoi}</p>
+                <p className="product-weight">{purchasePrice}</p>
                 <div className="product-meta">
                     <div className="productPriceWrapper">
                         {discountInPercent ? (
