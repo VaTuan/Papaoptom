@@ -624,15 +624,30 @@ export const DrawerContentWrapper = styled.div`
 export const DrawerClose = styled.div`
   display: block;
   position: absolute;
-  right: 30px;
-  top: 15px;
+  right: 5px;
+  top: 0px;
   color: ${themeGet("colors.text.regular", "#77798c")};
   cursor: pointer;
-  padding: 10px;
+  padding: 16px;
   z-index: 1;
   svg {
     display: block;
-    width: 12px;
+    width: 16px;
+    height: auto;
+  }
+`;
+export const DrawerBack = styled.div`
+  display: block;
+  position: absolute;
+  left: 5px;
+  top: 0px;
+  color: ${themeGet("colors.text.regular", "")};
+  cursor: pointer;
+  padding: 16px;
+  z-index: 1;
+  svg {
+    display: block;
+    width: 16px;
     height: auto;
   }
 `;

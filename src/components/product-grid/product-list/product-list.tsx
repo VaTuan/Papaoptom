@@ -104,7 +104,7 @@ export const Products: React.FC<ProductsProps> = ({
                 categoryIds: localState?.categoryIds,
                 categoriesName: localState?.categoriesName,
                 attributeValues: localState?.attributeValues,
-                brandIds: localState?.brandIds?.map((brandId) => brandId.toString()),
+                brandIds: localState?.brandIds?.length > 0 ? localState?.brandIds?.map((brandId) => brandId.toString()) : undefined,
                 // brandIds: [123],
                 isNew: localState?.isNew,
                 isSale: localState?.isSale,
@@ -117,8 +117,15 @@ export const Products: React.FC<ProductsProps> = ({
 
     useEffect(() => {
         getProductByCate();
+        return () => {
+            setProducts([])
+        }
     }, []);
 
+
+    console.log('====================================');
+    console.log('products : ', products);
+    console.log('====================================');
     // const { error, loading, fetchMore, networkStatus } = queryResult;
 
     // const loadingMore = networkStatus === NetworkStatus.fetchMore;
@@ -135,6 +142,9 @@ export const Products: React.FC<ProductsProps> = ({
                 </LoaderItem>
                 <LoaderItem>
                     <Placeholder uniqueKey="3" />
+                </LoaderItem>
+                <LoaderItem>
+                    <Placeholder uniqueKey="4" />
                 </LoaderItem>
             </LoaderWrapper>
         );
@@ -164,62 +174,62 @@ export const Products: React.FC<ProductsProps> = ({
     /**
      * function thực hiện loadmore products
      */
-    const handleLoadMore = () => {
-        const fetchLimit = result?.pageSize ?? 10;
-        fetchMore({
-            variables: {
-                pageNumber: Number(result?.nextPage ?? 0),
-                pageSize: fetchLimit,
-            },
-            updateQuery: (
-                previousResult: ProductsQueryProps,
-                { fetchMoreResult }
-            ) => {
-                console.log(previousResult);
-                console.log(fetchMoreResult);
+    // const handleLoadMore = () => {
+    //     const fetchLimit = result?.pageSize ?? 10;
+    //     fetchMore({
+    //         variables: {
+    //             pageNumber: Number(result?.nextPage ?? 0),
+    //             pageSize: fetchLimit,
+    //         },
+    //         updateQuery: (
+    //             previousResult: ProductsQueryProps,
+    //             { fetchMoreResult }
+    //         ) => {
+    //             console.log(previousResult);
+    //             console.log(fetchMoreResult);
 
-                if (!fetchMoreResult) {
-                    return previousResult;
-                }
-                const data = [
-                    ...(previousResult?.[searchTerm ? "searchShoes" : "filterProduct"]
-                        ?.data ?? []),
-                    ...(fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"]
-                        .data ?? []),
-                ];
+    //             if (!fetchMoreResult) {
+    //                 return previousResult;
+    //             }
+    //             const data = [
+    //                 ...(previousResult?.[searchTerm ? "searchShoes" : "filterProduct"]
+    //                     ?.data ?? []),
+    //                 ...(fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"]
+    //                     .data ?? []),
+    //             ];
 
-                const {
-                    pageNumber,
-                    pageSize,
-                    message,
-                    code,
-                    totalDocs,
-                    totalPages,
-                    hasPrevPage,
-                    hasNextPage,
-                    prevPage,
-                    nextPage,
-                } = fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"];
+    //             const {
+    //                 pageNumber,
+    //                 pageSize,
+    //                 message,
+    //                 code,
+    //                 totalDocs,
+    //                 totalPages,
+    //                 hasPrevPage,
+    //                 hasNextPage,
+    //                 prevPage,
+    //                 nextPage,
+    //             } = fetchMoreResult?.[searchTerm ? "searchShoes" : "filterProduct"];
 
-                return {
-                    ...previousResult,
-                    [searchTerm ? "searchShoes" : "filterProduct"]: {
-                        data: data ?? [],
-                        pageNumber: pageNumber ?? 1,
-                        pageSize: pageSize ?? 10,
-                        message: message ?? null,
-                        code: code ?? 400,
-                        totalDocs: totalDocs ?? 0,
-                        totalPages: totalPages ?? 0,
-                        hasPrevPage: hasPrevPage ?? false,
-                        hasNextPage: hasNextPage ?? false,
-                        prevPage: prevPage ?? 0,
-                        nextPage: nextPage ?? 0,
-                    },
-                };
-            },
-        });
-    };
+    //             return {
+    //                 ...previousResult,
+    //                 [searchTerm ? "searchShoes" : "filterProduct"]: {
+    //                     data: data ?? [],
+    //                     pageNumber: pageNumber ?? 1,
+    //                     pageSize: pageSize ?? 10,
+    //                     message: message ?? null,
+    //                     code: code ?? 400,
+    //                     totalDocs: totalDocs ?? 0,
+    //                     totalPages: totalPages ?? 0,
+    //                     hasPrevPage: hasPrevPage ?? false,
+    //                     hasNextPage: hasNextPage ?? false,
+    //                     prevPage: prevPage ?? 0,
+    //                     nextPage: nextPage ?? 0,
+    //                 },
+    //             };
+    //         },
+    //     });
+    // };
 
     // function thực hiện render card product
     //  created by tuanva 21/04/2020

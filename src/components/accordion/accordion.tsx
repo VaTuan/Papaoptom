@@ -49,9 +49,9 @@ function expandIcon({ isActive }) {
 
 const Accordion: React.FC<AccordionProps> = ({ className, items = [] }) => {
 
-    console.log('====================================');
-    console.log('items: ', items);
-    console.log('====================================');
+    // console.log('====================================');
+    // console.log('items: ', items);
+    // console.log('====================================');
 
     return (
         <AccordionWrapper>
@@ -76,7 +76,7 @@ const Accordion: React.FC<AccordionProps> = ({ className, items = [] }) => {
                                 headerClass="accordion-title"
                                 key={item.id}
                             >
-                               
+
                                 <p key={item.id}>
                                     <FormattedMessage
                                         id={item.intlDetailsId}

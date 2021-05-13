@@ -28,6 +28,10 @@ import { setLocalState } from "utils/localStorage";
 function CategoriesMenu(props) {
   const { items, deviceType, categories } = props;
 
+  //   console.log("====================================");
+  //   console.log("items : ", items);
+  //   console.log("====================================");
+
   const Cate01 = items[0];
   const Cate02 = items[1];
   const Cate03 = items[2];

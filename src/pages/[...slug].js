@@ -55,10 +55,11 @@ function ShoesFilterPage(props) {
   };
   const localState = getLocalState("query");
 
-  console.log("====================================");
-  console.log("local state : ", localState);
-  console.log("====================================");
+  //   console.log("====================================");
+  //   console.log("local state : ", localState);
+  //   console.log("====================================");
 
+  //   const categoryId = localState?.categoryIds?.length > 0 ?
   return (
     <>
       <SEO title="PAGE LEVEL 01" description="description for seo" />
@@ -212,7 +213,7 @@ const TotalProduct = styled.div`
   font-size: 14px;
   @media (max-width: 600px) {
     margin-top: 15px;
-    font-size: 10px;
+    font-size: 14px;
   }
   strong {
     color: #213779;
@@ -231,22 +232,30 @@ const BreadCrumb = styled.div`
     &:hover {
       color: #009e7f;
     }
+    @media (max-width: 768px) {
+      font-size: 14px;
+      margin-right: 4px;
+    }
   }
+
   span.icon_right {
     font-size: 16px;
     color: #e4e4e4;
     margin-right: 8px;
+
+    @media (max-width: 768px) {
+      margin-right: 4px;
+      font-size: 14px;
+    }
   }
   span.cate_name {
     font-size: 16px;
     font-weight: 600;
     color: #213779;
     margin-right: 8px;
-  }
-  @media (max-width: 600px) {
-    display: unset;
-    span.cate_name {
-      font-size: 10px;
+    @media (max-width: 768px) {
+      margin-right: 4px;
+      font-size: 14px;
     }
   }
 `;
