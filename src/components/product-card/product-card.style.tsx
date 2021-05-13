@@ -85,6 +85,23 @@ export const DiscountPercent = styled.span`
   border-radius: ${themeGet('radii.medium', '12px')};
   z-index: 2;
 `;
+export const NewNoti = styled.span`
+  font-family: ${themeGet('fonts.body', 'sans-serif')};
+  font-size: ${themeGet('fontSizes.sm', '13')}px;
+  font-weight: ${themeGet('fontWeights.bold', '700')};
+  color: ${themeGet('colors.white', '#ffffff')};
+  line-height: 24px;
+  background-color:#4caf50;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  display: inline-block;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  border-radius: ${themeGet('radii.medium', '12px')};
+  z-index: 2;
+`;
 
 export const ProductInfo = styled.div`
   padding: 20px 25px 30px;

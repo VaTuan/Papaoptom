@@ -43,6 +43,7 @@ type ProductsProps = {
     type?: string;
     cateId?: string;
     onTotalProduct?: Function;
+    dataIsNew: Boolean;
 };
 
 type ProductsQueryProps = {
@@ -223,8 +224,8 @@ export const Products: React.FC<ProductsProps> = ({
     // function thực hiện render card product
     //  created by tuanva 21/04/2020
     const renderCard = (productType, props) => {
-        // console.log(props);
-        const { name, characteristics, category, brand, vcode, type, supplier } =
+        console.log("hieutt",props);
+        const { name, isNew,characteristics ,category, brand, vcode, type, supplier } =
             props;
         const {
             description,
@@ -235,12 +236,14 @@ export const Products: React.FC<ProductsProps> = ({
             discountInPercent,
             color,
             steamInBox,
+            totalPurchasePrice
         } = characteristics;
-
+        let giaMotDoi:number = parseInt(totalPurchasePrice)/parseInt(steamInBox)
         return (
             <GeneralCard
                 title={`${name} ${type ?? ""} ${brand?.name ?? ""} ${vcode ?? ""} ${color ?? ""
                     }`}
+                isNew={isNew}
                 description={description}
                 image={photo1}
                 weight={`P.${sizeChart} / ${steamInBox} Пар`}
@@ -250,6 +253,7 @@ export const Products: React.FC<ProductsProps> = ({
                 discountInPercent={discountInPercent}
                 data={props}
                 deviceType={deviceType}
+                giaMotDoi={giaMotDoi}
             />
         );
     };
@@ -257,9 +261,10 @@ export const Products: React.FC<ProductsProps> = ({
     return (
         <>
             <ProductsRow>
-                {products?.map((item: any, index: number) => (
+                {products?.map((item: any, index: number) => {
+                    return(
                     <ProductsCol key={index}>
-                        <ProductCardWrapper>
+                        <ProductCardWrapper >
                             <Fade
                                 duration={800}
                                 delay={index * 10}
@@ -269,7 +274,7 @@ export const Products: React.FC<ProductsProps> = ({
                             </Fade>
                         </ProductCardWrapper>
                     </ProductsCol>
-                ))}
+                )})}
             </ProductsRow>
             {/* {isNextPage && (
                 <ButtonWrapper>

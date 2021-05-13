@@ -151,8 +151,8 @@ export default function MenuMobile(props) {
                                             {item02?.children.length === 0 ? (
                                               ""
                                             ) : (
-                                              <ArrowNext
-                                                className="mr10"
+                                              <i
+                                                className="far fa-long-arrow-right mr10"
                                                 width="13"
                                                 onClick={() =>
                                                   handelClickMenuCap4(
@@ -161,7 +161,7 @@ export default function MenuMobile(props) {
                                                     item02
                                                   )
                                                 }
-                                              />
+                                              ></i>
                                             )}
                                           </a>
                                         </Link>
@@ -291,7 +291,7 @@ const Wrapper = styled.div`
         left: 35px;
         top: 20px;
         i {
-          font-size: 18px;
+          font-size: 24px;
           color: #77798c;
         }
       }
@@ -316,7 +316,7 @@ const Wrapper = styled.div`
         left: 35px;
         top: 20px;
         i {
-          font-size: 18px;
+          font-size: 24px;
           color: #77798c;
         }
       }

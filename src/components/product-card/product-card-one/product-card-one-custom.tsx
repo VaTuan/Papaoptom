@@ -123,7 +123,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       }
     );
   };
-
   return (
     <ProductCardWrapper onClick={handleQuickViewModal} className="product-card">
       <ProductImageWrapper>
@@ -134,7 +133,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           alt={title}
         />
         {discountInPercent ? (
-          <DiscountPercent>{discountInPercent}%</DiscountPercent>
+          <DiscountPercent> {discountInPercent}%</DiscountPercent>
         ) : null}
       </ProductImageWrapper>
       <ProductInfo>

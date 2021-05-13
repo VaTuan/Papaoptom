@@ -8,6 +8,7 @@ import {
     ProductImageWrapper,
     ProductInfo,
     DiscountPercent,
+    NewNoti,
     ButtonText,
 } from '../product-card.style';
 import { useCart } from 'contexts/cart/use-cart';
@@ -30,7 +31,7 @@ type ProductCardProps = {
     description: string;
     price: number;
     salePrice?: number;
-    discountInPercent?: number;
+    discountInPercent?: string;
     data: any;
     onChange?: (e: any) => void;
     increment?: (e: any) => void;
@@ -40,10 +41,13 @@ type ProductCardProps = {
     updateCart?: any;
     value?: any;
     deviceType?: any;
+    isNew?: Boolean;
+    giaMotDoi?:number;
 };
 
 const ProductCard: React.FC<ProductCardProps> = (
-    {
+    {   isNew,
+        giaMotDoi,
         title,
         image,
         weight,
@@ -66,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = (
     const router = useRouter();
 
 
-    // console.log('route : ', router);
+    console.log('route : ',typeof discountInPercent);
 
     const [showModal, hideModal] = useModal(
         () => (
@@ -150,13 +154,16 @@ const ProductCard: React.FC<ProductCardProps> = (
                     style={{ position: 'relative' }}
                     alt={title}
                 />
-                {discountInPercent ? (
+                { parseInt(discountInPercent) !== 0 ? (
                     <DiscountPercent>{discountInPercent}%</DiscountPercent>
                 ) : null}
+                { isNew && <NewNoti>New</NewNoti>
+                }
             </ProductImageWrapper>
-            <ProductInfo>
+            <ProductInfo >
                 <h3 className="product-title">{title}</h3>
                 <span className="product-weight">{weight}</span>
+                <p className="product-weight">{giaMotDoi}</p>
                 <div className="product-meta">
                     <div className="productPriceWrapper">
                         {discountInPercent ? (
